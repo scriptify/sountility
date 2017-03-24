@@ -24,15 +24,13 @@ export default class AudioLooper {
       for (let channel = 0; channel < newAudioBuffer.numberOfChannels; channel++) {
         const channelDataNew = newAudioBuffer.getChannelData(channel);
         const channelDataCurrent = audioBuffer.getChannelData(channel);
-        for (let i = 0; i < channelDataCurrent.length; i++) {
+        for (let i = 0; i < channelDataCurrent.length; i++)
           channelDataNew[i] = channelDataCurrent[i];
-        }
       }
 
       finalAudioBuffer = newAudioBuffer;
-    } else {
+    } else
       finalAudioBuffer = audioBuffer;
-    }
 
     // Create buffersourcenode
     const bufferNode = this.audioCtx.createBufferSource();
@@ -50,11 +48,10 @@ export default class AudioLooper {
 
     this.bufferNodes.set(id, track);
 
-    if (isFirstTrack) {
+    if (isFirstTrack)
       this.firstTrack = track;
-    } else {
+    else
       startAt = this.audioCtx.currentTime + (this.firstTrack.duration - this.firstTrack.getCurrentTime());
-    }
 
     bufferNode.start(startAt);
 
@@ -75,9 +72,8 @@ export default class AudioLooper {
     if (this.pausedTracks.has(id)) {
       const { bufferNode: { buffer: audioBuffer }, trackAdded } = this.pausedTracks.get(id);
       this.addTrack({ id, audioBuffer, doProcessing: false, trackAdded });
-    } else {
+    } else
       throw new Error(`You tried to pause an inexistent track!`);
-    }
   }
 
   removeTrack({ id }) {
@@ -97,9 +93,9 @@ export default class AudioLooper {
   }
 
   exists(id) {
-    if (!this.bufferNodes.has(id)) {
+    if (!this.bufferNodes.has(id))
       throw new Error(`You tried to access an inexistent track!`);
-    }
+
     return true;
   }
 
