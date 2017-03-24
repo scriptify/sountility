@@ -13,19 +13,19 @@ export default class SoundCycle {
   audioCtx;
 
   MODES = {
-    'ADD_TO_LANE': 'ADD_TO_LANE',
-    'NEW_LANE': 'NEW_LANE',
-    'SINGLE_SEQUENCE': 'SINGLE_SEQUENCE'
+    ADD_TO_LANE: `ADD_TO_LANE`,
+    NEW_LANE: `NEW_LANE`,
+    SINGLE_SEQUENCE: `SINGLE_SEQUENCE`
   };
 
   tracks = new Map();
   loopers = new Map();
-  currentLane = '';
+  currentLane = ``;
   currentMode;
   projectName;
 
-  masterChnlId = 'MASTER_ID';
-  recorderChnlId = 'RECORDER_ID';
+  masterChnlId = `MASTER_ID`;
+  recorderChnlId = `RECORDER_ID`;
 
   constructor(readyCb = () => {}) {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -48,12 +48,12 @@ export default class SoundCycle {
   }
 
   getProjectName() {
-    if(!this.projectName) {
+    if (!this.projectName) {
       const date = new Date();
-      return `project-${ date.getDate() }-${ date.getMonth() + 1 }-${ date.getFullYear() }.wav`;
+      return `project-${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}.wav`;
     }
 
-    return this.projectName + '.wav';
+    return `${this.projectName}.wav`;
   }
 
   getModes() {
@@ -77,40 +77,40 @@ export default class SoundCycle {
   }
 
   async stopRecording() {
-
     const newTrackId = v4();
 
-    switch(this.currentMode) {
+    switch (this.currentMode) {
 
       case this.MODES.NEW_LANE: {
         // Add new looper
         const looper = new AudioLooper(this.audioCtx);
-        const audioBuffer = await this.recorder.stopRecording({ type: 'buffer' });
+        const audioBuffer = await this.recorder.stopRecording({ type: `buffer` });
         const newLooperId = v4();
 
-        looper.addTrack({ id: newTrackId, audioBuffer, trackAdded: bufferSourceNode => {
-          const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferSourceNode);
-          audioBufferChnl.connect(this.wmstr);
+        looper.addTrack({
+          id: newTrackId,
+          audioBuffer,
+          trackAdded: (bufferSourceNode) => {
+            const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferSourceNode);
+            audioBufferChnl.connect(this.wmstr);
 
-          this.tracks.set(newTrackId, {
-            chnl: audioBufferChnl,
-            looperId: newLooperId
-          });
+            this.tracks.set(newTrackId, {
+              chnl: audioBufferChnl,
+              looperId: newLooperId
+            });
 
-          this.loopers.set(newLooperId, looper);
-        }});
+            this.loopers.set(newLooperId, looper);
+          } });
 
         return {
           chnlId: newTrackId,
           laneId: newLooperId
         };
-
-
       }
 
       case this.MODES.SINGLE_SEQUENCE: {
-        const audioObj = await this.recorder.stopRecording({ type: 'audio' });
-        const audioChnl = new AudioChl(this.audioCtx, audioObj);
+        const audioObj = await this.recorder.stopRecording({ type: `audio` });
+        const audioChnl = new AudioChnl(this.audioCtx, audioObj);
         audioChnl.connect(this.wmstr);
 
         this.tracks.set(newTrackId, {
@@ -123,41 +123,44 @@ export default class SoundCycle {
       }
 
       case this.MODES.ADD_TO_LANE: {
-        if(!this.loopers.has(this.currentLane))
+        if (!this.loopers.has(this.currentLane))
           throw new Error(`You tried to access an inexistent lane!`);
 
         const looper = this.loopers.get(this.currentLane);
 
-        const audioBuffer = await this.recorder.stopRecording({ type: 'buffer' });
+        const audioBuffer = await this.recorder.stopRecording({ type: `buffer` });
 
-        looper.addTrack({id: newTrackId, audioBuffer, trackAdded: bufferSourceNode => {
-          const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferSourceNode);
-          audioBufferChnl.connect(this.wmstr);
+        looper.addTrack({
+          id: newTrackId,
+          audioBuffer,
+          trackAdded: (bufferSourceNode) => {
+            const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferSourceNode);
+            audioBufferChnl.connect(this.wmstr);
 
-          this.tracks.set(newTrackId, {
-            chnl: audioBufferChnl,
-            looperId: this.currentLane
-          });
-        }});
-
-
+            this.tracks.set(newTrackId, {
+              chnl: audioBufferChnl,
+              looperId: this.currentLane
+            });
+          } });
 
         return {
           chnlId: newTrackId
         };
       }
 
-    }
+      default:
+        throw new Error(`Invalid method!`);
 
+    }
   }
 
   stopTrack({ id }) {
-    if(!this.tracks.has(id))
+    if (!this.tracks.has(id))
       throw new Error(`You tried to stop an inexistent track!`);
 
     const track = this.tracks.get(id);
 
-    if(!track.looperId)
+    if (!track.looperId)
       track.stop();
     else {
       const looper = this.loopers.get(track.looperId);
@@ -166,12 +169,12 @@ export default class SoundCycle {
   }
 
   playTrack({ id }) {
-    if(!this.tracks.has(id))
+    if (!this.tracks.has(id))
       throw new Error(`You tried to play an inexistent track!`);
 
     const track = this.tracks.get(id);
 
-    if(!track.looperId)
+    if (!track.looperId)
       track.play();
     else {
       const looper = this.loopers.get(track.looperId);
@@ -180,7 +183,7 @@ export default class SoundCycle {
   }
 
   removeTrack(id) {
-    if(!this.tracks.has(id))
+    if (!this.tracks.has(id))
       throw new Error(`You tried to remove an inexistent track!`);
 
     const track = this.tracks.get(id);
@@ -190,20 +193,18 @@ export default class SoundCycle {
   }
 
   removeLane(looperId) {
-    if(!this.loopers.has(looperId))
+    if (!this.loopers.has(looperId))
       throw new Error(`You tried to remove an inexistent lane!`);
 
     const looper = this.loopers.get(looperId);
 
     // Search all tracks of looper and delete them
-    const trackIds = [];
-    for(const [trackId, track] of this.tracks) {
-      if(track.looperId === looperId) {
+    this.tracks.forEach(({ track, trackId }) => {
+      if (track.looperId === looperId) {
         looper.removeTrack({ id: trackId });
         this.tracks.delete(trackId);
       }
-    }
-
+    });
   }
 
   enableEffect({ chnlId, effectName }) {
@@ -219,11 +220,9 @@ export default class SoundCycle {
   }
 
   setEffectValue({ chnlId, effectName, valueType, value }) {
-
     const chnlToEdit = this.getChnlById(chnlId);
 
     this.getEffectByName(chnlToEdit, effectName).setValue(valueType, value);
-
   }
 
   getMasterChnlId() {
@@ -239,31 +238,27 @@ export default class SoundCycle {
   }
 
   stopProjectRecording() {
-    this.wmstr.stopRecording( this.getProjectName() );
+    this.wmstr.stopRecording(this.getProjectName());
   }
 
   /* INTERIOR FUNCTIONALITIES */
 
   getChnlById(id) {
-
-    if(id === this.masterChnlId)
+    if (id === this.masterChnlId)
       return this.wmstr;
-    else if(id === this.recorderChnlId)
+    else if (id === this.recorderChnlId)
       return this.recorder;
-    else {
-      if(!this.tracks.has(id))
-        throw new Error('You tried to access an inexistent track!');
-      return this.tracks.get(id).chnl;
-    }
 
-
+    if (!this.tracks.has(id))
+      throw new Error(`You tried to access an inexistent track!`);
+    return this.tracks.get(id).chnl;
   }
 
-  getEffectByName(chnl, effectName) {
-    if(chnl.effects[effectName])
+  static getEffectByName(chnl, effectName) {
+    if (chnl.effects[effectName])
       return chnl.effects[effectName];
 
-    throw new Error('You tried to access an inexistent effect!');
+    throw new Error(`You tried to access an inexistent effect!`);
   }
 
 }

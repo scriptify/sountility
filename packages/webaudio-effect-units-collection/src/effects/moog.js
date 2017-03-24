@@ -5,13 +5,13 @@ const DEFAULT_CUTOFF = 0.065;
 const DEFAULT_RESONANCE = 3.5;
 
 export const moogData = {
-  name: 'moog',
+  name: `moog`,
   values: [
 
     {
-      name: 'cutoff',
+      name: `cutoff`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_CUTOFF,
         min: 0,
         max: 1,
@@ -23,9 +23,9 @@ export const moogData = {
     },
 
     {
-      name: 'resonance',
+      name: `resonance`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_RESONANCE,
         min: 0,
         max: 4,
@@ -37,22 +37,20 @@ export const moogData = {
     }
 
   ]
-}
+};
 
 export default function createMoog(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...moogData,
-      effectChain: {
-        moog: new tuna.MoogFilter({
-            cutoff: 0.065,    //0 to 1
-            resonance: 3.5,   //0 to 4
-            bufferSize: 4096  //256 to 16384, NOT INCLUDED AS EDITABLE!
-        })
-      }
-    },
-    audioCtx);
-
+    ...moogData,
+    effectChain: {
+      moog: new tuna.MoogFilter({
+        cutoff: 0.065,    // 0 to 1
+        resonance: 3.5,   // 0 to 4
+        bufferSize: 4096  // 256 to 16384, NOT INCLUDED AS EDITABLE!
+      })
+    }
+  },
+  audioCtx);
 }

@@ -7,13 +7,13 @@ const DEFAULT_CURVEAMOUNT = 1;
 
 
 export const overdriveData = {
-  name: 'overdrive',
+  name: `overdrive`,
   values: [
 
     {
-      name: 'outputGain',
+      name: `outputGain`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_OUTPUTGAIN,
         min: 0,
         max: 1,
@@ -25,23 +25,21 @@ export const overdriveData = {
     }
 
   ]
-}
+};
 
 export default function createOverdrive(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...overdriveData,
-      effectChain: {
-        overdrive: new tuna.Overdrive({
-            outputGain: DEFAULT_OUTPUTGAIN,         //0 to 1+
-            drive: DEFAULT_DRIVE,              //0 to 1
-            curveAmount: DEFAULT_CURVEAMOUNT,          //0 to 1
-            algorithmIndex: 0       //0 to 5, selects one of our drive algorithms, RIGHT NOW DISABLED!
-        })
-      }
-    },
-    audioCtx);
-
+    ...overdriveData,
+    effectChain: {
+      overdrive: new tuna.Overdrive({
+        outputGain: DEFAULT_OUTPUTGAIN,         // 0 to 1+
+        drive: DEFAULT_DRIVE,              // 0 to 1
+        curveAmount: DEFAULT_CURVEAMOUNT,          // 0 to 1
+        algorithmIndex: 0       // 0 to 5, selects one of our drive algorithms, RIGHT NOW DISABLED!
+      })
+    }
+  },
+  audioCtx);
 }

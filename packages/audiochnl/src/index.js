@@ -10,14 +10,13 @@ export default class AudioChnl extends Chnl {
     super(audioCtx);
     this.audioObj = audioObj;
 
-    this.audioObj.addEventListener('loadedmetadata', e => {
+    this.audioObj.addEventListener('loadedmetadata', () => {
       this.isReady = true;
       loaded();
     });
 
     const mediaSource = audioCtx.createMediaElementSource(audioObj);
     mediaSource.connect(this);
-
   }
 
   start() {
@@ -40,7 +39,7 @@ export default class AudioChnl extends Chnl {
 
 }
 
-/*const audioCtx = new AudioContext();
+/* const audioCtx = new AudioContext();
 const audio = new Audio(song);
 const audioChnl = new AudioChnl(audioCtx, audio);
 audioChnl.start();
@@ -49,4 +48,4 @@ window.setTimeout(() => {
   window.setTimeout(() => {
     audioChnl.start();
   }, 4000);
-}, 6000);*/
+}, 6000); */

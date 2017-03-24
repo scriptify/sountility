@@ -8,13 +8,13 @@ const DEFAULT_STEREOPHASE = 30;
 const DEFAULT_BASEMODULATIONFREQUENCY = 700;
 
 export const phaserData = {
-  name: 'phaser',
+  name: `phaser`,
   values: [
 
     {
-      name: 'rate',
+      name: `rate`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_RATE,
         min: 0.01,
         max: 8,
@@ -26,9 +26,9 @@ export const phaserData = {
     },
 
     {
-      name: 'depth',
+      name: `depth`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_DEPTH,
         min: 0,
         max: 1,
@@ -40,9 +40,9 @@ export const phaserData = {
     },
 
     {
-      name: 'feedback',
+      name: `feedback`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_FEEDBACK,
         min: 0,
         max: 1,
@@ -54,9 +54,9 @@ export const phaserData = {
     },
 
     {
-      name: 'stereoPhase',
+      name: `stereoPhase`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_STEREOPHASE,
         min: 0,
         max: 180,
@@ -68,9 +68,9 @@ export const phaserData = {
     },
 
     {
-      name: 'baseModulationFrequency',
+      name: `baseModulationFrequency`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_BASEMODULATIONFREQUENCY,
         min: 500,
         max: 1500,
@@ -82,24 +82,22 @@ export const phaserData = {
     }
 
   ]
-}
+};
 
 export default function createPhaser(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...phaserData,
-      effectChain: {
-        phaser: new tuna.Phaser({
-            rate: 1.2,                     //0.01 to 8 is a decent range, but higher values are possible
-            depth: 0.3,                    //0 to 1
-            feedback: 0.2,                 //0 to 1+
-            stereoPhase: 30,               //0 to 180
-            baseModulationFrequency: 700  //500 to 1500
-        })
-      }
-    },
-    audioCtx);
-
+    ...phaserData,
+    effectChain: {
+      phaser: new tuna.Phaser({
+        rate: 1.2,                     // 0.01 to 8 is a decent range, but higher values are possible
+        depth: 0.3,                    // 0 to 1
+        feedback: 0.2,                 // 0 to 1+
+        stereoPhase: 30,               // 0 to 180
+        baseModulationFrequency: 700  // 500 to 1500
+      })
+    }
+  },
+  audioCtx);
 }

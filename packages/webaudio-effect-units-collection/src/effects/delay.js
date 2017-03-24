@@ -8,13 +8,13 @@ const DEFAULT_DRYLEVEL = 1;
 const DEFAULT_CUTOFF = 2000;
 
 export const delayData = {
-  name: 'delay',
+  name: `delay`,
   values: [
 
     {
-      name: 'feedback',
+      name: `feedback`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_FEEDBACK,
         min: 0,
         max: 1,
@@ -26,9 +26,9 @@ export const delayData = {
     },
 
     {
-      name: 'delayTime',
+      name: `delayTime`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_DELAYTIME,
         min: 1,
         max: 10000,
@@ -40,9 +40,9 @@ export const delayData = {
     },
 
     {
-      name: 'wetLevel',
+      name: `wetLevel`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_WETLEVEL,
         min: 0,
         max: 1,
@@ -54,9 +54,9 @@ export const delayData = {
     },
 
     {
-      name: 'dryLevel',
+      name: `dryLevel`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_DRYLEVEL,
         min: 0,
         max: 1,
@@ -68,9 +68,9 @@ export const delayData = {
     },
 
     {
-      name: 'cutoff',
+      name: `cutoff`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_CUTOFF,
         min: 20,
         max: 22050,
@@ -82,24 +82,22 @@ export const delayData = {
     }
 
   ]
-}
+};
 
 export default function createDelay(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...delayData,
-      effectChain: {
-        delay: new tuna.Delay({
-            feedback: DEFAULT_FEEDBACK,    //0 to 1+
-            delayTime: DEFAULT_DELAYTIME,    //1 to 10000 milliseconds
-            wetLevel: DEFAULT_WETLEVEL,    //0 to 1+
-            dryLevel: DEFAULT_DRYLEVEL,       //0 to 1+
-            cutoff: DEFAULT_CUTOFF      //cutoff frequency of the built in lowpass-filter. 20 to 22050
-        })
-      }
-    },
-    audioCtx);
-
+    ...delayData,
+    effectChain: {
+      delay: new tuna.Delay({
+        feedback: DEFAULT_FEEDBACK,    // 0 to 1+
+        delayTime: DEFAULT_DELAYTIME,    // 1 to 10000 milliseconds
+        wetLevel: DEFAULT_WETLEVEL,    // 0 to 1+
+        dryLevel: DEFAULT_DRYLEVEL,       // 0 to 1+
+        cutoff: DEFAULT_CUTOFF      // cutoff frequency of the built in lowpass-filter. 20 to 22050
+      })
+    }
+  },
+  audioCtx);
 }

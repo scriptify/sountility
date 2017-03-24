@@ -1,13 +1,13 @@
 import EffectUnit from 'webaudio-effect-unit';
 
 export const gainData = {
-  name: 'gain',
+  name: `gain`,
   values: [
 
     {
-      name: 'gain',
+      name: `gain`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: 1,
         min: 0,
         max: 1,
@@ -19,9 +19,9 @@ export const gainData = {
     },
 
     {
-      name: 'muted',
+      name: `muted`,
       options: {
-        type: 'single',
+        type: `single`,
         defaultValue: false
       },
       set: (effectChain, value) => {
@@ -33,12 +33,10 @@ export const gainData = {
 };
 
 export default function createGain(audioCtx) {
-
   return new EffectUnit({
     ...gainData,
     effectChain: {
       gain: audioCtx.createGain()
     }
   }, audioCtx);
-
 }

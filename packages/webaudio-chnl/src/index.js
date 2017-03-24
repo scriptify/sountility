@@ -18,36 +18,35 @@ export default class Chnl {
 
   setupGraph(graph) {
     // first of all, clear all connections (all nodes but the output)
-    for(let i = 0; i < (this.currentGraph.length - 1); i++) {
+    for (let i = 0; i < (this.currentGraph.length - 1); i++) {
       const currNode = this.currentGraph[i];
       // Disconnect all outgoing connections
       currNode.disconnect();
     }
 
-    for(let i = 0; i < (graph.length - 1); i++) {
+    for (let i = 0; i < (graph.length - 1); i++) {
       const currNode = graph[i];
       const nextNode = graph[i + 1];
       currNode.connect(nextNode);
     }
 
     this.currentGraph = graph;
-
   }
 
   addEffect(name) {
     const effect = this.effects[name];
 
-    if(!effect)
-      throw new Error(`You tried to add an inexistent effect.`)
+    if (!effect)
+      throw new Error(`You tried to add an inexistent effect.`);
 
 
-    if(!effect.name)
+    if (!effect.name)
       this.effects[name].name = name;
 
     // Create new graph: input -> (all effects which are already present in the graph) -> effectToAdd  -> output
     const newGraph = [
       this.input,
-      ...this.currentGraph.filter(node => ( node !== this.input && node !== this.output )),
+      ...this.currentGraph.filter(node => (node !== this.input && node !== this.output)),
       effect,
       this.output
     ];
@@ -56,9 +55,7 @@ export default class Chnl {
   }
 
   removeEffect(name) {
-
-    this.setupGraph( this.currentGraph.filter( node => node.name !== name ) );
-
+    this.setupGraph(this.currentGraph.filter(node => node.name !== name));
   }
 
   connect(node) {
@@ -67,7 +64,7 @@ export default class Chnl {
 
 }
 
-/*const audioCtx = new AudioContext();
+/* const audioCtx = new AudioContext();
 const audioElem = new Audio(song);
 const audioElem2 = new Audio(song);
 const audio = audioCtx.createMediaElementSource(audioElem);

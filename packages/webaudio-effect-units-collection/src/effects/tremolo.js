@@ -6,13 +6,13 @@ const DEFAULT_RATE = 4;
 const DEFAULT_STEREOPHASE = 0;
 
 export const tremoloData = {
-  name: 'tremolo',
+  name: `tremolo`,
   values: [
 
     {
-      name: 'intensity',
+      name: `intensity`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_INTENSITY,
         min: 0,
         max: 1,
@@ -24,9 +24,9 @@ export const tremoloData = {
     },
 
     {
-      name: 'rate',
+      name: `rate`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_RATE,
         min: 0.001,
         max: 8,
@@ -38,9 +38,9 @@ export const tremoloData = {
     },
 
     {
-      name: 'stereoPhase',
+      name: `stereoPhase`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_STEREOPHASE,
         min: 0,
         max: 180,
@@ -52,22 +52,20 @@ export const tremoloData = {
     }
 
   ]
-}
+};
 
 export default function createTremolo(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...tremoloData,
-      effectChain: {
-        tremolo: new tuna.Tremolo({
-            intensity: DEFAULT_INTENSITY,    //0 to 1
-            rate: DEFAULT_RATE,         //0.001 to 8
-            stereoPhase: DEFAULT_STEREOPHASE    //0 to 180
-        })
-      }
-    },
-    audioCtx);
-
+    ...tremoloData,
+    effectChain: {
+      tremolo: new tuna.Tremolo({
+        intensity: DEFAULT_INTENSITY,    // 0 to 1
+        rate: DEFAULT_RATE,         // 0.001 to 8
+        stereoPhase: DEFAULT_STEREOPHASE    // 0 to 180
+      })
+    }
+  },
+  audioCtx);
 }

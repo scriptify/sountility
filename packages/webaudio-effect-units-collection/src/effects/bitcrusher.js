@@ -3,16 +3,15 @@ import Tuna from 'tunajs';
 
 const DEFAULT_BITS = 4;
 const DEFAULT_NORMFREQ = 0.1;
-const DEFAULT_BUFFERSIZE = 4096;
 
 export const bitcrusherData = {
-  name: 'bitcrusher',
+  name: `bitcrusher`,
   values: [
 
     {
-      name: 'bits',
+      name: `bits`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_BITS,
         min: 1,
         max: 16,
@@ -24,9 +23,9 @@ export const bitcrusherData = {
     },
 
     {
-      name: 'normfreq',
+      name: `normfreq`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_NORMFREQ,
         min: 0.1,
         max: 1,
@@ -38,22 +37,20 @@ export const bitcrusherData = {
     }
 
   ]
-}
+};
 
 export default function createBitcrusher(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...bitcrusherData,
-      effectChain: {
-        bitcrusher: new tuna.Bitcrusher({
-            bits: 4,          //1 to 16
-            normfreq: 0.1,    //0 to 1
-            bufferSize: 4096  //256 to 16384, NOT INCLUDED AS EDITABLE!
-        })
-      }
-    },
-    audioCtx);
-
+    ...bitcrusherData,
+    effectChain: {
+      bitcrusher: new tuna.Bitcrusher({
+        bits: 4,          // 1 to 16
+        normfreq: 0.1,    // 0 to 1
+        bufferSize: 4096  // 256 to 16384, NOT INCLUDED AS EDITABLE!
+      })
+    }
+  },
+  audioCtx);
 }

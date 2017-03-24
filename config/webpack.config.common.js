@@ -1,12 +1,11 @@
-const webpack = require('webpack');
-const { packagesToAliases, getPackages, commandObject, PATHS } = require('./util.js');
+const webpack = require(`webpack`);
+const { packagesToAliases, getPackages, commandObject, PATHS } = require(`./util.js`);
 
 const packages = getPackages(PATHS.packages);
-const aliases = packagesToAliases(packages, PATHS.packages);
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.jsx'], // Resolve these extensions
+    extensions: [`.js`, `.jsx`], // Resolve these extensions
     alias: packagesToAliases(packages, PATHS.packages)
   },
   module: {
@@ -15,13 +14,13 @@ module.exports = {
         test: /\.jsx?$/,
         use: [
           {
-            loader: 'babel-loader',
+            loader: `babel-loader`,
             options: {
               cacheDirectory: true
             }
           },
           {
-            loader: 'eslint-loader'
+            loader: `eslint-loader`
           }
         ],
         include: PATHS.packages,
@@ -31,15 +30,15 @@ module.exports = {
         test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: `file-loader`,
             options: {
-              hash: 'sha512',
-              digest: 'hex',
-              name: '[hash].[ext]'
+              hash: `sha512`,
+              digest: `hex`,
+              name: `[hash].[ext]`
             }
           },
           {
-            loader: 'image-webpack-loader',
+            loader: `image-webpack-loader`,
             options: {
               bypassOnDebug: true
             }
@@ -52,7 +51,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      ENVIRONMENT: JSON.stringify(commandObject.cmd === 'dev' ? 'development' : 'production')
+      ENVIRONMENT: JSON.stringify(commandObject.cmd === `dev` ? `development` : `production`)
     }),
     new webpack.LoaderOptionsPlugin({
       test: /\.(jpe?g|png|gif|svg)$/i,

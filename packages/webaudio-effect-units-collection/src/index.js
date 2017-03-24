@@ -31,7 +31,6 @@ export const EFFECT_DATA = [
 ];
 
 export default function createEffectCollection(audioCtx) {
-
   const tuna = new Tuna(audioCtx);
 
   return {

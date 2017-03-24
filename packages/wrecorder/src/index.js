@@ -1,1 +1,3 @@
-module.exports = require("./recorder").Recorder;
+import recorder from './recorder';
+
+export default recorder;

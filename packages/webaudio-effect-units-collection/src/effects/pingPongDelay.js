@@ -7,13 +7,13 @@ const DEFAULT_DELAYTIMELEFT = 150;
 const DEFAULT_DELAYTIMERIGHT = 150;
 
 export const pingPongDelayData = {
-  name: 'pingPongDelay',
+  name: `pingPongDelay`,
   values: [
 
     {
-      name: 'wetLevel',
+      name: `wetLevel`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_WETLEVEL,
         min: 0,
         max: 1,
@@ -25,9 +25,9 @@ export const pingPongDelayData = {
     },
 
     {
-      name: 'feedback',
+      name: `feedback`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_FEEDBACK,
         min: 0,
         max: 1,
@@ -39,9 +39,9 @@ export const pingPongDelayData = {
     },
 
     {
-      name: 'delayTimeLeft',
+      name: `delayTimeLeft`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_DELAYTIMELEFT,
         min: 1,
         max: 10000,
@@ -53,9 +53,9 @@ export const pingPongDelayData = {
     },
 
     {
-      name: 'delayTimeRight',
+      name: `delayTimeRight`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_DELAYTIMERIGHT,
         min: 1,
         max: 10000,
@@ -67,23 +67,21 @@ export const pingPongDelayData = {
     }
 
   ]
-}
+};
 
 export default function createPingPongDelay(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...pingPongDelayData,
-      effectChain: {
-        pingpong: new tuna.PingPongDelay({
-            wetLevel: 0.5, //0 to 1
-            feedback: 0.3, //0 to 1
-            delayTimeLeft: 150, //1 to 10000 (milliseconds)
-            delayTimeRight: 200 //1 to 10000 (milliseconds)
-        })
-      }
-    },
-    audioCtx);
-
+    ...pingPongDelayData,
+    effectChain: {
+      pingpong: new tuna.PingPongDelay({
+        wetLevel: 0.5, // 0 to 1
+        feedback: 0.3, // 0 to 1
+        delayTimeLeft: 150, // 1 to 10000 (milliseconds)
+        delayTimeRight: 200 // 1 to 10000 (milliseconds)
+      })
+    }
+  },
+  audioCtx);
 }

@@ -3,13 +3,13 @@ import EffectUnit from 'webaudio-effect-unit';
 const DEFAULT_FREQUENCY = 200;
 
 export const highpassData = {
-  name: 'highpass',
+  name: `highpass`,
   values: [
 
     {
-      name: 'frequency',
+      name: `frequency`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_FREQUENCY,
         min: 0,
         max: 20000,
@@ -24,17 +24,15 @@ export const highpassData = {
 };
 
 export default function createLowpass(audioCtx) {
-
   return new EffectUnit({
     ...highpassData,
     effectChain: {
       highpass: () => {
         const hp = audioCtx.createBiquadFilter();
-        hp.type = 'highpass';
+        hp.type = `highpass`;
         hp.frequency.value = DEFAULT_FREQUENCY;
         return hp;
       }
     }
   }, audioCtx);
-
 }

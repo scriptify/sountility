@@ -10,13 +10,13 @@ const DEFAULT_KNEE = 5;
 const DEFAULT_AUTOMAKEUP = true;
 
 export const compressorData = {
-  name: 'compressor',
+  name: `compressor`,
   values: [
 
     {
-      name: 'threshold',
+      name: `threshold`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_THRESHOLD,
         min: -100,
         max: 0,
@@ -28,9 +28,9 @@ export const compressorData = {
     },
 
     {
-      name: 'makeupGain',
+      name: `makeupGain`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_MAKEUPGAIN,
         min: 0,
         max: 1,
@@ -42,9 +42,9 @@ export const compressorData = {
     },
 
     {
-      name: 'attack',
+      name: `attack`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_ATTACK,
         min: 0,
         max: 1000,
@@ -56,9 +56,9 @@ export const compressorData = {
     },
 
     {
-      name: 'release',
+      name: `release`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_RELEASE,
         min: 0,
         max: 3000,
@@ -70,9 +70,9 @@ export const compressorData = {
     },
 
     {
-      name: 'ratio',
+      name: `ratio`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_RATIO,
         min: 1,
         max: 20,
@@ -84,9 +84,9 @@ export const compressorData = {
     },
 
     {
-      name: 'knee',
+      name: `knee`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_KNEE,
         min: 0,
         max: 40,
@@ -98,9 +98,9 @@ export const compressorData = {
     },
 
     {
-      name: 'automakeup',
+      name: `automakeup`,
       options: {
-        type: 'single',
+        type: `single`,
         defaultValue: DEFAULT_AUTOMAKEUP
       },
       set: (effectChain, value) => {
@@ -109,26 +109,24 @@ export const compressorData = {
     }
 
   ]
-}
+};
 
 export default function createCompressor(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...compressorData,
-      effectChain: {
-        compressor: new tuna.Compressor({
-            threshold: DEFAULT_THRESHOLD,    //-100 to 0
-            makeupGain: DEFAULT_MAKEUPGAIN,     //0 and up
-            attack: DEFAULT_ATTACK,         //0 to 1000
-            release: DEFAULT_RELEASE,        //0 to 3000
-            ratio: DEFAULT_RATIO,          //1 to 20
-            knee: DEFAULT_KNEE,           //0 to 40
-            automakeup: DEFAULT_AUTOMAKEUP  //true/false
-        })
-      }
-    },
-    audioCtx);
-
+    ...compressorData,
+    effectChain: {
+      compressor: new tuna.Compressor({
+        threshold: DEFAULT_THRESHOLD,    // -100 to 0
+        makeupGain: DEFAULT_MAKEUPGAIN,     // 0 and up
+        attack: DEFAULT_ATTACK,         // 0 to 1000
+        release: DEFAULT_RELEASE,        // 0 to 3000
+        ratio: DEFAULT_RATIO,          // 1 to 20
+        knee: DEFAULT_KNEE,           // 0 to 40
+        automakeup: DEFAULT_AUTOMAKEUP  // true/false
+      })
+    }
+  },
+  audioCtx);
 }

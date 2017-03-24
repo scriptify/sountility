@@ -6,13 +6,13 @@ const DEFAULT_FEEDBACK = 0.2;
 const DEFAULT_DELAY = 0.0045;
 
 export const chorusData = {
-  name: 'chorus',
+  name: `chorus`,
   values: [
 
     {
-      name: 'rate',
+      name: `rate`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_RATE,
         min: 0.01,
         max: 8,
@@ -24,9 +24,9 @@ export const chorusData = {
     },
 
     {
-      name: 'feedback',
+      name: `feedback`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_FEEDBACK,
         min: 0,
         max: 1,
@@ -38,9 +38,9 @@ export const chorusData = {
     },
 
     {
-      name: 'delay',
+      name: `delay`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_DELAY,
         min: 0,
         max: 1,
@@ -52,22 +52,20 @@ export const chorusData = {
     }
 
   ]
-}
+};
 
 export default function createChorus(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...chorusData,
-      effectChain: {
-        chorus: new tuna.Chorus({
-          rate: DEFAULT_RATE, // 0.01 - 8
-          feedback: DEFAULT_FEEDBACK, // 0 - 1
-          delay: DEFAULT_DELAY // 0 - 1
-        })
-      }
-    },
-    audioCtx);
-
+    ...chorusData,
+    effectChain: {
+      chorus: new tuna.Chorus({
+        rate: DEFAULT_RATE, // 0.01 - 8
+        feedback: DEFAULT_FEEDBACK, // 0 - 1
+        delay: DEFAULT_DELAY // 0 - 1
+      })
+    }
+  },
+  audioCtx);
 }

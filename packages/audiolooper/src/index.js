@@ -13,25 +13,23 @@ export default class AudioLooper {
     const isFirstTrack = (this.bufferNodes.size === 0);
     let finalAudioBuffer;
 
-    if(!isFirstTrack && doProcessing) {
-
+    if (!isFirstTrack && doProcessing) {
       // Prepare buffer!
       const firstTrackBuffer = this.firstTrack.bufferNode.buffer;
-      const percentualRatio = Math.ceil( audioBuffer.length / firstTrackBuffer.length );
-      const newAudioBuffer = this.audioCtx.createBuffer( audioBuffer.numberOfChannels, firstTrackBuffer.length * percentualRatio, firstTrackBuffer.sampleRate );
+      const percentualRatio = Math.ceil(audioBuffer.length / firstTrackBuffer.length);
+      const newAudioBuffer = this.audioCtx.createBuffer(audioBuffer.numberOfChannels, firstTrackBuffer.length * percentualRatio, firstTrackBuffer.sampleRate);
 
       // is this even needed or is it enough to:
       // newAudioBuffer.copyFromChannel(audioBuffer, 2, 0); ????
-      for(let channel = 0; channel < newAudioBuffer.numberOfChannels; channel++) {
+      for (let channel = 0; channel < newAudioBuffer.numberOfChannels; channel++) {
         const channelDataNew = newAudioBuffer.getChannelData(channel);
         const channelDataCurrent = audioBuffer.getChannelData(channel);
-        for(let i = 0; i < channelDataCurrent.length; i++) {
+        for (let i = 0; i < channelDataCurrent.length; i++) {
           channelDataNew[i] = channelDataCurrent[i];
         }
       }
 
       finalAudioBuffer = newAudioBuffer;
-
     } else {
       finalAudioBuffer = audioBuffer;
     }
@@ -45,30 +43,27 @@ export default class AudioLooper {
 
     const track = {
       duration: bufferNode.buffer.duration,
-      getCurrentTime: () => {
-        return this.audioCtx.currentTime - startAt;
-      },
+      getCurrentTime: () => this.audioCtx.currentTime - startAt,
       bufferNode,
       trackAdded // Save for later use!
     };
 
     this.bufferNodes.set(id, track);
 
-    if(isFirstTrack) {
+    if (isFirstTrack) {
       this.firstTrack = track;
     } else {
-      startAt = this.audioCtx.currentTime + ( this.firstTrack.duration - this.firstTrack.getCurrentTime() );
+      startAt = this.audioCtx.currentTime + (this.firstTrack.duration - this.firstTrack.getCurrentTime());
     }
 
     bufferNode.start(startAt);
 
     // Return bufferNode, so user can connect it ecc.
     trackAdded(bufferNode);
-
   }
 
   pauseTrack({ id }) {
-    if( this.exists(id) ) {
+    if (this.exists(id)) {
       const track = this.bufferNodes.get(id);
       track.bufferNode.stop();
       this.pausedTracks.set(id, track);
@@ -77,16 +72,16 @@ export default class AudioLooper {
   }
 
   playTrack({ id }) {
-    if( this.pausedTracks.has(id) ) {
+    if (this.pausedTracks.has(id)) {
       const { bufferNode: { buffer: audioBuffer }, trackAdded } = this.pausedTracks.get(id);
-      const newBufferNode = this.addTrack({ id, audioBuffer, doProcessing: false, trackAdded });
+      this.addTrack({ id, audioBuffer, doProcessing: false, trackAdded });
     } else {
       throw new Error(`You tried to pause an inexistent track!`);
     }
   }
 
   removeTrack({ id }) {
-    if( this.exists(id) ) {
+    if (this.exists(id)) {
       const track = this.bufferNodes.get(id);
       track.bufferNode.stop();
       this.bufferNodes.delete(id);
@@ -94,26 +89,23 @@ export default class AudioLooper {
   }
 
   getCurrentTime({ id }) {
-    if( this.exists(id) ) {
+    if (this.exists(id)) {
       const track = this.bufferNodes.get(id);
       return track.getCurrentTime();
     }
+    throw new Error(`You tried to access an inexistent track!`);
   }
 
   exists(id) {
-
-    if(!this.bufferNodes.has(id)) {
+    if (!this.bufferNodes.has(id)) {
       throw new Error(`You tried to access an inexistent track!`);
     }
     return true;
-
   }
 
 }
 
-
-
-/*import Recordy from 'recordy';
+/* import Recordy from 'recordy';
 import AudioChnl from 'audiochnl';
 
 const audioCtx = new AudioContext();

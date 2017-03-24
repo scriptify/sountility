@@ -9,13 +9,13 @@ const DEFAULT_RESONANCE = 10;
 const DEFAULT_SENSITIVITY = 0.5;
 
 export const wahWahData = {
-  name: 'wahwah',
+  name: `wahwah`,
   values: [
 
     {
-      name: 'automode',
+      name: `automode`,
       options: {
-        type: 'single',
+        type: `single`,
         defaultValue: DEFAULT_AUTOMODE
       },
       set: (effectChain, value) => {
@@ -24,9 +24,9 @@ export const wahWahData = {
     },
 
     {
-      name: 'baseFrequency',
+      name: `baseFrequency`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_BASEFREQUENCY,
         min: 0,
         max: 1,
@@ -38,9 +38,9 @@ export const wahWahData = {
     },
 
     {
-      name: 'excursionOctaves',
+      name: `excursionOctaves`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_EXCURSIONOCTAVES,
         min: 0,
         max: 6,
@@ -52,9 +52,9 @@ export const wahWahData = {
     },
 
     {
-      name: 'sweep',
+      name: `sweep`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_SWEEP,
         min: 0,
         max: 1,
@@ -66,9 +66,9 @@ export const wahWahData = {
     },
 
     {
-      name: 'resonance',
+      name: `resonance`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_RESONANCE,
         min: 0,
         max: 100,
@@ -80,9 +80,9 @@ export const wahWahData = {
     },
 
     {
-      name: 'sensitivity',
+      name: `sensitivity`,
       options: {
-        type: 'range',
+        type: `range`,
         defaultValue: DEFAULT_SENSITIVITY,
         min: 0,
         max: 1,
@@ -94,25 +94,23 @@ export const wahWahData = {
     }
 
   ]
-}
+};
 
 export default function createWahWah(audioCtx, tuna = new Tuna(audioCtx)) {
-
   // Tuna is optional
 
   return new EffectUnit({
-      ...wahWahData,
-      effectChain: {
-        wahwah: new tuna.WahWah({
-            automode: DEFAULT_AUTOMODE,                //true/false
-            baseFrequency: DEFAULT_BASEFREQUENCY,            //0 to 1
-            excursionOctaves: DEFAULT_EXCURSIONOCTAVES,           //1 to 6
-            sweep: DEFAULT_SWEEP,                    //0 to 1
-            resonance: DEFAULT_RESONANCE,                 //1 to 100
-            sensitivity: DEFAULT_SENSITIVITY              //-1 to 1
-        })
-      }
-    },
-    audioCtx);
-
+    ...wahWahData,
+    effectChain: {
+      wahwah: new tuna.WahWah({
+        automode: DEFAULT_AUTOMODE,                // true/false
+        baseFrequency: DEFAULT_BASEFREQUENCY,            // 0 to 1
+        excursionOctaves: DEFAULT_EXCURSIONOCTAVES,           // 1 to 6
+        sweep: DEFAULT_SWEEP,                    // 0 to 1
+        resonance: DEFAULT_RESONANCE,                 // 1 to 100
+        sensitivity: DEFAULT_SENSITIVITY              // -1 to 1
+      })
+    }
+  },
+  audioCtx);
 }
