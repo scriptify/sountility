@@ -1,0 +1,20 @@
+{
+  "name": "audiochnl",
+  "version": "0.0.9",
+  "description": "AudioChnl - One Audio object, multiple effects. Easy.",
+  "main": "dist/audiochnl.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scriptify/AudioChnl.git"
+  },
+  "dependencies": {
+    "webaudio-chnl": "0.0.6"
+  }
+}

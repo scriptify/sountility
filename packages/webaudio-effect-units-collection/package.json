@@ -1,0 +1,21 @@
+{
+  "name": "webaudio-effect-units-collection",
+  "version": "1.0.3",
+  "description": "A bunch of different EffectUnits which can be used right away. They are all based on the webaudio-effect-unit.",
+  "main": "build/bundle.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "dependencies": {
+    "tunajs": "*",
+    "webaudio-effect-unit": "^1.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scriptify/webaudio-effect-units-collection.git"
+  }
+}

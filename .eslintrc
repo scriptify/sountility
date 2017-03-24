@@ -1,0 +1,14 @@
+{
+  // I want to use babel-eslint for parsing!
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": {
+    // I write for browser
+    "browser": true,
+    // in CommonJS
+    "node": true
+  },
+  rules: {
+    linebreak-style: 0
+  }
+}

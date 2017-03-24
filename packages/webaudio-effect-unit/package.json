@@ -1,0 +1,17 @@
+{
+  "name": "webaudio-effect-unit",
+  "version": "1.1.2",
+  "description": "Effect unit to add functionality to the WebAudio API. The effect unit lets you enable/disable effects and alter the interior state with custom methods.",
+  "main": "build/bundle.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scriptify/webaudio-effect-unit.git"
+  }
+}

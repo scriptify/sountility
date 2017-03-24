@@ -1,0 +1,20 @@
+{
+  "name": "wrecorder",
+  "version": "1.0.0",
+  "description": "A fork of mattdiamonds recorderjs. I made some customizations and fixed a few bugs.",
+  "main": "build/bundle.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "inline-worker": "^1.1.0"
+  }
+}

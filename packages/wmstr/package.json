@@ -1,0 +1,21 @@
+{
+  "name": "wmstr",
+  "version": "0.0.4",
+  "description": "Wmstr - Webaudio Master Channel. Managing audio.",
+  "main": "dist/wmstr.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scriptify/Wmstr.git"
+  },
+  "dependencies": {
+    "webaudio-chnl": "0.0.6",
+    "wrecorder": "github:scriptify/Wrecorder"
+  }
+}

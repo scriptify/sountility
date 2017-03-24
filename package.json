@@ -1,0 +1,34 @@
+{
+  "name": "soundcyclejs-monorepo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "build/bundle.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server --config config/webpack.config.js",
+    "start:prod": "webpack --config config/webpack.config.js"
+  },
+  "devDependencies": {
+    "babel-core": "*",
+    "babel-eslint": "^7.2.1",
+    "babel-loader": "*",
+    "babel-plugin-transform-async-to-generator": "*",
+    "babel-plugin-transform-async-to-module-method": "*",
+    "babel-plugin-transform-runtime": "*",
+    "babel-polyfill": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-stage-0": "*",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-loader": "^1.7.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "file-loader": "*",
+    "webpack": "*",
+    "webpack-dev-server": "*",
+    "webpack-merge": "*",
+    "worker-loader": "*"
+  },
+  "author": "",
+  "license": "ISC"
+}

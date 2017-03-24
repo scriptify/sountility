@@ -1,0 +1,25 @@
+{
+  "name": "soundcyclejs",
+  "version": "0.0.1",
+  "description": "soundcyclejs - a loopstation eniterly written in js, for browsers.",
+  "main": "dist/soundcycle.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "repository": {
+    "url": "",
+    "type": "git"
+  },
+  "dependencies": {
+    "audiobufferchnl": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\AudioBufferChnl",
+    "audiochnl": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\AudioChnl",
+    "audiolooper": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\AudioLooper",
+    "recordy": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\Recordy",
+    "uuid": "*",
+    "wmstr": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\Wmstr"
+  }
+}

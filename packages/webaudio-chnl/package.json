@@ -1,0 +1,20 @@
+{
+  "name": "webaudio-chnl",
+  "version": "0.0.6",
+  "description": "Chnl - one channel, all effects.",
+  "main": "dist/chnl.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scriptify/Chnl.git"
+  },
+  "dependencies": {
+    "webaudio-effect-units-collection": "^1.0.3"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "audiolooper",
+  "version": "0.0.6",
+  "description": "AudioLooper - Loop your tracks with automatic synchronization.",
+  "main": "dist/audiolooper.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scriptify/audiolooper.git"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "audiobufferchnl",
+  "version": "0.0.1",
+  "description": "AudioBufferChnl = Chnl + BufferSourceNode",
+  "main": "dist/audiobufferchnl.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server",
+    "start:prod": "webpack"
+  },
+  "keywords": [],
+  "author": "Maximilian Torggler",
+  "license": "ISC",
+  "dependencies": {
+    "webaudio-chnl": "0.0.6"
+  }
+}
