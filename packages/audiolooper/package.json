@@ -1,6 +1,6 @@
 {
   "name": "audiolooper",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "AudioLooper - Loop your tracks with automatic synchronization.",
   "main": "dist/audiolooper.js",
   "scripts": {
