@@ -91,15 +91,10 @@ export default class SoundCycle {
           id: newTrackId,
           audioBuffer,
           trackAdded: (bufferSourceNode) => {
-            const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferSourceNode);
-            audioBufferChnl.connect(this.wmstr);
+            this.trackAddedToLaneCb(bufferSourceNode, newTrackId, newLooperId);
 
-            this.tracks.set(newTrackId, {
-              chnl: audioBufferChnl,
-              looperId: newLooperId
-            });
-
-            this.loopers.set(newLooperId, looper);
+            if (!this.loopers.has(newLooperId))
+              this.loopers.set(newLooperId, looper);
           } });
 
         return {
@@ -134,13 +129,7 @@ export default class SoundCycle {
           id: newTrackId,
           audioBuffer,
           trackAdded: (bufferSourceNode) => {
-            const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferSourceNode);
-            audioBufferChnl.connect(this.wmstr);
-
-            this.tracks.set(newTrackId, {
-              chnl: audioBufferChnl,
-              looperId: this.currentLane
-            });
+            this.trackAddedToLaneCb(bufferSourceNode, newTrackId, this.currentLane);
           } });
 
         return {
@@ -199,30 +188,32 @@ export default class SoundCycle {
     const looper = this.loopers.get(looperId);
 
     // Search all tracks of looper and delete them
-    this.tracks.forEach(({ track, trackId }) => {
-      if (track.looperId === looperId) {
+    this.tracks.forEach(({ looperId: trackLooperId }, trackId) => {
+      if (trackLooperId === looperId) {
         looper.removeTrack({ id: trackId });
         this.tracks.delete(trackId);
       }
     });
+
+    this.loopers.delete(looperId);
   }
 
   enableEffect({ chnlId, effectName }) {
     const chnlToEdit = this.getChnlById(chnlId);
     chnlToEdit.addEffect(effectName);
-    this.getEffectByName(chnlToEdit, effectName).enable();
+    SoundCycle.getEffectByName(chnlToEdit, effectName).enable();
   }
 
   disableEffect({ chnlId, effectName }) {
     const chnlToEdit = this.getChnlById(chnlId);
     chnlToEdit.removeEffect(effectName);
-    this.getEffectByName(chnlToEdit, effectName).disable();
+    SoundCycle.getEffectByName(chnlToEdit, effectName).disable();
   }
 
   setEffectValue({ chnlId, effectName, valueType, value }) {
     const chnlToEdit = this.getChnlById(chnlId);
 
-    this.getEffectByName(chnlToEdit, effectName).setValue(valueType, value);
+    SoundCycle.getEffectByName(chnlToEdit, effectName).setValue(valueType, value);
   }
 
   getMasterChnlId() {
@@ -259,6 +250,21 @@ export default class SoundCycle {
       return chnl.effects[effectName];
 
     throw new Error(`You tried to access an inexistent effect!`);
+  }
+
+  trackAddedToLaneCb(bufferSourceNode, newTrackId, looperId) {
+    if (this.tracks.has(newTrackId)) {
+      const { chnl } = this.tracks.get(newTrackId);
+      chnl.setBufferSourceNode(bufferSourceNode);
+    } else {
+      const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferSourceNode);
+      audioBufferChnl.connect(this.wmstr);
+
+      this.tracks.set(newTrackId, {
+        chnl: audioBufferChnl,
+        looperId
+      });
+    }
   }
 
 }

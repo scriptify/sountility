@@ -6,6 +6,10 @@ export default class AudioBufferChnl extends Chnl {
 
   constructor(audioCtx, bufferSourceNode) {
     super(audioCtx);
+    this.setBufferSourceNode(bufferSourceNode);
+  }
+
+  setBufferSourceNode(bufferSourceNode) {
     this.bufferSourceNode = bufferSourceNode;
     this.bufferSourceNode.connect(this);
   }

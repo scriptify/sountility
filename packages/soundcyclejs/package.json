@@ -15,7 +15,7 @@
     "type": "git"
   },
   "dependencies": {
-    "audiobufferchnl": "*",
+    "audiobufferchnl": "0.0.1",
     "audiochnl": "*",
     "audiolooper": "0.0.8",
     "recordy": "*",

@@ -2418,27 +2418,6 @@ exports.default = function (instance, Constructor) {
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject       = __webpack_require__(9)
-  , IE8_DOM_DEFINE = __webpack_require__(51)
-  , toPrimitive    = __webpack_require__(41)
-  , dP             = Object.defineProperty;
-
-exports.f = __webpack_require__(10) ? Object.defineProperty : function defineProperty(O, P, Attributes){
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if(IE8_DOM_DEFINE)try {
-    return dP(O, P, Attributes);
-  } catch(e){ /* empty */ }
-  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
-  if('value' in Attributes)O[P] = Attributes.value;
-  return O;
-};
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -2467,6 +2446,27 @@ exports.default = function () {
     return Constructor;
   };
 }();
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject       = __webpack_require__(9)
+  , IE8_DOM_DEFINE = __webpack_require__(51)
+  , toPrimitive    = __webpack_require__(41)
+  , dP             = Object.defineProperty;
+
+exports.f = __webpack_require__(10) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if(IE8_DOM_DEFINE)try {
+    return dP(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
 
 /***/ }),
 /* 9 */
@@ -2566,7 +2566,7 @@ module.exports = function(it, key){
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(7)
+var dP         = __webpack_require__(8)
   , createDesc = __webpack_require__(21);
 module.exports = __webpack_require__(10) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
@@ -2691,7 +2691,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -2889,7 +2889,7 @@ exports.f = {}.propertyIsEnumerable;
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var def = __webpack_require__(7).f
+var def = __webpack_require__(8).f
   , has = __webpack_require__(12)
   , TAG = __webpack_require__(2)('toStringTag');
 
@@ -3105,7 +3105,7 @@ var global         = __webpack_require__(4)
   , core           = __webpack_require__(3)
   , LIBRARY        = __webpack_require__(25)
   , wksExt         = __webpack_require__(43)
-  , defineProperty = __webpack_require__(7).f;
+  , defineProperty = __webpack_require__(8).f;
 module.exports = function(name){
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
   if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
@@ -3691,7 +3691,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -3820,15 +3820,9 @@ var SoundCycle = function () {
                   id: newTrackId,
                   audioBuffer: audioBuffer,
                   trackAdded: function trackAdded(bufferSourceNode) {
-                    var audioBufferChnl = new _audiobufferchnl2.default(_this.audioCtx, bufferSourceNode);
-                    audioBufferChnl.connect(_this.wmstr);
+                    _this.trackAddedToLaneCb(bufferSourceNode, newTrackId, newLooperId);
 
-                    _this.tracks.set(newTrackId, {
-                      chnl: audioBufferChnl,
-                      looperId: newLooperId
-                    });
-
-                    _this.loopers.set(newLooperId, looper);
+                    if (!_this.loopers.has(newLooperId)) _this.loopers.set(newLooperId, looper);
                   } });
 
                 return _context.abrupt('return', {
@@ -3875,13 +3869,7 @@ var SoundCycle = function () {
                   id: newTrackId,
                   audioBuffer: _audioBuffer,
                   trackAdded: function trackAdded(bufferSourceNode) {
-                    var audioBufferChnl = new _audiobufferchnl2.default(_this.audioCtx, bufferSourceNode);
-                    audioBufferChnl.connect(_this.wmstr);
-
-                    _this.tracks.set(newTrackId, {
-                      chnl: audioBufferChnl,
-                      looperId: _this.currentLane
-                    });
+                    _this.trackAddedToLaneCb(bufferSourceNode, newTrackId, _this.currentLane);
                   } });
 
                 return _context.abrupt('return', {
@@ -3953,15 +3941,16 @@ var SoundCycle = function () {
       var looper = this.loopers.get(looperId);
 
       // Search all tracks of looper and delete them
-      this.tracks.forEach(function (_ref4) {
-        var track = _ref4.track,
-            trackId = _ref4.trackId;
+      this.tracks.forEach(function (_ref4, trackId) {
+        var trackLooperId = _ref4.looperId;
 
-        if (track.looperId === looperId) {
+        if (trackLooperId === looperId) {
           looper.removeTrack({ id: trackId });
           _this2.tracks.delete(trackId);
         }
       });
+
+      this.loopers.delete(looperId);
     }
   }, {
     key: 'enableEffect',
@@ -3971,7 +3960,7 @@ var SoundCycle = function () {
 
       var chnlToEdit = this.getChnlById(chnlId);
       chnlToEdit.addEffect(effectName);
-      this.getEffectByName(chnlToEdit, effectName).enable();
+      SoundCycle.getEffectByName(chnlToEdit, effectName).enable();
     }
   }, {
     key: 'disableEffect',
@@ -3981,7 +3970,7 @@ var SoundCycle = function () {
 
       var chnlToEdit = this.getChnlById(chnlId);
       chnlToEdit.removeEffect(effectName);
-      this.getEffectByName(chnlToEdit, effectName).disable();
+      SoundCycle.getEffectByName(chnlToEdit, effectName).disable();
     }
   }, {
     key: 'setEffectValue',
@@ -3993,7 +3982,7 @@ var SoundCycle = function () {
 
       var chnlToEdit = this.getChnlById(chnlId);
 
-      this.getEffectByName(chnlToEdit, effectName).setValue(valueType, value);
+      SoundCycle.getEffectByName(chnlToEdit, effectName).setValue(valueType, value);
     }
   }, {
     key: 'getMasterChnlId',
@@ -4026,6 +4015,24 @@ var SoundCycle = function () {
       if (!this.tracks.has(id)) throw new Error('You tried to access an inexistent track!');
       return this.tracks.get(id).chnl;
     }
+  }, {
+    key: 'trackAddedToLaneCb',
+    value: function trackAddedToLaneCb(bufferSourceNode, newTrackId, looperId) {
+      if (this.tracks.has(newTrackId)) {
+        var _tracks$get = this.tracks.get(newTrackId),
+            chnl = _tracks$get.chnl;
+
+        chnl.setBufferSourceNode(bufferSourceNode);
+      } else {
+        var audioBufferChnl = new _audiobufferchnl2.default(this.audioCtx, bufferSourceNode);
+        audioBufferChnl.connect(this.wmstr);
+
+        this.tracks.set(newTrackId, {
+          chnl: audioBufferChnl,
+          looperId: looperId
+        });
+      }
+    }
   }], [{
     key: 'getEffectByName',
     value: function getEffectByName(chnl, effectName) {
@@ -4054,6 +4061,10 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
+var _createClass2 = __webpack_require__(7);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
 var _possibleConstructorReturn2 = __webpack_require__(24);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
@@ -4076,11 +4087,17 @@ var AudioBufferChnl = function (_Chnl) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AudioBufferChnl.__proto__ || Object.getPrototypeOf(AudioBufferChnl)).call(this, audioCtx));
 
-    _this.bufferSourceNode = bufferSourceNode;
-    _this.bufferSourceNode.connect(_this);
+    _this.setBufferSourceNode(bufferSourceNode);
     return _this;
   }
 
+  (0, _createClass3.default)(AudioBufferChnl, [{
+    key: 'setBufferSourceNode',
+    value: function setBufferSourceNode(bufferSourceNode) {
+      this.bufferSourceNode = bufferSourceNode;
+      this.bufferSourceNode.connect(this);
+    }
+  }]);
   return AudioBufferChnl;
 }(_webaudioChnl2.default);
 
@@ -4110,7 +4127,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4206,7 +4223,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4402,7 +4419,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4619,7 +4636,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -6072,7 +6089,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -6154,7 +6171,7 @@ var _classCallCheck2 = __webpack_require__(6);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(8);
+var _createClass2 = __webpack_require__(7);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -6610,7 +6627,7 @@ module.exports = function(IS_INCLUDES){
 
 "use strict";
 
-var $defineProperty = __webpack_require__(7)
+var $defineProperty = __webpack_require__(8)
   , createDesc      = __webpack_require__(21);
 
 module.exports = function(object, index, value){
@@ -6748,7 +6765,7 @@ module.exports = function(object, el){
 var META     = __webpack_require__(28)('meta')
   , isObject = __webpack_require__(16)
   , has      = __webpack_require__(12)
-  , setDesc  = __webpack_require__(7).f
+  , setDesc  = __webpack_require__(8).f
   , id       = 0;
 var isExtensible = Object.isExtensible || function(){
   return true;
@@ -6915,7 +6932,7 @@ module.exports = !$assign || __webpack_require__(18)(function(){
 /* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP       = __webpack_require__(7)
+var dP       = __webpack_require__(8)
   , anObject = __webpack_require__(9)
   , getKeys  = __webpack_require__(20);
 
@@ -7022,7 +7039,7 @@ module.exports = {
 
 var global      = __webpack_require__(4)
   , core        = __webpack_require__(3)
-  , dP          = __webpack_require__(7)
+  , dP          = __webpack_require__(8)
   , DESCRIPTORS = __webpack_require__(10)
   , SPECIES     = __webpack_require__(2)('species');
 
@@ -7188,7 +7205,7 @@ $export($export.S, 'Object', {create: __webpack_require__(34)});
 
 var $export = __webpack_require__(11);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(10), 'Object', {defineProperty: __webpack_require__(7).f});
+$export($export.S + $export.F * !__webpack_require__(10), 'Object', {defineProperty: __webpack_require__(8).f});
 
 /***/ }),
 /* 137 */
@@ -7533,7 +7550,7 @@ var global         = __webpack_require__(4)
   , _create        = __webpack_require__(34)
   , gOPNExt        = __webpack_require__(124)
   , $GOPD          = __webpack_require__(57)
-  , $DP            = __webpack_require__(7)
+  , $DP            = __webpack_require__(8)
   , $keys          = __webpack_require__(20)
   , gOPD           = $GOPD.f
   , dP             = $DP.f
