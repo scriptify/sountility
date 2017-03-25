@@ -10,7 +10,7 @@ export default class AudioChnl extends Chnl {
     super(audioCtx);
     this.audioObj = audioObj;
 
-    this.audioObj.addEventListener('loadedmetadata', () => {
+    this.audioObj.addEventListener(`loadedmetadata`, () => {
       this.isReady = true;
       loaded();
     });

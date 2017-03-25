@@ -37,11 +37,10 @@ export default class AudioLooper {
     bufferNode.buffer = finalAudioBuffer;
     bufferNode.loop = true;
 
-    let startAt = this.audioCtx.currentTime;
-
     const track = {
       duration: bufferNode.buffer.duration,
-      getCurrentTime: () => this.audioCtx.currentTime - startAt,
+      startedAt: this.audioCtx.currentTime,
+      getCurrentTime: () => this.audioCtx.currentTime - track.startedAt,
       bufferNode,
       trackAdded // Save for later use!
     };
@@ -50,10 +49,12 @@ export default class AudioLooper {
 
     if (isFirstTrack)
       this.firstTrack = track;
-    else
-      startAt = this.audioCtx.currentTime + (this.firstTrack.duration - this.firstTrack.getCurrentTime());
 
-    bufferNode.start(startAt);
+    const part = this.audioCtx.currentTime - this.firstTrack.startedAt;
+    const numParts = Math.floor(part / this.firstTrack.duration);
+    const offset = part - (numParts * this.firstTrack.duration);
+
+    bufferNode.start(0, offset);
 
     // Return bufferNode, so user can connect it ecc.
     trackAdded(bufferNode);
@@ -100,89 +101,3 @@ export default class AudioLooper {
   }
 
 }
-
-/* import Recordy from 'recordy';
-import AudioChnl from 'audiochnl';
-
-const audioCtx = new AudioContext();
-
-const recordy = new Recordy(audioCtx);
-
-recordy.getInput()
-  .then(hasInput => {
-    if(hasInput)
-      console.log('Got mic input!');
-    else
-      console.error('Could not get mic input.');
-  });
-
-render(recordy, audioCtx);
-
-function render(recordy, audioCtx) {
-
-
-  let time1 = 0;
-  let time2 = 0;
-  let measurements = [];
-  let tracks = [];
-  let id = 0;
-  let count = 0;
-
-  const looper = new AudioLooper(audioCtx);
-
-
-  const mainDiv = document.createElement('div');
-  mainDiv.class = 'main';
-
-  const recordBtn = document.createElement('button');
-  const stopRecordBtn = document.createElement('button');
-
-  recordBtn.textContent = 'Start recording';
-  stopRecordBtn.textContent = 'Stop recording';
-
-  recordBtn.addEventListener('click', e => {
-    recordy.startRecording();
-  });
-
-  stopRecordBtn.addEventListener('click', e => {
-    recordy.stopRecording() // TRUE == Create audio object, FALSE = return blob
-      .then(blob => {
-
-        // create arraybuffer from blob
-        const fileReader = new FileReader();
-        fileReader.addEventListener('loadend', e => {
-
-          audioCtx.decodeAudioData(fileReader.result)
-            .then(audioBuffer => {
-
-              const id = Math.random() * 1000;
-
-              const bufferNode = looper.addTrack({
-                id,
-                audioBuffer,
-                trackAdded: bufferNode => {
-                  bufferNode.connect(audioCtx.destination);
-                }
-              });
-
-              window.setTimeout(() => {
-                looper.pauseTrack({ id });
-                window.setTimeout(() => {
-                  looper.playTrack({ id });
-                }, 1000);
-              }, 1000);
-
-            });
-
-        });
-        fileReader.readAsArrayBuffer(blob);
-
-      });
-
-  });
-
-  mainDiv.appendChild(recordBtn);
-  mainDiv.appendChild(stopRecordBtn);
-
-  document.querySelector('body').appendChild(mainDiv);
-}*/

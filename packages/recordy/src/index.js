@@ -33,7 +33,7 @@ export default class Recordy extends Chnl {
     this.recorder.record();
   }
 
-  stopRecording({ type = `blob` }) { // type can be -> blob, audio or buffer
+  stopRecording({ type = `blob` } = {}) { // type can be -> blob, audio or buffer
     // If asAudioObject evaluates to true, a window.Audio-object will be returned; otherwise, a blob will be returned;
     return new Promise((resolve) => {
       this.recorder.stop();

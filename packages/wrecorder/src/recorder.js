@@ -1,3 +1,5 @@
+/* eslint no-use-before-define: 0 */
+/* eslint no-shadow: 0 */
 import InlineWorker from 'inline-worker';
 
 export class Recorder {
