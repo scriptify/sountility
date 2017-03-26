@@ -2,7 +2,7 @@
 /* eslint import/no-unresolved: 0 */
 /* eslint import/extensions: 0 */
 
-/* import Recordy from 'recordy';
+import Recordy from 'recordy';
 import AudioLooper from 'audiolooper';
 
 const audioCtx = new AudioContext();
@@ -63,4 +63,4 @@ function render() {
   document.querySelector(`body`).appendChild(mainDiv);
 }
 
-render(recordy, audioCtx); */
+render(recordy, audioCtx);

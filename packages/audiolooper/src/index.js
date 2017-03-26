@@ -15,6 +15,18 @@ export default class AudioLooper {
 
     if (!isFirstTrack && doProcessing) {
       // Prepare buffer!
+      // Step 1: fade-in + fade-out
+      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+        const channelData = audioBuffer.getChannelData(channel);
+        const FADE_LENGTH = 100;
+        for (let i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
+          const fadeOutPos = channelData.length - i - 1;
+          channelData[i] = (channelData[i] * i) / FADE_LENGTH;
+          channelData[fadeOutPos] = (channelData[fadeOutPos] * i) / FADE_LENGTH;
+        }
+      }
+
+      // Step 2: fit it the first track
       const firstTrackBuffer = this.firstTrack.bufferNode.buffer;
       const percentualRatio = Math.ceil(audioBuffer.length / firstTrackBuffer.length);
       const newAudioBuffer = this.audioCtx.createBuffer(audioBuffer.numberOfChannels, firstTrackBuffer.length * percentualRatio, firstTrackBuffer.sampleRate);
