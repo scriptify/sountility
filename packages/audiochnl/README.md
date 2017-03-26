@@ -4,7 +4,7 @@
 ## What is an AudioChnl?
 It's an extension of the chnl module: This module is made for playing, pausing, stopping and manipulating Audio-objects.
 
-If you are not familiar with the chnl module, just have a look at it.
+If you are not familiar with the [chnl module, just have a look at it.](../webaudio-chnl/README.md)
 
 ## Usage
 ### Creating an AudioChnl

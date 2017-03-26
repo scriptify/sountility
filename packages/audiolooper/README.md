@@ -5,7 +5,7 @@
 An audiolooper let's you loop your audiotracks in a very simple and intuitive way.
 The looping algorithm keeps the tracks automatically in sync.
 
-__This package is a part of the sountility collection!__
+__This package is a part of the [sountility](../../README.md) collection!__
 
 ## How does it work?
 The audiolooper tries to loope the tracks you add in a synced manner. It simply loops the tracks according to the first track you added to the looper. This makes looping easier in __most__ cases (not always, don't expect any miracles).

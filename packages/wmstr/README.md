@@ -2,9 +2,9 @@
 
 ## What is Wmstr?
 The scope of this module is to manage the input of many audio-channels in one instance.
-It's just a simple extension of the [Chnl](https://github.com/scriptify/Chnl) module, with the only difference that you can record all the input to it and output the recorded data directly to a file.
+It's just a simple extension of the [chnl](../chnl/README.md) module, with the only difference that you can record all the input to it and output the recorded data directly to a file.
 
-__Attention__: Since the [webaudio-effect-unit](https://github.com/scriptify/webaudio-effect-unit) has reached v.1.1.0, the way how the effects work has changed. Have a look at it's repository for more details. Make sure to do this BEFORE you update. If you have difficulties or questions, just open an issue! I am always glad if I can help. :smile:
+__Attention__: Since the [webaudio-effect-unit](../webaudio-effect-unit/README.md) has reached v.1.1.0, the way how the effects work has changed. Have a look at it's repository for more details. Make sure to do this BEFORE you update. If you have difficulties or questions, just open an issue! I am always glad if I can help. :smile:
 
 ## Installation
 The package is hosted on npm. You can consume it with any package manager supporting npm packages.

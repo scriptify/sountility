@@ -8,7 +8,6 @@ No matter if I connect a song, mic input or even a synthesizer.
 
 __Therefore I created _Chnl_.__
 
-__Attention__: Since the [webaudio-effect-unit](https://github.com/scriptify/webaudio-effect-unit) has reached v.1.1.0, the way how the effects work has changed. Have a look at it's repository for more details. Make sure to do this __BEFORE__ you update. If you have difficulties or question, just open an issue! I am always glad if I can help. :smile:
 ## Installation
 Via npm
 ```
@@ -26,7 +25,7 @@ new Channel(audioCtx)
 
 ### Effects
 You have access to __a lot of effects__.
-Under the hood, _Chnl_ uses the [webaudio-effect-units-collection](https://github.com/scriptify/webaudio-effect-units-collection) module. So you have access to a lot of effects which can be enabled and disabled.
+Under the hood, _Chnl_ uses the [webaudio-effect-units-collection](../webaudio-effect-units-collection/README.md) module. So you have access to a lot of effects which can be enabled and disabled.
 
 You can access the effects with the _effects_ property of your _Chnl_ instance.
 

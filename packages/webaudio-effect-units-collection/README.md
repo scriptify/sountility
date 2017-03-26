@@ -2,10 +2,8 @@
 
 Effects for everyone!
 
-All effects of this collection are based on the [webaudio-effect-unit](https://github.com/scriptify/webaudio-effect-unit) module.
+All effects of this collection are based on the [webaudio-effect-unit](../webaudio-effect-unit/README.md) module.
 If you want to gain a deeper knowledge on how you can use those effects, have a look at this repository.
-
-__Attention__: Since the [webaudio-effect-unit](https://github.com/scriptify/webaudio-effect-unit) module has reached v1.1.0, the way how to use the effects of the package has changed. Have a look at it's repository for more details!
 
 Here a list of all the effects included in this package:
 

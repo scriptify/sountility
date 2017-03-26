@@ -20,7 +20,7 @@ But essentially, it's dead simple to use it.
 
 # Using soundcyclejs
 
-With soundcyclejs you record tracks and specify how they should be handled. In addition, you can control the overall output of the looper with the [Wmstr](https://github.com/scriptify/Wmstr) module.
+With soundcyclejs you record tracks and specify how they should be handled. In addition, you can control the overall output of the looper with the [Wmstr](../wmstr/README.md) module.
 
 You can specify if you want your track to be put in a lane, if you want to create a new lane with it or if you want to use it as a single sequence track. More on that later.
 
@@ -29,7 +29,7 @@ You can specify if you want your track to be put in a lane, if you want to creat
 The most important concept to understand here is the concept of lanes (I called them like this and during this document I will continue to do so, but you can invent your own name :sunglasses:).
 
 In this context, a lane is it's own independent looping unit.
-To fully understand this chapter, I would recommend you reading the documentation of the [AudioLooper](https://github.com/scriptify/AudioLooper) module.
+To fully understand this chapter, I would recommend you reading the documentation of the [AudioLooper](../audiolooper/README.md) module.
 
 Now, as you know what an AudioLooper is and how it works, let's continue.
 A lane essentially consists of an AudioLooper-object and it's tracks. That's it. Not much magic about it. :sparkles:
@@ -46,7 +46,7 @@ new SoundCycle(gotInput)
 
 ### Recording audio
 Now let's talk about the more interesting part: Recording.
-Under the hood, soundcyclejs uses the [Recordy](https://github.com/scriptify/Recordy) module.
+Under the hood, soundcyclejs uses the [Recordy](../recordy/README.md) module.
 But the recorder of soundcyclejs has one important extension:
 the _.stopRecording_ method. This method now doesn't simply stop the recording and pass an audio object to the user of the module. You decide what you want to do:
 1. __Create a new lane with the recorded track__
