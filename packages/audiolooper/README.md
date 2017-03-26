@@ -112,3 +112,72 @@ To get the time(seconds) which passed since the track was added, use this method
 ```
 
 To check if a specific track was already added to the audiolooper, use this method. It requires an object as its only parameter which has a field _id_, the id of the track. (you specified the id before, when you added the track).
+
+## Code example
+
+This is a small example which shows how to create a very simple loopstation.
+
+```javascript
+import Recordy from 'recordy';
+import AudioLooper from 'audiolooper';
+
+const audioCtx = new AudioContext();
+
+const recordy = new Recordy(audioCtx);
+
+recordy.getInput()
+  .then((hasInput) => {
+    if (hasInput)
+      console.log(`Got mic input!`);
+    else
+      console.error(`Could not get mic input.`);
+  });
+
+function render() {
+  const looper = new AudioLooper(audioCtx);
+
+
+  const mainDiv = document.createElement(`div`);
+  mainDiv.class = `main`;
+
+  const recordBtn = document.createElement(`button`);
+  const stopRecordBtn = document.createElement(`button`);
+
+  recordBtn.textContent = `Start recording`;
+  stopRecordBtn.textContent = `Stop recording`;
+
+  recordBtn.addEventListener(`click`, () => {
+    recordy.startRecording();
+  });
+
+  stopRecordBtn.addEventListener(`click`, () => {
+    recordy.stopRecording() // TRUE == Create audio object, FALSE = return blob
+      .then((blob) => {
+        // create arraybuffer from blob
+        const fileReader = new FileReader();
+        fileReader.addEventListener(`loadend`, () => {
+          audioCtx.decodeAudioData(fileReader.result)
+            .then((audioBuffer) => {
+              const id = Math.random() * 1000;
+
+              looper.addTrack({
+                id,
+                audioBuffer,
+                trackAdded: (bufferNode) => {
+                  bufferNode.connect(audioCtx.destination);
+                }
+              });
+            });
+        });
+        fileReader.readAsArrayBuffer(blob);
+      });
+  });
+
+  mainDiv.appendChild(recordBtn);
+  mainDiv.appendChild(stopRecordBtn);
+
+  document.querySelector(`body`).appendChild(mainDiv);
+}
+
+render(recordy, audioCtx);
+```
