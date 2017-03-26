@@ -171,7 +171,7 @@ export default class SoundCycle {
     }
   }
 
-  removeTrack(id) {
+  removeTrack({ id }) {
     if (!this.tracks.has(id))
       throw new Error(`You tried to remove an inexistent track!`);
 
@@ -181,7 +181,7 @@ export default class SoundCycle {
     this.tracks.delete(id);
   }
 
-  removeLane(looperId) {
+  removeLane({ looperId }) {
     if (!this.loopers.has(looperId))
       throw new Error(`You tried to remove an inexistent lane!`);
 

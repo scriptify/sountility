@@ -1,26 +1,24 @@
 # soundcyclejs - cycle up your sounds
-## a pure javascript looping library for the browser
+## a javascript looping library for the browser
 
 # Why soundcyclejs?
 Firstly, I was always on the search for a good software loopstation. But I didn't find any real good one. Secondly, I'm a convinced javascript and web developer. That's why I decided to create __soundcyclejs__.
 I combined both my passion for beatboxing and my passion for programming into this library. So I am very passionate about it and motivated to continue development till I think this library reached perfection (so maybe never, nothing and nobody except my girlfriend is perfect).
 
+## Here's an example of what I was able to create with soundcyclejs
+I am beatboxing on the mic and a friend of mine plays the guitar. It's just a short sample which shows what can be done with soundcyclejs with not that much effort.
+[Click here to go to the sample](https://scriptify.github.io/files/ohyeaa.wav)
+
 # How does it work?
 soundcyclejs is a looping library which, under the hood, uses a set of modules which could also be used independently. This library is just the product of the combination of those modules.
-Here a list with all modules which were developed for this project:
-- [AudioLooper](https://github.com/scriptify/AudioLooper)
-- [Chnl](https://github.com/scriptify/Chnl)
-- [AudioChnl](https://github.com/scriptify/AudioChnl)
-- [Recordy](https://github.com/scriptify/Recordy)
-- [Wmstr](https://github.com/scriptify/Wmstr)
-- [webaudio-effect-unit](https://github.com/scriptify/webaudio-effect-unit)
-- [webaudio-effect-units-collection](https://github.com/scriptify/webaudio-effect-units-collection)
+All those modules, including this one, are now part of the __sountility__ collection.
+This module uses every single module of the sountility collection.
 
-If you want to gain a deeper knowledge on how soundcyclejs works, just have a look at those modules listed above.
+If you want to gain a deeper knowledge on how soundcyclejs works, just have a look at the __sountility__ collection and its modules.
 
 But essentially, it's dead simple to use it.
 
-# Use soundcyclejs
+# Using soundcyclejs
 
 With soundcyclejs you record tracks and specify how they should be handled. In addition, you can control the overall output of the looper with the [Wmstr](https://github.com/scriptify/Wmstr) module.
 
@@ -41,33 +39,23 @@ A lane essentially consists of an AudioLooper-object and it's tracks. That's it.
 When you are creating a soundcyclejs-object, you need to construct it as follows:
 ### Constructing
 ```javascript
-new SoundCycle(audioContext, gotInput)
+new SoundCycle(gotInput)
 ```
 
-1. __audioContext__: This is the AudioContext object you want to use.
-2. __gotInput__: This must be a function and gets executed as soon as the user grants audio input in browser. It can accept one parameter, a __boolean__: If it evaluates to true, the audio input was succesfully retrieved. If it evaluates to false, there was an error.
-
-### Controlling ouput with Wmstr
-All output of the loopstation is going through the [Webaudio Master Channel (Wmstr)](https://github.com/scriptify/Wmstr). So you can master all the output and can record whole songs. Just have a look at [Wmstr](https://github.com/scriptify/Wmstr).
-
-To access the master channel, just use the according field (which is a Wmstr - object).
-
-```javascript
-soundcycle.master
-```
+1. __gotInput__: This must be a function and gets executed as soon as the user grants audio input in browser. It can accept one parameter, a __boolean__: If it evaluates to true, the audio input was succesfully retrieved. If it evaluates to false, there was an error.
 
 ### Recording audio
 Now let's talk about the more interesting part: Recording.
 Under the hood, soundcyclejs uses the [Recordy](https://github.com/scriptify/Recordy) module.
 But the recorder of soundcyclejs has one important extension:
-the _.stopRecording_ method. This method now doesn't simply stop the recording and pass an audio object. You decide what you want to do:
+the _.stopRecording_ method. This method now doesn't simply stop the recording and pass an audio object to the user of the module. You decide what you want to do:
 1. __Create a new lane with the recorded track__
 2. __Add the track to an existing lane__
 3. __Create a single sequence track__
 
 Use this method as follows:
 ```javascript
-soundcycle.recorder.stopRecording(MODE, payload)
+soundcycle.recorder.startRecording()
 ```
 The use of this method gets clarified below.
 
@@ -78,100 +66,160 @@ I use this word to clarify that those tracks are recorded with the intention to 
 
 They could e.g. be used for effects or drums (you could even use them like a launchpad).
 
-And to actually record single sequence tracks, do the following:
+An to actually record single sequence tracks, do the following:
 ```javascript
-soundcycle.recorder.stopRecording(soundcycle.recorder.MODES.SINGLE_SEQUENCE, { id: 546 })
+  mySoundcycleObject.setMode( mySoundcycleObject.getModes().SINGLE_SEQUENCE );
+  mySoundcycleObject.stopRecording().then(({ chnlId }) => {
+    // Do something with the chnlId, e.g. saving it somewhere for later use
+  });
 ```
-
-For the first parameter, pass the SINGLE_SEQUENCE constant (which is contained by the _soundcycle.recorder.MODES_ object).
-
-For the second parameter, you can pass an id. But this is __optional__. If you don't pass an id, a new one will be created.
-
-The method will now return a Promise which resolves with an object of the following structure:
-
-```javascript
-{
-  MODE,
-  audioChnl,
-  id
-}
-```
-
-In this case, the MODE field will have a value of   __soundcycle.recorder.MODES.SINGLE_SEQUENCE__.
-
-The audioChnl field contains an [AudioChnl](https://github.com/scriptify/AudioChnl) object which can now be used.
-
-The id is the id you passed and if you didn't pass an id, this field has a new random id.
-
-Now, you can store the AudioChnl object where ever you want and do with it what you want.
-
+Just set the mode to SINGLE_SEQUENCE and stop recording (of course, you started recording before). The stop recording method then returns a promise which resolves to an object containing the id of the track you just created.
 
 #### Creating a new lane
 
 To create a new lane, use the _.stopRecording_ method as follows:
 
 ```javascript
-soundcycle.recorder.stopRecording(soundcycle.recorder.MODES.NEW_LANE, {
-  onPlay,
-  onStop,
-  laneId,
-  chnlId
-})
+mySoundcycleObject.setMode( mySoundcycleObject.getModes().NEW_LANE );
+mySoundcycleObject.stopRecording().then(({ chnlId, looperId }) => {
+  // Do something with the chnlId and the looperId, e.g. saving them somewhere for later use
+});
 ```
-
-If you have a good understanding on how the [AudioLooper](https://github.com/scriptify/AudioLooper) module works, you can already imagine what those fields are for.
-
-The _onPlay_ field must be a function. This function will be executed as soon a track is played. As you need to store the tracks yourself, you also need to play and stop them yourself. Have a look at the [AudioLooper](https://github.com/scriptify/AudioLooper) module for more details.
-
-The _onStop_ field must be a function and works exactly the same, expect that the track needs to be stopped.
-
-The _laneId_ and the _chnlId_ fields are __optional__.
-
-The method returns a Promise which resolves with an object of the following structure:
-```javascript
-{
-  MODE,
-  looper,
-  audioChnl,
-  chnlId,
-  laneId
-}
-```
-
-The _MODE_ field has a value of _soundcycle.recorder.MODES.NEW_LANE_.
-
-The _looper_ field is the AudioLooper object you can work with.
-
-The _audioChnl_ field is the first track in the looper and is an [AudioChnl](https://github.com/scriptify/AudioChnl) object.
-
-The _laneId_ and the _chnlId_ fields are new generated ids or the ones you specified before.
-
+Just set the mode to NEW_LANE and stop recording (of course, you started recording before). The stop recording method then returns a promise which resolves to an object containing the id of the track and the id of the looper you just created.
 
 #### Adding a new track to a lane
 
-To add the recorder track to an existing lane, use the _.stopRecording_ method as follows:
+To add a track to an existing lane, use the _.stopRecording_ method as follows:
 
 ```javascript
-soundcycle.recorder.stopRecording(soundcycle.recorder.MODES.ADD_TO_LANE, {
-  looper,
-  laneId,
-  chnlId
-})
+mySoundcycleObject.setMode( mySoundcycleObject.getModes().ADD_TO_LANE );
+mySoundcycleObject.setCurrentLane(currentLaneId);
+mySoundcycleObject.stopRecording().then(({ chnlId }) => {
+  // Do something with the chnlId, e.g. saving it somewhere for later use
+});
+```
+Just set it the mode to ADD_TO_LANE and stop recording (of course, you started recording before). The stop recording method then returns a promise which resolves to an object containing the id of the track you just created. But before you stop recording, you have to specify the lane you want to add the track to. To do so, use the _.setCurrentLane_ method. This method expects one parameter: The id of the lane (you got it before when you created the lane).
+
+#### Pausing tracks
+```javascript
+.stopTrack({ id })
 ```
 
-The _looper_ field of the object you pass must be a valid _AudioLooper_ object. You got one before when you created a new lane. The recorded track will automatically be added to this AudioLooper and will be looped over.
+To stop any playing track (be it a track of a lane or a single sequence track), use this method. It expects one parameter which has to be an object with a field _id_ (the id of the chnl you got when you stopped recording).
 
-The _laneId_ is the id you specified/received before when you created a new lane.
-
-The _chnlId_ is the id which will be assigned to your chnl. Specify one yourself or soundcyclejs will generate one for you.
-
-
-The method returns a Promise which resolves with an object of the following structure:
+#### Playing tracks
 ```javascript
-{
-  MODE,
-  audioChnl,
-  chnlId,
-  laneId
-}
+.playTrack({ id })
+```
+
+To play any track (be it a paused track of a lane or a single sequence track), use this method. It expects one parameter which has to be an object with a field _id_ (the id of the chnl you got when you stopped recording).
+
+#### Removing a track
+```javascript
+.removeTrack({ id })
+```
+
+To remove any track (be it a paused track of a lane or a single sequence track), use this method. It expects one parameter which has to be an object with a field _id_ (the id of the chnl you got when you stopped recording).
+
+#### Removing a lane
+```javascript
+.removeLane({ looperId })
+```
+
+To remove a lane, use this method. It accepts on parameter which must be an object containing the field _looperId_ (the id of the lane you want to delete, you received it when you stopped recording with the __NEW_LANE__ mode).
+
+### Handling effects
+
+#### Enabling effects
+```javascript
+.enableEffect({ chnlId, effectName })
+```
+All tracks of soundcycle are based on the chnl module, which offers a great number of effects (for further information and a list of all available effects, have a look at the webaudio-effect-units-collection).
+
+To enable a specific effect, use this method. I accepts one parameter, which must be an object containing the following fields:
+1. __chnlId__: The id of the chnl whose effect you want to enable.
+2. __effectName__: The name of the effect you want to enable.
+
+
+#### Disabling effects
+```javascript
+.disableEffect({ chnlId, effectName })
+```
+
+Besides disabling an effects, this method works exactly the same as _.enableEffect_.
+
+#### Setting an effects value
+```javascript
+.setEffectValue({ chnlId, effectName, valueType, value })
+```
+
+This method changes the value of a specific effect. To understand what the fields _effectName_, _valueType_ and _value_ are for, refer to the webaudio-effect-unit documentation (since all effects of the chnl module base on it).
+
+### Manipulating the recorder and the master chnl
+All chnls of soundcycle can be controlled through the same interfaces and since the master channel and the recorder channel are chnls too, they can be manipulated with the same methods. To do so, simply use the according ids for them:
+```javascript
+.getMasterChnlId()
+.getRecorderChnlId();
+```
+
+### Setting/getting the current projects name
+```javascript
+.setProjectName(name)
+.getProjectName()
+```
+
+Use those methods to get/set the projects name. If no project name was set, the projects name will default to the current date.
+
+### The master chnl
+All the output soundcycle produces, flows through the master chnl and get redirected to the speakers. This allows you to control the output of to loopstation centrally.
+
+In addition, the master chnl enables you recording its output. With that, you can record whole tracks!
+Those methods allow you to record the project:
+
+```javascript
+.startProjectRecording()
+/* ... */
+.stopProjectRecording()
+```
+
+When calling the _.stopRecording_ method, a _.wav_ file will automatically be downloaded. The files name will be the projects name.
+
+
+# Code Example
+
+This example doesn't essentially make sense, it just aims to show the use of soundcyclejs in a simplified way.
+
+```javascript
+import SoundCycle from 'soundcyclejs';
+const soundcycle = new SoundCycle();
+
+// Start recording. The default mode is NEW_LANE
+soundcycle.startRecording();
+
+window.setTimeout(() => {
+  // Stop recording after 1s
+  soundcycle.stopRecording()
+    .then((res) => {
+      // Set current lane to the lane which was just created
+      soundcycle.setCurrentLane(res.laneId);
+      // Set the mode to ADD_TO_LANE; so all newly recorded tracks are added to the current lane
+      soundcycle.setMode(soundcycle.getModes().ADD_TO_LANE);
+      // Start recording again
+      soundcycle.startRecording();
+
+      window.setTimeout(() => {
+        // Stop recording after 1s
+        soundcycle.stopRecording()
+          .then((res1) => {
+            // Stop both tracks
+            soundcycle.stopTrack({ id: res.chnlId });
+            soundcycle.stopTrack({ id: res1.chnlId });
+            window.setTimeout(() => {
+              // Play the first one again
+              soundcycle.playTrack({ id: res.chnlId });
+            }, 1000);
+          });
+      }, 1000);
+    });
+}, 1000);
 ```
