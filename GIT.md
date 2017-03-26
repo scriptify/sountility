@@ -5,3 +5,4 @@
 - __New features__: feat/[feature-name]
 - __Testing area/experiments__: exp/[experiment-name]
 - __Drastic changes/Total rewrites__: new/[rewrite-name]
+- __Other changes__: other/[descriptive-name]
