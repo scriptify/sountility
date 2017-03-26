@@ -1,8 +1,6 @@
 # webaudio effect unit
 Simply create effects or other audio processors with the Web Audio API which can be enabled and disabled.
 
-__Attention__: The release of version __1.1.0__ brings some breaking changes. Continue reading for more information.
-
 ## Why?
 Sometimes you want to include some effects or other audioprocessors in an audio graph which can be enabled and disabled.
 E.g. a lowpass which can be toggled by the user.
@@ -17,8 +15,6 @@ It's quite simple.
 The constructor of the EffectUnit has the following signature:
 
     EffectUnit(options: Object, audioCtx: AudioContext)
-
-__Attention__: Since version __1.1.0__, this has changed! When you update this module, remember that there are breaking changes!
 
 ##### The options object
 The options object needs to have the following structure:
