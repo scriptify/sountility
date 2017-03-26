@@ -3923,7 +3923,9 @@ var SoundCycle = function () {
     }
   }, {
     key: 'removeTrack',
-    value: function removeTrack(id) {
+    value: function removeTrack(_ref4) {
+      var id = _ref4.id;
+
       if (!this.tracks.has(id)) throw new Error('You tried to remove an inexistent track!');
 
       var track = this.tracks.get(id);
@@ -3933,16 +3935,18 @@ var SoundCycle = function () {
     }
   }, {
     key: 'removeLane',
-    value: function removeLane(looperId) {
+    value: function removeLane(_ref5) {
       var _this2 = this;
+
+      var looperId = _ref5.looperId;
 
       if (!this.loopers.has(looperId)) throw new Error('You tried to remove an inexistent lane!');
 
       var looper = this.loopers.get(looperId);
 
       // Search all tracks of looper and delete them
-      this.tracks.forEach(function (_ref4, trackId) {
-        var trackLooperId = _ref4.looperId;
+      this.tracks.forEach(function (_ref6, trackId) {
+        var trackLooperId = _ref6.looperId;
 
         if (trackLooperId === looperId) {
           looper.removeTrack({ id: trackId });
@@ -3954,9 +3958,9 @@ var SoundCycle = function () {
     }
   }, {
     key: 'enableEffect',
-    value: function enableEffect(_ref5) {
-      var chnlId = _ref5.chnlId,
-          effectName = _ref5.effectName;
+    value: function enableEffect(_ref7) {
+      var chnlId = _ref7.chnlId,
+          effectName = _ref7.effectName;
 
       var chnlToEdit = this.getChnlById(chnlId);
       chnlToEdit.addEffect(effectName);
@@ -3964,9 +3968,9 @@ var SoundCycle = function () {
     }
   }, {
     key: 'disableEffect',
-    value: function disableEffect(_ref6) {
-      var chnlId = _ref6.chnlId,
-          effectName = _ref6.effectName;
+    value: function disableEffect(_ref8) {
+      var chnlId = _ref8.chnlId,
+          effectName = _ref8.effectName;
 
       var chnlToEdit = this.getChnlById(chnlId);
       chnlToEdit.removeEffect(effectName);
@@ -3974,11 +3978,11 @@ var SoundCycle = function () {
     }
   }, {
     key: 'setEffectValue',
-    value: function setEffectValue(_ref7) {
-      var chnlId = _ref7.chnlId,
-          effectName = _ref7.effectName,
-          valueType = _ref7.valueType,
-          value = _ref7.value;
+    value: function setEffectValue(_ref9) {
+      var chnlId = _ref9.chnlId,
+          effectName = _ref9.effectName,
+          valueType = _ref9.valueType,
+          value = _ref9.value;
 
       var chnlToEdit = this.getChnlById(chnlId);
 
