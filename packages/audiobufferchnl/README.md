@@ -2,7 +2,7 @@
 ## audiobufferchnl = BufferSourceNode + chnl
 
 This package extends the chnl module and adds the possibility to turn a webaudio BufferSourceNode into a chnl.
-This adds a lot of advantages. For further information, have a look at chnl.
+This adds a lot of advantages. For further information, have a look at [chnl](../chnl/README.md).
 
 __audiobufferchnl is a part of the sountility collection!__
 
