@@ -17,7 +17,7 @@
   "dependencies": {
     "audiobufferchnl": "0.0.1",
     "audiochnl": "*",
-    "audiolooper": "0.0.8",
+    "audiolooper": "0.0.9",
     "recordy": "*",
     "uuid": "*",
     "wmstr": "*"

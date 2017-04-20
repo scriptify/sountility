@@ -2,7 +2,7 @@
   "name": "webaudio-effect-units-collection",
   "version": "1.0.3",
   "description": "A bunch of different EffectUnits which can be used right away. They are all based on the webaudio-effect-unit.",
-  "main": "build/bundle.js",
+  "main": "dist/webaudio-effect-units-collection.js",
   "scripts": {
     "start:dev": "webpack-dev-server",
     "start:prod": "webpack"
