@@ -2709,6 +2709,8 @@ var Chnl = function () {
     this.context = audioCtx;
     this.input = audioCtx.createGain();
     this.output = audioCtx.createGain();
+    this.analyser = audioCtx.createAnalyser();
+    this.output.connect(this.analyser);
     this.effects = (0, _webaudioEffectUnitsCollection2.default)(audioCtx);
     // Setup initial graph
     this.setupGraph([this.input, this.effects.gain, this.output]);
@@ -2762,6 +2764,11 @@ var Chnl = function () {
     value: function connect(node) {
       this.output.connect(node);
     }
+  }, {
+    key: 'getAnalyser',
+    value: function getAnalyser() {
+      return this.analyser;
+    }
   }]);
   return Chnl;
 }();
@@ -2776,7 +2783,7 @@ const chnl2 = new Chnl(audioCtx);
 
 audio.connect(chnl);
 chnl.connect(audioCtx.destination);
-chnl.addEffect('delay');
+chnl.addEffect(`delay`);
 
 audio2.connect(chnl2);
 chnl2.connect(audioCtx.destination);
@@ -2798,12 +2805,12 @@ osci.connect(chnl);
 chnl.connect(audioCtx.destination);
 
 // Activate effects
-chnl.addEffect('highpass');
-chnl.addEffect('bitcrusher');
+chnl.addEffect(`highpass`);
+chnl.addEffect(`bitcrusher`);
 
-chnl.effects.gain.setValue('gain', 0.2);
-chnl.effects.highpass.setValue('frequency', 500);
-chnl.effects.bitcrusher.setValue('bits', 4);
+chnl.effects.gain.setValue(`gain`, 0.2);
+chnl.effects.highpass.setValue(`frequency`, 500);
+chnl.effects.bitcrusher.setValue(`bits`, 4);
 
 osci.start();
 */

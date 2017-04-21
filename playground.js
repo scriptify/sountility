@@ -2,65 +2,53 @@
 /* eslint import/no-unresolved: 0 */
 /* eslint import/extensions: 0 */
 
+import Chnl from 'webaudio-chnl';
 import Recordy from 'recordy';
-import AudioLooper from 'audiolooper';
 
 const audioCtx = new AudioContext();
-
 const recordy = new Recordy(audioCtx);
 
+
+const chnl = new Chnl(audioCtx);
+const analyser = chnl.getAnalyser();
+const data = new Uint8Array(analyser.frequencyBinCount);
+
 recordy.getInput()
-  .then((hasInput) => {
-    if (hasInput)
-      console.log(`Got mic input!`);
-    else
-      console.error(`Could not get mic input.`);
+  .then(() => recordy.connect(chnl));
+
+/* const osci = audioCtx.createOscillator();
+osci.frequency.value = 20;
+
+osci.connect(chnl);*/
+chnl.connect(analyser);
+analyser.connect(audioCtx.destination);
+// chnl.connect(audioCtx.destination);
+
+// Activate effects
+chnl.addEffect(`pingPongDelay`);
+chnl.addEffect(`tremolo`);
+
+// osci.start();
+
+const body = document.querySelector(`body`);
+body.setAttribute(`style`, `padding: 0; margin: 0;`);
+
+function draw() {
+  analyser.getByteFrequencyData(data);
+  const divW = window.innerWidth / data.length;
+  body.innerHTML = ``;
+  data.forEach((val) => {
+    const div = document.createElement(`div`);
+    div.setAttribute(`style`, `width: ${divW}px; height: ${window.innerHeight}px; display: inline-block; background: rgb(${val - 100},${val - 50},${val - 12});`);
+    body.appendChild(div);
   });
-
-function render() {
-  const looper = new AudioLooper(audioCtx);
-
-
-  const mainDiv = document.createElement(`div`);
-  mainDiv.class = `main`;
-
-  const recordBtn = document.createElement(`button`);
-  const stopRecordBtn = document.createElement(`button`);
-
-  recordBtn.textContent = `Start recording`;
-  stopRecordBtn.textContent = `Stop recording`;
-
-  recordBtn.addEventListener(`click`, () => {
-    recordy.startRecording();
-  });
-
-  stopRecordBtn.addEventListener(`click`, () => {
-    recordy.stopRecording() // TRUE == Create audio object, FALSE = return blob
-      .then((blob) => {
-        // create arraybuffer from blob
-        const fileReader = new FileReader();
-        fileReader.addEventListener(`loadend`, () => {
-          audioCtx.decodeAudioData(fileReader.result)
-            .then((audioBuffer) => {
-              const id = Math.random() * 1000;
-
-              looper.addTrack({
-                id,
-                audioBuffer,
-                trackAdded: (bufferNode) => {
-                  bufferNode.connect(audioCtx.destination);
-                }
-              });
-            });
-        });
-        fileReader.readAsArrayBuffer(blob);
-      });
-  });
-
-  mainDiv.appendChild(recordBtn);
-  mainDiv.appendChild(stopRecordBtn);
-
-  document.querySelector(`body`).appendChild(mainDiv);
+  window.requestAnimationFrame(draw);
+  /* if (osci.frequency.value <= 1000)
+    osci.frequency.value += 20;
+  else {
+    const multi = (Math.random() >= 0.5) ? 1 : -1;
+    osci.frequency.value += Math.random() * 10 * multi;
+  }*/
 }
 
-render(recordy, audioCtx);
+window.requestAnimationFrame(draw);
