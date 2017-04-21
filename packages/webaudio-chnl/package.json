@@ -1,6 +1,6 @@
 {
   "name": "webaudio-chnl",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Chnl - one channel, all effects.",
   "main": "dist/chnl.js",
   "scripts": {
