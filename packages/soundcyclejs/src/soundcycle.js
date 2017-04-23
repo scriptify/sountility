@@ -232,6 +232,10 @@ export default class SoundCycle {
     this.wmstr.stopRecording(this.getProjectName());
   }
 
+  getAnalyser({ chnlId }) {
+    return this.getChnlById(chnlId).getAnalyser();
+  }
+
   /* INTERIOR FUNCTIONALITIES */
 
   getChnlById(id) {

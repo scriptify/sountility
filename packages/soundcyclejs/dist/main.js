@@ -4015,6 +4015,13 @@ var SoundCycle = function () {
     value: function stopProjectRecording() {
       this.wmstr.stopRecording(this.getProjectName());
     }
+  }, {
+    key: 'getAnalyser',
+    value: function getAnalyser(_ref10) {
+      var chnlId = _ref10.chnlId;
+
+      return this.getChnlById(chnlId).getAnalyser();
+    }
 
     /* INTERIOR FUNCTIONALITIES */
 
