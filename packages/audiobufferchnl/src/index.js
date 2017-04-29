@@ -14,6 +14,29 @@ export default class AudioBufferChnl extends Chnl {
     this.bufferSourceNode.connect(this);
   }
 
+  stop() {
+    /* const newAudioBuffer = this.context.createBuffer(this.bufferSourceNode.buffer.numberOfChannels, this.bufferSourceNode.buffer.length, this.bufferSourceNode.buffer.sampleRate);
+
+    for (let channel = 0; channel < newAudioBuffer.numberOfChannels; channel++) {
+      const channelDataNew = newAudioBuffer.getChannelData(channel);
+      const channelDataCurrent = this.bufferSourceNode.buffer.getChannelData(channel);
+      for (let i = 0; i < channelDataCurrent.length; i++)
+        channelDataNew[i] = channelDataCurrent[i];
+    } */
+
+    const newBufferSource = this.context.createBufferSource();
+    newBufferSource.buffer = this.bufferSourceNode.buffer;
+    newBufferSource.loop = this.bufferSourceNode.loop;
+
+    this.bufferSourceNode.stop();
+
+    this.setBufferSourceNode(newBufferSource);
+  }
+
+  play() {
+    this.bufferSourceNode.start(0);
+  }
+
 }
 
 /* const audioCtx = new AudioContext();

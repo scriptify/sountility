@@ -15,7 +15,8 @@ export default class SoundCycle {
   MODES = {
     ADD_TO_LANE: `ADD_TO_LANE`,
     NEW_LANE: `NEW_LANE`,
-    SINGLE_SEQUENCE: `SINGLE_SEQUENCE`
+    SINGLE_SEQUENCE: `SINGLE_SEQUENCE`,
+    FREE_LOOPING: `FREE_LOOPING`
   };
 
   tracks = new Map();
@@ -137,6 +138,38 @@ export default class SoundCycle {
         };
       }
 
+      case this.MODES.FREE_LOOPING: {
+        const audioBuffer = await this.recorder.stopRecording({ type: `buffer` });
+
+        const bufferNode = this.audioCtx.createBufferSource();
+        bufferNode.buffer = audioBuffer;
+        bufferNode.loop = true;
+
+        // Create fade
+        for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+          const channelData = audioBuffer.getChannelData(channel);
+          const FADE_LENGTH = 100;
+          for (let i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
+            const fadeOutPos = channelData.length - i - 1;
+            channelData[i] = (channelData[i] * i) / FADE_LENGTH;
+            channelData[fadeOutPos] = (channelData[fadeOutPos] * i) / FADE_LENGTH;
+          }
+        }
+
+        const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferNode);
+        audioBufferChnl.connect(this.wmstr);
+
+        bufferNode.start(0);
+
+        this.tracks.set(newTrackId, {
+          chnl: audioBufferChnl,
+        });
+
+        return {
+          chnlId: newTrackId
+        };
+      }
+
       default:
         throw new Error(`Invalid method!`);
 
@@ -150,7 +183,7 @@ export default class SoundCycle {
     const track = this.tracks.get(id);
 
     if (!track.looperId)
-      track.stop();
+      track.chnl.stop();
     else {
       const looper = this.loopers.get(track.looperId);
       looper.pauseTrack({ id });
@@ -164,7 +197,7 @@ export default class SoundCycle {
     const track = this.tracks.get(id);
 
     if (!track.looperId)
-      track.play();
+      track.chnl.play();
     else {
       const looper = this.loopers.get(track.looperId);
       looper.playTrack({ id });
@@ -176,8 +209,13 @@ export default class SoundCycle {
       throw new Error(`You tried to remove an inexistent track!`);
 
     const track = this.tracks.get(id);
-    const looper = this.loopers.get(track.looperId);
-    looper.removeTrack({ id });
+    if (track.looperId) {
+      const looper = this.loopers.get(track.looperId);
+      looper.removeTrack({ id });
+    }
+    if (track.chnl.bufferSourceNode)
+      track.chnl.bufferSourceNode.stop();
+
     this.tracks.delete(id);
   }
 

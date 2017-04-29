@@ -3733,7 +3733,8 @@ var SoundCycle = function () {
     this.MODES = {
       ADD_TO_LANE: 'ADD_TO_LANE',
       NEW_LANE: 'NEW_LANE',
-      SINGLE_SEQUENCE: 'SINGLE_SEQUENCE'
+      SINGLE_SEQUENCE: 'SINGLE_SEQUENCE',
+      FREE_LOOPING: 'FREE_LOOPING'
     };
     this.tracks = new Map();
     this.loopers = new Map();
@@ -3801,7 +3802,7 @@ var SoundCycle = function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         var _this = this;
 
-        var newTrackId, looper, audioBuffer, newLooperId, audioObj, audioChnl, _looper, _audioBuffer;
+        var newTrackId, looper, audioBuffer, newLooperId, audioObj, audioChnl, _looper, _audioBuffer, _audioBuffer2, bufferNode, channel, channelData, FADE_LENGTH, i, fadeOutPos, audioBufferChnl;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -3809,7 +3810,7 @@ var SoundCycle = function () {
               case 0:
                 newTrackId = (0, _uuid.v4)();
                 _context.t0 = this.currentMode;
-                _context.next = _context.t0 === this.MODES.NEW_LANE ? 4 : _context.t0 === this.MODES.SINGLE_SEQUENCE ? 11 : _context.t0 === this.MODES.ADD_TO_LANE ? 18 : 26;
+                _context.next = _context.t0 === this.MODES.NEW_LANE ? 4 : _context.t0 === this.MODES.SINGLE_SEQUENCE ? 11 : _context.t0 === this.MODES.ADD_TO_LANE ? 18 : _context.t0 === this.MODES.FREE_LOOPING ? 26 : 38;
                 break;
 
               case 4:
@@ -3884,9 +3885,47 @@ var SoundCycle = function () {
                 });
 
               case 26:
+                _context.next = 28;
+                return this.recorder.stopRecording({ type: 'buffer' });
+
+              case 28:
+                _audioBuffer2 = _context.sent;
+                bufferNode = this.audioCtx.createBufferSource();
+
+                bufferNode.buffer = _audioBuffer2;
+                bufferNode.loop = true;
+
+                // Create fade
+                for (channel = 0; channel < _audioBuffer2.numberOfChannels; channel++) {
+                  channelData = _audioBuffer2.getChannelData(channel);
+                  FADE_LENGTH = 100;
+
+                  for (i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
+                    fadeOutPos = channelData.length - i - 1;
+
+                    channelData[i] = channelData[i] * i / FADE_LENGTH;
+                    channelData[fadeOutPos] = channelData[fadeOutPos] * i / FADE_LENGTH;
+                  }
+                }
+
+                audioBufferChnl = new _audiobufferchnl2.default(this.audioCtx, bufferNode);
+
+                audioBufferChnl.connect(this.wmstr);
+
+                bufferNode.start(0);
+
+                this.tracks.set(newTrackId, {
+                  chnl: audioBufferChnl
+                });
+
+                return _context.abrupt('return', {
+                  chnlId: newTrackId
+                });
+
+              case 38:
                 throw new Error('Invalid method!');
 
-              case 27:
+              case 39:
               case 'end':
                 return _context.stop();
             }
@@ -3909,7 +3948,7 @@ var SoundCycle = function () {
 
       var track = this.tracks.get(id);
 
-      if (!track.looperId) track.stop();else {
+      if (!track.looperId) track.chnl.stop();else {
         var looper = this.loopers.get(track.looperId);
         looper.pauseTrack({ id: id });
       }
@@ -3923,7 +3962,7 @@ var SoundCycle = function () {
 
       var track = this.tracks.get(id);
 
-      if (!track.looperId) track.play();else {
+      if (!track.looperId) track.chnl.play();else {
         var looper = this.loopers.get(track.looperId);
         looper.playTrack({ id: id });
       }
@@ -3936,8 +3975,12 @@ var SoundCycle = function () {
       if (!this.tracks.has(id)) throw new Error('You tried to remove an inexistent track!');
 
       var track = this.tracks.get(id);
-      var looper = this.loopers.get(track.looperId);
-      looper.removeTrack({ id: id });
+      if (track.looperId) {
+        var looper = this.loopers.get(track.looperId);
+        looper.removeTrack({ id: id });
+      }
+      if (track.chnl.bufferSourceNode) track.chnl.bufferSourceNode.stop();
+
       this.tracks.delete(id);
     }
   }, {
@@ -4114,6 +4157,30 @@ var AudioBufferChnl = function (_Chnl) {
     value: function setBufferSourceNode(bufferSourceNode) {
       this.bufferSourceNode = bufferSourceNode;
       this.bufferSourceNode.connect(this);
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      /* const newAudioBuffer = this.context.createBuffer(this.bufferSourceNode.buffer.numberOfChannels, this.bufferSourceNode.buffer.length, this.bufferSourceNode.buffer.sampleRate);
+        for (let channel = 0; channel < newAudioBuffer.numberOfChannels; channel++) {
+        const channelDataNew = newAudioBuffer.getChannelData(channel);
+        const channelDataCurrent = this.bufferSourceNode.buffer.getChannelData(channel);
+        for (let i = 0; i < channelDataCurrent.length; i++)
+          channelDataNew[i] = channelDataCurrent[i];
+      } */
+
+      var newBufferSource = this.context.createBufferSource();
+      newBufferSource.buffer = this.bufferSourceNode.buffer;
+      newBufferSource.loop = this.bufferSourceNode.loop;
+
+      this.bufferSourceNode.stop();
+
+      this.setBufferSourceNode(newBufferSource);
+    }
+  }, {
+    key: 'play',
+    value: function play() {
+      this.bufferSourceNode.start(0);
     }
   }]);
   return AudioBufferChnl;
