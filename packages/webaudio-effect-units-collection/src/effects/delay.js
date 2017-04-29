@@ -31,7 +31,7 @@ export const delayData = {
         type: `range`,
         defaultValue: DEFAULT_DELAYTIME,
         min: 1,
-        max: 10000,
+        max: 4000,
         step: 1
       },
       set: (effectChain, value) => {

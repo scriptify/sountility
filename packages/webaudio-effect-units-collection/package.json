@@ -1,6 +1,6 @@
 {
   "name": "webaudio-effect-units-collection",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A bunch of different EffectUnits which can be used right away. They are all based on the webaudio-effect-unit.",
   "main": "dist/webaudio-effect-units-collection.js",
   "scripts": {

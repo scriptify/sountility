@@ -61,8 +61,8 @@ export const compressorData = {
         type: `range`,
         defaultValue: DEFAULT_RELEASE,
         min: 0,
-        max: 3000,
-        step: 1
+        max: 1,
+        step: 0.01
       },
       set: (effectChain, value) => {
         effectChain.compressor.release = value;

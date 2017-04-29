@@ -44,7 +44,7 @@ export const pingPongDelayData = {
         type: `range`,
         defaultValue: DEFAULT_DELAYTIMELEFT,
         min: 1,
-        max: 10000,
+        max: 4000,
         step: 1
       },
       set: (effectChain, value) => {
@@ -58,7 +58,7 @@ export const pingPongDelayData = {
         type: `range`,
         defaultValue: DEFAULT_DELAYTIMERIGHT,
         min: 1,
-        max: 10000,
+        max: 4000,
         step: 1
       },
       set: (effectChain, value) => {

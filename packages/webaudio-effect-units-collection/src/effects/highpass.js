@@ -1,6 +1,6 @@
 import EffectUnit from 'webaudio-effect-unit';
 
-const DEFAULT_FREQUENCY = 200;
+const DEFAULT_FREQUENCY = 0;
 
 export const highpassData = {
   name: `highpass`,
@@ -13,7 +13,7 @@ export const highpassData = {
         defaultValue: DEFAULT_FREQUENCY,
         min: 0,
         max: 20000,
-        step: 1
+        step: 20
       },
       set: (effectChain, value) => {
         effectChain.highpass.frequency.value = value;

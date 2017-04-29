@@ -20,6 +20,7 @@
     "audiolooper": "0.0.9",
     "recordy": "*",
     "uuid": "*",
+    "webaudio-effect-units-collection": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\sountility\\packages\\webaudio-effect-units-collection",
     "wmstr": "*"
   }
 }

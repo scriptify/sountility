@@ -11,6 +11,6 @@
   "author": "Maximilian Torggler",
   "license": "ISC",
   "dependencies": {
-    "webaudio-chnl": "0.0.7"
+    "webaudio-chnl": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\sountility\\packages\\webaudio-chnl"
   }
 }

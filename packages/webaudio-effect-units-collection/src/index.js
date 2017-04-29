@@ -4,7 +4,6 @@ import createGain, { gainData } from './effects/gain';
 import createChorus, { chorusData } from './effects/chorus';
 import createDelay, { delayData } from './effects/delay';
 import createPhaser, { phaserData } from './effects/phaser';
-import createOverdrive, { overdriveData } from './effects/overdrive';
 import createCompressor, { compressorData } from './effects/compressor';
 import createLowpass, { lowpassData } from './effects/lowpass';
 import createHighpass, { highpassData } from './effects/highpass';
@@ -21,7 +20,6 @@ export const EFFECT_DATA = [
   delayData,
   chorusData,
   phaserData,
-  overdriveData,
   compressorData,
   tremoloData,
   wahWahData,
@@ -38,7 +36,6 @@ export default function createEffectCollection(audioCtx) {
     chorus: createChorus(audioCtx, tuna),
     delay: createDelay(audioCtx, tuna),
     phaser: createPhaser(audioCtx, tuna),
-    overdrive: createOverdrive(audioCtx, tuna),
     compressor: createCompressor(audioCtx, tuna),
     lowpass: createLowpass(audioCtx),
     highpass: createHighpass(audioCtx),
