@@ -15,6 +15,6 @@
     "url": "https://github.com/scriptify/AudioChnl.git"
   },
   "dependencies": {
-    "webaudio-chnl": "file:///C:\\Users\\scriptify\\Desktop\\DEV\\sountility\\packages\\webaudio-chnl"
+    "webaudio-chnl": "file:///home/scriptify/DEV/sountility/packages/webaudio-chnl"
   }
 }
