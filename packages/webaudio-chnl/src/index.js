@@ -5,6 +5,7 @@ export default class Chnl {
   output;
   effects;
   analyser;
+  isChnl = true;
 
   currentGraph = [];
 
@@ -30,7 +31,10 @@ export default class Chnl {
     for (let i = 0; i < (graph.length - 1); i++) {
       const currNode = graph[i];
       const nextNode = graph[i + 1];
-      currNode.connect(nextNode);
+      if (nextNode.isEffectUnit)
+        currNode.connect(nextNode.input);
+      else
+        currNode.connect(nextNode);
     }
 
     this.currentGraph = graph;
@@ -62,7 +66,10 @@ export default class Chnl {
   }
 
   connect(node) {
-    this.output.connect(node);
+    if (node.isChnl)
+      this.output.connect(node.input);
+    else
+      this.output.connect(node);
   }
 
   getAnalyser() {
