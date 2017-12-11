@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "tunajs": "*",
-    "webaudio-effect-unit": "^1.1.3"
+    "webaudio-effect-unit": "^1.1.4"
   },
   "repository": {
     "type": "git",
