@@ -10,12 +10,12 @@
   "keywords": [],
   "author": "Maximilian Torggler",
   "license": "ISC",
-  "repository": {    "wmstr": "0.0.4"
+  "repository": {
     "type": "git",
     "url": "https://github.com/scriptify/Wmstr.git"
   },
   "dependencies": {
-    "webaudio-chnl": "file:///home/scriptify/DEV/sountility/packages/webaudio-chnl",
+    "webaudio-chnl": "0.0.8",
     "wrecorder": "github:scriptify/Wrecorder"
   }
 }
