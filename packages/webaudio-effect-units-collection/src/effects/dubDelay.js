@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { baseEffect, isNumber, isInRange, getWetLevel, getDryLevel } from './pizzicato';
 import EffectUnit from 'webaudio-effect-unit';
 

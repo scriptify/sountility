@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export var baseEffect = Object.create(null, {
 
 	connect: {
