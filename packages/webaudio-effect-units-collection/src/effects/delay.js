@@ -90,7 +90,7 @@ export default function createDelay(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...delayData,
     effectChain: {
-      delay: new tuna.Delay({
+      delay: () => new tuna.Delay({
         feedback: DEFAULT_FEEDBACK,    // 0 to 1+
         delayTime: DEFAULT_DELAYTIME,    // 1 to 10000 milliseconds
         wetLevel: DEFAULT_WETLEVEL,    // 0 to 1+

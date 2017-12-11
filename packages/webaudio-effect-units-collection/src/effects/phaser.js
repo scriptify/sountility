@@ -90,7 +90,7 @@ export default function createPhaser(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...phaserData,
     effectChain: {
-      phaser: new tuna.Phaser({
+      phaser: () => new tuna.Phaser({
         rate: 1.2,                     // 0.01 to 8 is a decent range, but higher values are possible
         depth: 0.3,                    // 0 to 1
         feedback: 0.2,                 // 0 to 1+

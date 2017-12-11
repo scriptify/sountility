@@ -20,6 +20,8 @@ Here a list of all the effects included in this package:
 * Bitcrusher
 * Moog
 * PingPongDelay
+* Reverb
+* Dub Delay
 
 ## Installation
 Through npm:

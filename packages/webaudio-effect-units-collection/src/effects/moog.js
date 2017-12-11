@@ -45,7 +45,7 @@ export default function createMoog(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...moogData,
     effectChain: {
-      moog: new tuna.MoogFilter({
+      moog: () => new tuna.MoogFilter({
         cutoff: 0.065,    // 0 to 1
         resonance: 3.5,   // 0 to 4
         bufferSize: 4096  // 256 to 16384, NOT INCLUDED AS EDITABLE!

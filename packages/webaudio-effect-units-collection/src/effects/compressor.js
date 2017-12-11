@@ -117,7 +117,7 @@ export default function createCompressor(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...compressorData,
     effectChain: {
-      compressor: new tuna.Compressor({
+      compressor: () => new tuna.Compressor({
         threshold: DEFAULT_THRESHOLD,    // -100 to 0
         makeupGain: DEFAULT_MAKEUPGAIN,     // 0 and up
         attack: DEFAULT_ATTACK,         // 0 to 1000

@@ -75,7 +75,7 @@ export default function createPingPongDelay(audioCtx, tuna = new Tuna(audioCtx))
   return new EffectUnit({
     ...pingPongDelayData,
     effectChain: {
-      pingpong: new tuna.PingPongDelay({
+      pingpong: () => new tuna.PingPongDelay({
         wetLevel: 0.5, // 0 to 1
         feedback: 0.3, // 0 to 1
         delayTimeLeft: 150, // 1 to 10000 (milliseconds)

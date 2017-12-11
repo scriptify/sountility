@@ -45,7 +45,7 @@ export default function createBitcrusher(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...bitcrusherData,
     effectChain: {
-      bitcrusher: new tuna.Bitcrusher({
+      bitcrusher: () => new tuna.Bitcrusher({
         bits: 4,          // 1 to 16
         normfreq: 0.1,    // 0 to 1
         bufferSize: 4096  // 256 to 16384, NOT INCLUDED AS EDITABLE!

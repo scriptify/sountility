@@ -60,7 +60,7 @@ export default function createChorus(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...chorusData,
     effectChain: {
-      chorus: new tuna.Chorus({
+      chorus: () => new tuna.Chorus({
         rate: DEFAULT_RATE, // 0.01 - 8
         feedback: DEFAULT_FEEDBACK, // 0 - 1
         delay: DEFAULT_DELAY // 0 - 1

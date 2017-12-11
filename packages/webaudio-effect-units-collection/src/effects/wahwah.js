@@ -102,7 +102,7 @@ export default function createWahWah(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...wahWahData,
     effectChain: {
-      wahwah: new tuna.WahWah({
+      wahwah: () => new tuna.WahWah({
         automode: DEFAULT_AUTOMODE,                // true/false
         baseFrequency: DEFAULT_BASEFREQUENCY,            // 0 to 1
         excursionOctaves: DEFAULT_EXCURSIONOCTAVES,           // 1 to 6

@@ -33,10 +33,16 @@ export const gainData = {
 };
 
 export default function createGain(audioCtx) {
-  return new EffectUnit({
+  const gainNode = new EffectUnit({
     ...gainData,
     effectChain: {
-      gain: audioCtx.createGain()
+      gain: function createGainNode() {
+        return audioCtx.createGain();
+      }
     }
   }, audioCtx);
+
+  gainNode.enable();
+
+  return gainNode;
 }

@@ -14,7 +14,7 @@ export const tremoloData = {
       options: {
         type: `range`,
         defaultValue: DEFAULT_INTENSITY,
-        min: 0,
+        min: 0.0001,
         max: 1,
         step: 0.01
       },
@@ -60,7 +60,7 @@ export default function createTremolo(audioCtx, tuna = new Tuna(audioCtx)) {
   return new EffectUnit({
     ...tremoloData,
     effectChain: {
-      tremolo: new tuna.Tremolo({
+      tremolo: () => new tuna.Tremolo({
         intensity: DEFAULT_INTENSITY,    // 0 to 1
         rate: DEFAULT_RATE,         // 0.001 to 8
         stereoPhase: DEFAULT_STEREOPHASE    // 0 to 180
