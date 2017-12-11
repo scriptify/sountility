@@ -34,3 +34,11 @@ The scope of this module is to manage the input of many audio-channels in one in
 It's just a simple extension of the chnl module, with the only difference that you can record all the input to it and output the recorded data directly to a file.
 #### [wrecorder](./packages/wrecorder/README.md)
 This is a fork of mattdiamonds recorderjs. Due the fact that he dropped support on this project, i forked my own copy to have the possibility to fix bugs and add customizations.
+
+## Build instructions
+It's easy to build a sountility package.
+Just use the following command:
+```bash
+npm run start:prod -- <package-name>
+```
+Replace _package-name_ with one of the packages mentioned above.

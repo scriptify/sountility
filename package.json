@@ -30,5 +30,8 @@
     "worker-loader": "*"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "webaudio-effect-unit": "file:packages/webaudio-effect-unit"
+  }
 }
