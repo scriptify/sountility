@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 52);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -85,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 exports.__esModule = true;
 
-var _assign = __webpack_require__(69);
+var _assign = __webpack_require__(71);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -116,7 +116,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _EffectUnit = __webpack_require__(52);
+var _EffectUnit = __webpack_require__(53);
 
 var _EffectUnit2 = _interopRequireDefault(_EffectUnit);
 
@@ -157,6 +157,22 @@ window.setTimeout(() => {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var store      = __webpack_require__(31)('wks')
+  , uid        = __webpack_require__(19)
+  , Symbol     = __webpack_require__(5).Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -2368,22 +2384,6 @@ window.setTimeout(() => {
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store      = __webpack_require__(31)('wks')
-  , uid        = __webpack_require__(19)
-  , Symbol     = __webpack_require__(5).Symbol
-  , USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function(name){
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
@@ -2404,7 +2404,7 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject       = __webpack_require__(11)
-  , IE8_DOM_DEFINE = __webpack_require__(39)
+  , IE8_DOM_DEFINE = __webpack_require__(40)
   , toPrimitive    = __webpack_require__(34)
   , dP             = Object.defineProperty;
 
@@ -2509,7 +2509,7 @@ module.exports = function(it, key){
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(40)
+var IObject = __webpack_require__(41)
   , defined = __webpack_require__(24);
 module.exports = function(it){
   return IObject(defined(it));
@@ -2569,7 +2569,7 @@ module.exports = {};
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = __webpack_require__(44)
+var $keys       = __webpack_require__(45)
   , enumBugKeys = __webpack_require__(25);
 
 module.exports = Object.keys || function keys(O){
@@ -2629,7 +2629,7 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(71);
+var _defineProperty = __webpack_require__(73);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -2668,7 +2668,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(83);
+var aFunction = __webpack_require__(85);
 module.exports = function(fn, that, length){
   aFunction(fn);
   if(that === undefined)return fn;
@@ -2719,7 +2719,7 @@ module.exports = true;
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(11)
-  , dPs         = __webpack_require__(99)
+  , dPs         = __webpack_require__(101)
   , enumBugKeys = __webpack_require__(25)
   , IE_PROTO    = __webpack_require__(30)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
@@ -2728,13 +2728,13 @@ var anObject    = __webpack_require__(11)
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function(){
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(38)('iframe')
+  var iframe = __webpack_require__(39)('iframe')
     , i      = enumBugKeys.length
     , lt     = '<'
     , gt     = '>'
     , iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(89).appendChild(iframe);
+  __webpack_require__(91).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -2772,7 +2772,7 @@ exports.f = Object.getOwnPropertySymbols;
 
 var def = __webpack_require__(6).f
   , has = __webpack_require__(9)
-  , TAG = __webpack_require__(3)('toStringTag');
+  , TAG = __webpack_require__(2)('toStringTag');
 
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
@@ -2855,7 +2855,7 @@ module.exports = function(name){
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(3);
+exports.f = __webpack_require__(2);
 
 /***/ }),
 /* 37 */
@@ -2864,13 +2864,75 @@ exports.f = __webpack_require__(3);
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.isInRange = isInRange;
+exports.getWetLevel = getWetLevel;
+exports.getDryLevel = getDryLevel;
+/* eslint-disable */
+
+var baseEffect = exports.baseEffect = Object.create(null, {
+
+	connect: {
+		enumerable: true,
+
+		value: function value(audioNode) {
+			this.output.connect(audioNode);
+			return this;
+		}
+	},
+
+	disconnect: {
+		enumerable: true,
+
+		value: function value(audioNode) {
+			this.output.disconnect(audioNode);
+			return this;
+		}
+	}
+});
+
+function isNumber(arg) {
+	return toString.call(arg) === '[object Number]' && arg === +arg;
+}
+
+function isInRange(arg, min, max) {
+	if (!isNumber(arg) || !isNumber(min) || !isNumber(max)) return false;
+
+	return arg >= min && arg <= max;
+}
+
+function getWetLevel(mix) {
+	if (!isNumber(mix) || mix > 1 || mix < 0) return 0;
+
+	if (mix >= 0.5) return 1;
+
+	return 1 - (0.5 - mix) * 2;
+}
+
+function getDryLevel(mix) {
+	if (!isNumber(mix) || mix > 1 || mix < 0) return 0;
+
+	if (mix <= 0.5) return 1;
+
+	return 1 - (mix - 0.5) * 2;
+}
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(74);
+var _iterator = __webpack_require__(76);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(73);
+var _symbol = __webpack_require__(75);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -2885,7 +2947,7 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(14)
@@ -2897,15 +2959,15 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(7) && !__webpack_require__(13)(function(){
-  return Object.defineProperty(__webpack_require__(38)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+  return Object.defineProperty(__webpack_require__(39)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -2915,21 +2977,21 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 };
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var LIBRARY        = __webpack_require__(26)
   , $export        = __webpack_require__(8)
-  , redefine       = __webpack_require__(45)
+  , redefine       = __webpack_require__(46)
   , hide           = __webpack_require__(12)
   , has            = __webpack_require__(9)
   , Iterators      = __webpack_require__(15)
-  , $iterCreate    = __webpack_require__(93)
+  , $iterCreate    = __webpack_require__(95)
   , setToStringTag = __webpack_require__(29)
-  , getPrototypeOf = __webpack_require__(101)
-  , ITERATOR       = __webpack_require__(3)('iterator')
+  , getPrototypeOf = __webpack_require__(103)
+  , ITERATOR       = __webpack_require__(2)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
   , KEYS           = 'keys'
@@ -2991,7 +3053,7 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 };
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE            = __webpack_require__(18)
@@ -2999,7 +3061,7 @@ var pIE            = __webpack_require__(18)
   , toIObject      = __webpack_require__(10)
   , toPrimitive    = __webpack_require__(34)
   , has            = __webpack_require__(9)
-  , IE8_DOM_DEFINE = __webpack_require__(39)
+  , IE8_DOM_DEFINE = __webpack_require__(40)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(7) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -3012,11 +3074,11 @@ exports.f = __webpack_require__(7) ? gOPD : function getOwnPropertyDescriptor(O,
 };
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = __webpack_require__(44)
+var $keys      = __webpack_require__(45)
   , hiddenKeys = __webpack_require__(25).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
@@ -3024,12 +3086,12 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 };
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has          = __webpack_require__(9)
   , toIObject    = __webpack_require__(10)
-  , arrayIndexOf = __webpack_require__(85)(false)
+  , arrayIndexOf = __webpack_require__(87)(false)
   , IE_PROTO     = __webpack_require__(30)('IE_PROTO');
 
 module.exports = function(object, names){
@@ -3046,13 +3108,13 @@ module.exports = function(object, names){
 };
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(12);
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -3063,15 +3125,15 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at  = __webpack_require__(103)(true);
+var $at  = __webpack_require__(105)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(41)(String, 'String', function(iterated){
+__webpack_require__(42)(String, 'String', function(iterated){
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -3086,7 +3148,7 @@ __webpack_require__(41)(String, 'String', function(iterated){
 });
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3096,7 +3158,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = __webpack_require__(75);
+var _toConsumableArray2 = __webpack_require__(77);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -3108,7 +3170,7 @@ var _createClass2 = __webpack_require__(21);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _webaudioEffectUnitsCollection = __webpack_require__(67);
+var _webaudioEffectUnitsCollection = __webpack_require__(69);
 
 var _webaudioEffectUnitsCollection2 = _interopRequireDefault(_webaudioEffectUnitsCollection);
 
@@ -3117,11 +3179,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Chnl = function () {
   function Chnl(audioCtx) {
     (0, _classCallCheck3.default)(this, Chnl);
+    this.isChnl = true;
     this.currentGraph = [];
 
     this.context = audioCtx;
     this.input = audioCtx.createGain();
     this.output = audioCtx.createGain();
+    this.analyser = audioCtx.createAnalyser();
+    this.output.connect(this.analyser);
     this.effects = (0, _webaudioEffectUnitsCollection2.default)(audioCtx);
     // Setup initial graph
     this.setupGraph([this.input, this.effects.gain, this.output]);
@@ -3140,7 +3205,7 @@ var Chnl = function () {
       for (var _i = 0; _i < graph.length - 1; _i++) {
         var _currNode = graph[_i];
         var nextNode = graph[_i + 1];
-        _currNode.connect(nextNode);
+        if (nextNode.isEffectUnit) _currNode.connect(nextNode.input);else _currNode.connect(nextNode);
       }
 
       this.currentGraph = graph;
@@ -3173,7 +3238,12 @@ var Chnl = function () {
   }, {
     key: 'connect',
     value: function connect(node) {
-      this.output.connect(node);
+      if (node.isChnl) this.output.connect(node.input);else this.output.connect(node);
+    }
+  }, {
+    key: 'getAnalyser',
+    value: function getAnalyser() {
+      return this.analyser;
     }
   }]);
   return Chnl;
@@ -3189,7 +3259,7 @@ const chnl2 = new Chnl(audioCtx);
 
 audio.connect(chnl);
 chnl.connect(audioCtx.destination);
-chnl.addEffect('delay');
+chnl.addEffect(`delay`);
 
 audio2.connect(chnl2);
 chnl2.connect(audioCtx.destination);
@@ -3211,12 +3281,12 @@ osci.connect(chnl);
 chnl.connect(audioCtx.destination);
 
 // Activate effects
-chnl.addEffect('highpass');
-chnl.addEffect('bitcrusher');
+chnl.addEffect(`highpass`);
+chnl.addEffect(`bitcrusher`);
 
-chnl.effects.gain.setValue('gain', 0.2);
-chnl.effects.highpass.setValue('frequency', 500);
-chnl.effects.bitcrusher.setValue('bits', 4);
+chnl.effects.gain.setValue(`gain`, 0.2);
+chnl.effects.highpass.setValue(`frequency`, 500);
+chnl.effects.bitcrusher.setValue(`bits`, 4);
 
 osci.start();
 */
@@ -3225,7 +3295,7 @@ osci.start();
 exports.default = Chnl;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3233,15 +3303,15 @@ exports.default = Chnl;
 
 exports.__esModule = true;
 
-var _setPrototypeOf = __webpack_require__(72);
+var _setPrototypeOf = __webpack_require__(74);
 
 var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-var _create = __webpack_require__(70);
+var _create = __webpack_require__(72);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _typeof2 = __webpack_require__(37);
+var _typeof2 = __webpack_require__(38);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -3264,7 +3334,7 @@ exports.default = function (subClass, superClass) {
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3272,7 +3342,7 @@ exports.default = function (subClass, superClass) {
 
 exports.__esModule = true;
 
-var _typeof2 = __webpack_require__(37);
+var _typeof2 = __webpack_require__(38);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -3285,72 +3355,6 @@ exports.default = function (self, call) {
 
   return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
 };
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _classCallCheck2 = __webpack_require__(20);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(21);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(50);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(49);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _webaudioChnl = __webpack_require__(48);
-
-var _webaudioChnl2 = _interopRequireDefault(_webaudioChnl);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var AudioBufferChnl = function (_Chnl) {
-  (0, _inherits3.default)(AudioBufferChnl, _Chnl);
-
-  function AudioBufferChnl(audioCtx, bufferSourceNode) {
-    (0, _classCallCheck3.default)(this, AudioBufferChnl);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AudioBufferChnl.__proto__ || Object.getPrototypeOf(AudioBufferChnl)).call(this, audioCtx));
-
-    _this.setBufferSourceNode(bufferSourceNode);
-    return _this;
-  }
-
-  (0, _createClass3.default)(AudioBufferChnl, [{
-    key: 'setBufferSourceNode',
-    value: function setBufferSourceNode(bufferSourceNode) {
-      this.bufferSourceNode = bufferSourceNode;
-      this.bufferSourceNode.connect(this);
-    }
-  }]);
-  return AudioBufferChnl;
-}(_webaudioChnl2.default);
-
-/* const audioCtx = new AudioContext();
-const buffer = audioCtx.createBuffer(2, audioCtx.sampleRate * 2.0, audioCtx.sampleRate);
-const sourceNode = audioCtx.createBufferSource();
-sourceNode.buffer = buffer;
-
-const bufferChnl = new AudioBufferChnl(sourceNode, audioCtx);
-console.log(bufferChnl); */
-
-
-exports.default = AudioBufferChnl;
 
 /***/ }),
 /* 52 */
@@ -3371,7 +3375,98 @@ var _createClass2 = __webpack_require__(21);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _util = __webpack_require__(53);
+var _possibleConstructorReturn2 = __webpack_require__(51);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(50);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _webaudioChnl = __webpack_require__(49);
+
+var _webaudioChnl2 = _interopRequireDefault(_webaudioChnl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var AudioBufferChnl = function (_Chnl) {
+  (0, _inherits3.default)(AudioBufferChnl, _Chnl);
+
+  function AudioBufferChnl(audioCtx, bufferSourceNode) {
+    (0, _classCallCheck3.default)(this, AudioBufferChnl);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (AudioBufferChnl.__proto__ || Object.getPrototypeOf(AudioBufferChnl)).call(this, audioCtx));
+
+    _this.canStop = true;
+
+    _this.setBufferSourceNode(bufferSourceNode);
+    return _this;
+  }
+
+  (0, _createClass3.default)(AudioBufferChnl, [{
+    key: 'setBufferSourceNode',
+    value: function setBufferSourceNode(bufferSourceNode) {
+      this.bufferSourceNode = bufferSourceNode;
+      this.bufferSourceNode.connect(this.input);
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {
+      /* const newAudioBuffer = this.context.createBuffer(this.bufferSourceNode.buffer.numberOfChannels, this.bufferSourceNode.buffer.length, this.bufferSourceNode.buffer.sampleRate);
+        for (let channel = 0; channel < newAudioBuffer.numberOfChannels; channel++) {
+        const channelDataNew = newAudioBuffer.getChannelData(channel);
+        const channelDataCurrent = this.bufferSourceNode.buffer.getChannelData(channel);
+        for (let i = 0; i < channelDataCurrent.length; i++)
+          channelDataNew[i] = channelDataCurrent[i];
+      } */
+      if (this.canStop) this.bufferSourceNode.stop();
+    }
+  }, {
+    key: 'play',
+    value: function play() {
+      this.bufferSourceNode.start(0);
+
+      var newBufferSource = this.context.createBufferSource();
+      newBufferSource.buffer = this.bufferSourceNode.buffer;
+      newBufferSource.loop = this.bufferSourceNode.loop;
+      this.setBufferSourceNode(newBufferSource);
+      this.canStop = false;
+    }
+  }]);
+  return AudioBufferChnl;
+}(_webaudioChnl2.default);
+
+/* const audioCtx = new AudioContext();
+const buffer = audioCtx.createBuffer(2, audioCtx.sampleRate * 2.0, audioCtx.sampleRate);
+const sourceNode = audioCtx.createBufferSource();
+sourceNode.buffer = buffer;
+
+const bufferChnl = new AudioBufferChnl(sourceNode, audioCtx);
+console.log(bufferChnl); */
+
+
+exports.default = AudioBufferChnl;
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _classCallCheck2 = __webpack_require__(20);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(21);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _util = __webpack_require__(54);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3381,6 +3476,7 @@ var EffectUnit = function () {
     var audioCtx = arguments[1];
     (0, _classCallCheck3.default)(this, EffectUnit);
     this.isEffectUnit = true;
+    this.wasInitialized = false;
 
     /*
       The options object must have the following structure:
@@ -3395,22 +3491,43 @@ var EffectUnit = function () {
 
     this.name = name;
     this.audioCtx = audioCtx;
-    this.effectChain = (0, _util.functionsToValues)(options.effectChain);
+    this.options = options;
 
-    // Give all 'set'-methods of the specified values the effectChain as the first parameter
-    this.values = (0, _util.bindMethodsToValues)(options.values, this.effectChain);
+    this.effectGain = this.audioCtx.createGain(); // Set to 1 ==> Effect is on; Set to 0 ==> Effect is off
+    this.directGain = this.audioCtx.createGain(); // Set to 0 ==> Effect is on; Set to 1 ==> Effect is off
 
-    // Now execute all 'set'-methods of the according values which have a 'defaultValue'-field in their 'options'-object
-    this.values.forEach(function (value) {
-      if (value.options.defaultValue) value.set(value.options.defaultValue);
-    });
+    this.output = this.audioCtx.createGain();
+    this.input = this.audioCtx.createGain();
 
-    this.setupEffectChain();
+    this.input.connect(this.effectGain);
+    this.input.connect(this.directGain);
+
+    // Connect direct gain to ouput
+    this.directGain.connect(this.output);
   }
 
   (0, _createClass3.default)(EffectUnit, [{
+    key: 'init',
+    value: function init() {
+      if (this.wasInitialized) return;
+
+      this.effectChain = (0, _util.functionsToValues)(this.options.effectChain);
+
+      // Give all 'set'-methods of the specified values the effectChain as the first parameter
+      this.values = (0, _util.bindMethodsToValues)(this.options.values, this.effectChain);
+
+      // Now execute all 'set'-methods of the according values which have a 'defaultValue'-field in their 'options'-object
+      this.values.forEach(function (value) {
+        if (value.options.defaultValue) value.set(value.options.defaultValue);
+      });
+
+      this.setupEffectChain();
+      this.wasInitialized = true;
+    }
+  }, {
     key: 'enable',
     value: function enable() {
+      this.init();
       this.effectGain.gain.value = 1;
       this.directGain.gain.value = 0;
     }
@@ -3423,7 +3540,7 @@ var EffectUnit = function () {
   }, {
     key: 'connect',
     value: function connect(node) {
-      if (node.isEffectUnit) this.output.connect(node.input);else {
+      if (node.isEffectUnit || node.input) this.output.connect(node.input);else {
         // Common audioNode
         this.output.connect(node);
       }
@@ -3441,40 +3558,30 @@ var EffectUnit = function () {
   }, {
     key: 'setupEffectChain',
     value: function setupEffectChain() {
-      this.effectGain = this.audioCtx.createGain(); // Set to 1 ==> Effect is on; Set to 0 ==> Effect is off
-      this.directGain = this.audioCtx.createGain(); // Set to 0 ==> Effect is on; Set to 1 ==> Effect is off
-
-      this.output = this.audioCtx.createGain();
-      this.input = this.audioCtx.createGain();
-
-      this.input.connect(this.effectGain);
-      this.input.connect(this.directGain);
-
-      // Connect direct gain to ouput
-      this.directGain.connect(this.output);
-
       // Connect the effectChain
       var effects = (0, _util.objToArray)(this.effectChain);
 
       // Effect chain not empty?
       if (effects.length >= 1) {
         // Connect effect gain to first effect
-        this.effectGain.connect(effects[0]);
+        EffectUnit.connectNodes(this.effectGain, effects[0]);
         // Connect all other effect to the following effect
         for (var i = 0; i < effects.length - 1; i++) {
-          effects[i].connect(effects[i + 1]);
+          EffectUnit.connectNodes(effects[i], effects[i + 1]);
         } // Connect the last effect to the output gain
         effects[effects.length - 1].connect(this.output);
       }
-
-      // Turn on after the effectChain was connected
-      this.enable();
     }
   }, {
     key: 'disconnect',
     value: function disconnect() {
       // Disconnect all outgoing connections
       this.output.disconnect();
+    }
+  }], [{
+    key: 'connectNodes',
+    value: function connectNodes(nodeA, nodeB) {
+      if (nodeB.isEffectUnit || nodeB.input) nodeA.connect(nodeB.input);else nodeA.connect(nodeB);
     }
   }]);
   return EffectUnit;
@@ -3483,7 +3590,7 @@ var EffectUnit = function () {
 exports.default = EffectUnit;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3540,7 +3647,7 @@ var filterValue = exports.filterValue = function filterValue(values, valueName) 
 };
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3561,7 +3668,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -3606,17 +3713,19 @@ function createBitcrusher(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, bitcrusherData, {
     effectChain: {
-      bitcrusher: new tuna.Bitcrusher({
-        bits: 4, // 1 to 16
-        normfreq: 0.1, // 0 to 1
-        bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
-      })
+      bitcrusher: function bitcrusher() {
+        return new tuna.Bitcrusher({
+          bits: 4, // 1 to 16
+          normfreq: 0.1, // 0 to 1
+          bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3637,7 +3746,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -3695,17 +3804,19 @@ function createChorus(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, chorusData, {
     effectChain: {
-      chorus: new tuna.Chorus({
-        rate: DEFAULT_RATE, // 0.01 - 8
-        feedback: DEFAULT_FEEDBACK, // 0 - 1
-        delay: DEFAULT_DELAY // 0 - 1
-      })
+      chorus: function chorus() {
+        return new tuna.Chorus({
+          rate: DEFAULT_RATE, // 0.01 - 8
+          feedback: DEFAULT_FEEDBACK, // 0 - 1
+          delay: DEFAULT_DELAY // 0 - 1
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3726,7 +3837,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -3784,8 +3895,8 @@ var compressorData = exports.compressorData = {
       type: 'range',
       defaultValue: DEFAULT_RELEASE,
       min: 0,
-      max: 3000,
-      step: 1
+      max: 1,
+      step: 0.01
     },
     set: function set(effectChain, value) {
       effectChain.compressor.release = value;
@@ -3833,21 +3944,23 @@ function createCompressor(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, compressorData, {
     effectChain: {
-      compressor: new tuna.Compressor({
-        threshold: DEFAULT_THRESHOLD, // -100 to 0
-        makeupGain: DEFAULT_MAKEUPGAIN, // 0 and up
-        attack: DEFAULT_ATTACK, // 0 to 1000
-        release: DEFAULT_RELEASE, // 0 to 3000
-        ratio: DEFAULT_RATIO, // 1 to 20
-        knee: DEFAULT_KNEE, // 0 to 40
-        automakeup: DEFAULT_AUTOMAKEUP // true/false
-      })
+      compressor: function compressor() {
+        return new tuna.Compressor({
+          threshold: DEFAULT_THRESHOLD, // -100 to 0
+          makeupGain: DEFAULT_MAKEUPGAIN, // 0 and up
+          attack: DEFAULT_ATTACK, // 0 to 1000
+          release: DEFAULT_RELEASE, // 0 to 3000
+          ratio: DEFAULT_RATIO, // 1 to 20
+          knee: DEFAULT_KNEE, // 0 to 40
+          automakeup: DEFAULT_AUTOMAKEUP // true/false
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3868,7 +3981,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -3900,7 +4013,7 @@ var delayData = exports.delayData = {
       type: 'range',
       defaultValue: DEFAULT_DELAYTIME,
       min: 1,
-      max: 10000,
+      max: 4000,
       step: 1
     },
     set: function set(effectChain, value) {
@@ -3952,19 +4065,230 @@ function createDelay(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, delayData, {
     effectChain: {
-      delay: new tuna.Delay({
-        feedback: DEFAULT_FEEDBACK, // 0 to 1+
-        delayTime: DEFAULT_DELAYTIME, // 1 to 10000 milliseconds
-        wetLevel: DEFAULT_WETLEVEL, // 0 to 1+
-        dryLevel: DEFAULT_DRYLEVEL, // 0 to 1+
-        cutoff: DEFAULT_CUTOFF // cutoff frequency of the built in lowpass-filter. 20 to 22050
-      })
+      delay: function delay() {
+        return new tuna.Delay({
+          feedback: DEFAULT_FEEDBACK, // 0 to 1+
+          delayTime: DEFAULT_DELAYTIME, // 1 to 10000 milliseconds
+          wetLevel: DEFAULT_WETLEVEL, // 0 to 1+
+          dryLevel: DEFAULT_DRYLEVEL, // 0 to 1+
+          cutoff: DEFAULT_CUTOFF // cutoff frequency of the built in lowpass-filter. 20 to 22050
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 58 */
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.dubDelayData = undefined;
+
+var _extends2 = __webpack_require__(0);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+exports.default = createDubDelay;
+
+var _pizzicato = __webpack_require__(37);
+
+var _webaudioEffectUnit = __webpack_require__(1);
+
+var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable */
+
+var DubDelay = function DubDelay(audioCtx, options) {
+
+	this.options = {};
+	options = options || this.options;
+
+	var defaults = {
+		feedback: 0.6,
+		time: 0.7,
+		mix: 0.5,
+		cutoff: 700
+	};
+
+	this.input = audioCtx.createGain();
+	this.output = audioCtx.createGain();
+	this.dryGainNode = audioCtx.createGain();
+	this.wetGainNode = audioCtx.createGain();
+	this.feedbackGainNode = audioCtx.createGain();
+	this.delayNode = audioCtx.createDelay();
+	this.bqFilterNode = audioCtx.createBiquadFilter();
+
+	// dry mix
+	this.input.connect(this.dryGainNode);
+	this.dryGainNode.connect(this.output);
+
+	// wet mix
+	this.input.connect(this.wetGainNode);
+	this.input.connect(this.feedbackGainNode);
+
+	this.feedbackGainNode.connect(this.bqFilterNode);
+	this.bqFilterNode.connect(this.delayNode);
+	this.delayNode.connect(this.feedbackGainNode);
+	this.delayNode.connect(this.wetGainNode);
+
+	this.wetGainNode.connect(this.output);
+
+	for (var key in defaults) {
+		this[key] = options[key];
+		this[key] = this[key] === undefined || this[key] === null ? defaults[key] : this[key];
+	}
+};
+
+DubDelay.prototype = Object.create(_pizzicato.baseEffect, {
+
+	/**
+  * Gets and sets the dry/wet mix.
+  */
+	mix: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.mix;
+		},
+
+		set: function set(mix) {
+			if (!(0, _pizzicato.isInRange)(mix, 0, 1)) return;
+
+			this.options.mix = mix;
+			this.dryGainNode.gain.value = (0, _pizzicato.getDryLevel)(this.mix);
+			this.wetGainNode.gain.value = (0, _pizzicato.getWetLevel)(this.mix);
+		}
+	},
+
+	/**
+  * Time between each delayed sound
+  */
+	time: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.time;
+		},
+
+		set: function set(time) {
+			if (!(0, _pizzicato.isInRange)(time, 0, 180)) return;
+
+			this.options.time = time;
+			this.delayNode.delayTime.value = time;
+		}
+	},
+
+	/**
+  * Strength of each of the echoed delayed sounds.
+  */
+	feedback: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.feedback;
+		},
+
+		set: function set(feedback) {
+			if (!(0, _pizzicato.isInRange)(feedback, 0, 1)) return;
+
+			this.options.feedback = parseFloat(feedback, 10);
+			this.feedbackGainNode.gain.value = this.feedback;
+		}
+	},
+
+	/**
+  * Frequency on delay repeats
+  */
+	cutoff: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.cutoff;
+		},
+
+		set: function set(cutoff) {
+			if (!(0, _pizzicato.isInRange)(cutoff, 0, 4000)) return;
+
+			this.options.cutoff = cutoff;
+			this.bqFilterNode.frequency.value = this.cutoff;
+		}
+	}
+
+});
+
+var dubDelayData = exports.dubDelayData = {
+	name: 'dubDelay',
+	values: [{
+		name: 'mix',
+		options: {
+			type: 'range',
+			defaultValue: 0.5,
+			min: 0,
+			max: 1,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.mix = value;
+		}
+	}, {
+		name: 'feedback',
+		options: {
+			type: 'range',
+			defaultValue: 0.6,
+			min: 0,
+			max: 1,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.feedback = value;
+		}
+	}, {
+		name: 'time',
+		options: {
+			type: 'range',
+			defaultValue: 0.7,
+			min: 0,
+			max: 180,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.time = value;
+		}
+	}, {
+		name: 'cutoff',
+		options: {
+			type: 'range',
+			defaultValue: 700,
+			min: 0,
+			max: 4000,
+			step: 100
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.cutoff = value;
+		}
+	}]
+};
+
+function createDubDelay(audioCtx) {
+	return new _webaudioEffectUnit2.default((0, _extends3.default)({}, dubDelayData, {
+		effectChain: {
+			dubDelay: function dubDelay() {
+				return new DubDelay(audioCtx);
+			}
+		}
+	}), audioCtx);
+}
+
+/***/ }),
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4014,15 +4338,21 @@ var gainData = exports.gainData = {
 };
 
 function createGain(audioCtx) {
-  return new _webaudioEffectUnit2.default((0, _extends3.default)({}, gainData, {
+  var gainNode = new _webaudioEffectUnit2.default((0, _extends3.default)({}, gainData, {
     effectChain: {
-      gain: audioCtx.createGain()
+      gain: function createGainNode() {
+        return audioCtx.createGain();
+      }
     }
   }), audioCtx);
+
+  gainNode.enable();
+
+  return gainNode;
 }
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4045,7 +4375,7 @@ var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DEFAULT_FREQUENCY = 200;
+var DEFAULT_FREQUENCY = 0;
 
 var highpassData = exports.highpassData = {
   name: 'highpass',
@@ -4056,7 +4386,7 @@ var highpassData = exports.highpassData = {
       defaultValue: DEFAULT_FREQUENCY,
       min: 0,
       max: 20000,
-      step: 1
+      step: 20
     },
     set: function set(effectChain, value) {
       effectChain.highpass.frequency.value = value;
@@ -4078,7 +4408,7 @@ function createLowpass(audioCtx) {
 }
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4101,7 +4431,7 @@ var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DEFAULT_FREQUENCY = 800;
+var DEFAULT_FREQUENCY = 20000;
 
 var lowpassData = exports.lowpassData = {
   name: 'lowpass',
@@ -4112,7 +4442,7 @@ var lowpassData = exports.lowpassData = {
       defaultValue: DEFAULT_FREQUENCY,
       min: 0,
       max: 20000,
-      step: 1
+      step: 20
     },
     set: function set(effectChain, value) {
       effectChain.lowpass.frequency.value = value;
@@ -4126,7 +4456,7 @@ function createLowpass(audioCtx) {
       lowpass: function lowpass() {
         var lp = audioCtx.createBiquadFilter();
         lp.type = 'lowpass';
-        lp.frequency.value = 800;
+        lp.frequency.value = DEFAULT_FREQUENCY;
         return lp;
       }
     }
@@ -4134,7 +4464,7 @@ function createLowpass(audioCtx) {
 }
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4155,7 +4485,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -4200,83 +4530,19 @@ function createMoog(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, moogData, {
     effectChain: {
-      moog: new tuna.MoogFilter({
-        cutoff: 0.065, // 0 to 1
-        resonance: 3.5, // 0 to 4
-        bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
-      })
+      moog: function moog() {
+        return new tuna.MoogFilter({
+          cutoff: 0.065, // 0 to 1
+          resonance: 3.5, // 0 to 4
+          bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.overdriveData = undefined;
-
-var _extends2 = __webpack_require__(0);
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-exports.default = createOverdrive;
-
-var _webaudioEffectUnit = __webpack_require__(1);
-
-var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
-
-var _tunajs = __webpack_require__(2);
-
-var _tunajs2 = _interopRequireDefault(_tunajs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DEFAULT_OUTPUTGAIN = 0.5;
-var DEFAULT_DRIVE = 0.7;
-var DEFAULT_CURVEAMOUNT = 1;
-
-var overdriveData = exports.overdriveData = {
-  name: 'overdrive',
-  values: [{
-    name: 'outputGain',
-    options: {
-      type: 'range',
-      defaultValue: DEFAULT_OUTPUTGAIN,
-      min: 0,
-      max: 1,
-      step: 0.01
-    },
-    set: function set(effectChain, value) {
-      effectChain.overdrive.outputGain = value;
-    }
-  }]
-};
-
-function createOverdrive(audioCtx) {
-  var tuna = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new _tunajs2.default(audioCtx);
-
-  // Tuna is optional
-
-  return new _webaudioEffectUnit2.default((0, _extends3.default)({}, overdriveData, {
-    effectChain: {
-      overdrive: new tuna.Overdrive({
-        outputGain: DEFAULT_OUTPUTGAIN, // 0 to 1+
-        drive: DEFAULT_DRIVE, // 0 to 1
-        curveAmount: DEFAULT_CURVEAMOUNT, // 0 to 1
-        algorithmIndex: 0 // 0 to 5, selects one of our drive algorithms, RIGHT NOW DISABLED!
-      })
-    }
-  }), audioCtx);
-}
-
-/***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4297,7 +4563,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -4381,19 +4647,21 @@ function createPhaser(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, phaserData, {
     effectChain: {
-      phaser: new tuna.Phaser({
-        rate: 1.2, // 0.01 to 8 is a decent range, but higher values are possible
-        depth: 0.3, // 0 to 1
-        feedback: 0.2, // 0 to 1+
-        stereoPhase: 30, // 0 to 180
-        baseModulationFrequency: 700 // 500 to 1500
-      })
+      phaser: function phaser() {
+        return new tuna.Phaser({
+          rate: 1.2, // 0.01 to 8 is a decent range, but higher values are possible
+          depth: 0.3, // 0 to 1
+          feedback: 0.2, // 0 to 1+
+          stereoPhase: 30, // 0 to 180
+          baseModulationFrequency: 700 // 500 to 1500
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4414,7 +4682,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -4457,7 +4725,7 @@ var pingPongDelayData = exports.pingPongDelayData = {
       type: 'range',
       defaultValue: DEFAULT_DELAYTIMELEFT,
       min: 1,
-      max: 10000,
+      max: 4000,
       step: 1
     },
     set: function set(effectChain, value) {
@@ -4469,7 +4737,7 @@ var pingPongDelayData = exports.pingPongDelayData = {
       type: 'range',
       defaultValue: DEFAULT_DELAYTIMERIGHT,
       min: 1,
-      max: 10000,
+      max: 4000,
       step: 1
     },
     set: function set(effectChain, value) {
@@ -4485,18 +4753,225 @@ function createPingPongDelay(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, pingPongDelayData, {
     effectChain: {
-      pingpong: new tuna.PingPongDelay({
-        wetLevel: 0.5, // 0 to 1
-        feedback: 0.3, // 0 to 1
-        delayTimeLeft: 150, // 1 to 10000 (milliseconds)
-        delayTimeRight: 200 // 1 to 10000 (milliseconds)
-      })
+      pingpong: function pingpong() {
+        return new tuna.PingPongDelay({
+          wetLevel: 0.5, // 0 to 1
+          feedback: 0.3, // 0 to 1
+          delayTimeLeft: 150, // 1 to 10000 (milliseconds)
+          delayTimeRight: 200 // 1 to 10000 (milliseconds)
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 65 */
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.reverbData = undefined;
+
+var _extends2 = __webpack_require__(0);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+exports.default = createReverbDelay;
+
+var _pizzicato = __webpack_require__(37);
+
+var _webaudioEffectUnit = __webpack_require__(1);
+
+var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable */
+
+var audioCtx = void 0;
+
+var Reverb = function Reverb(audioCtxA, options) {
+	var self = this;
+	audioCtx = audioCtxA;
+
+	this.options = {};
+	options = options || this.options;
+
+	var defaults = {
+		mix: 0.5,
+		time: 0.01,
+		decay: 0.01,
+		reverse: false
+	};
+
+	this.input = audioCtx.createGain();
+	this.reverbNode = audioCtx.createConvolver();
+	this.output = audioCtx.createGain();
+	this.wetGainNode = audioCtx.createGain();
+	this.dryGainNode = audioCtx.createGain();
+
+	this.input.connect(this.reverbNode);
+	this.reverbNode.connect(this.wetGainNode);
+	this.input.connect(this.dryGainNode);
+	this.dryGainNode.connect(this.output);
+	this.wetGainNode.connect(this.output);
+
+	for (var key in defaults) {
+		this[key] = options[key];
+		this[key] = this[key] === undefined || this[key] === null ? defaults[key] : this[key];
+	}
+
+	buildImpulse.bind(this)();
+};
+
+Reverb.prototype = Object.create(_pizzicato.baseEffect, {
+
+	mix: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.mix;
+		},
+
+		set: function set(mix) {
+			if (!(0, _pizzicato.isInRange)(mix, 0, 1)) return;
+
+			this.options.mix = mix;
+			this.dryGainNode.gain.value = (0, _pizzicato.getDryLevel)(this.mix);
+			this.wetGainNode.gain.value = (0, _pizzicato.getWetLevel)(this.mix);
+		}
+	},
+
+	time: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.time;
+		},
+
+		set: function set(time) {
+			if (!(0, _pizzicato.isInRange)(time, 0.0001, 10)) return;
+
+			this.options.time = time;
+			buildImpulse.bind(this)();
+		}
+	},
+
+	decay: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.decay;
+		},
+
+		set: function set(decay) {
+			if (!(0, _pizzicato.isInRange)(decay, 0.0001, 10)) return;
+
+			this.options.decay = decay;
+			buildImpulse.bind(this)();
+		}
+
+	},
+
+	reverse: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.reverse;
+		},
+
+		set: function set(reverse) {
+			this.options.reverse = reverse;
+			buildImpulse.bind(this)();
+		}
+	}
+
+});
+
+function buildImpulse() {
+
+	var length = audioCtx.sampleRate * this.time;
+	var impulse = audioCtx.createBuffer(2, length, audioCtx.sampleRate);
+	var impulseL = impulse.getChannelData(0);
+	var impulseR = impulse.getChannelData(1);
+	var n, i;
+
+	for (i = 0; i < length; i++) {
+		n = this.reverse ? length - i : i;
+		impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this.decay);
+		impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this.decay);
+	}
+
+	this.reverbNode.buffer = impulse;
+}
+
+var reverbData = exports.reverbData = {
+	name: 'reverb',
+	values: [{
+		name: 'mix',
+		options: {
+			type: 'range',
+			defaultValue: 0.5,
+			min: 0,
+			max: 1,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverb.mix = value;
+		}
+	}, {
+		name: 'time',
+		options: {
+			type: 'range',
+			defaultValue: 5,
+			min: 0.0001,
+			max: 10,
+			step: 0.001
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverb.time = value;
+		}
+	}, {
+		name: 'decay',
+		options: {
+			type: 'range',
+			defaultValue: 3,
+			min: 0.0001,
+			max: 10,
+			step: 0.001
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverb.decay = value;
+		}
+	}, {
+		name: 'reverse',
+		options: {
+			type: 'switch',
+			defaultValue: false
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverse.reverse = value;
+		}
+	}]
+};
+
+function createReverbDelay(audioCtx) {
+	return new _webaudioEffectUnit2.default((0, _extends3.default)({}, reverbData, {
+		effectChain: {
+			reverb: function reverb() {
+				return new Reverb(audioCtx);
+			}
+		}
+	}), audioCtx);
+}
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4517,7 +4992,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -4534,7 +5009,7 @@ var tremoloData = exports.tremoloData = {
     options: {
       type: 'range',
       defaultValue: DEFAULT_INTENSITY,
-      min: 0,
+      min: 0.0001,
       max: 1,
       step: 0.01
     },
@@ -4575,17 +5050,19 @@ function createTremolo(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, tremoloData, {
     effectChain: {
-      tremolo: new tuna.Tremolo({
-        intensity: DEFAULT_INTENSITY, // 0 to 1
-        rate: DEFAULT_RATE, // 0.001 to 8
-        stereoPhase: DEFAULT_STEREOPHASE // 0 to 180
-      })
+      tremolo: function tremolo() {
+        return new tuna.Tremolo({
+          intensity: DEFAULT_INTENSITY, // 0 to 1
+          rate: DEFAULT_RATE, // 0.001 to 8
+          stereoPhase: DEFAULT_STEREOPHASE // 0 to 180
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4606,7 +5083,7 @@ var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
@@ -4700,20 +5177,22 @@ function createWahWah(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, wahWahData, {
     effectChain: {
-      wahwah: new tuna.WahWah({
-        automode: DEFAULT_AUTOMODE, // true/false
-        baseFrequency: DEFAULT_BASEFREQUENCY, // 0 to 1
-        excursionOctaves: DEFAULT_EXCURSIONOCTAVES, // 1 to 6
-        sweep: DEFAULT_SWEEP, // 0 to 1
-        resonance: DEFAULT_RESONANCE, // 1 to 100
-        sensitivity: DEFAULT_SENSITIVITY // -1 to 1
-      })
+      wahwah: function wahwah() {
+        return new tuna.WahWah({
+          automode: DEFAULT_AUTOMODE, // true/false
+          baseFrequency: DEFAULT_BASEFREQUENCY, // 0 to 1
+          excursionOctaves: DEFAULT_EXCURSIONOCTAVES, // 1 to 6
+          sweep: DEFAULT_SWEEP, // 0 to 1
+          resonance: DEFAULT_RESONANCE, // 1 to 100
+          sensitivity: DEFAULT_SENSITIVITY // -1 to 1
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4725,78 +5204,83 @@ Object.defineProperty(exports, "__esModule", {
 exports.EFFECT_DATA = undefined;
 exports.default = createEffectCollection;
 
-var _tunajs = __webpack_require__(2);
+var _tunajs = __webpack_require__(3);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
-var _gain = __webpack_require__(58);
-
-var _gain2 = _interopRequireDefault(_gain);
-
-var _chorus = __webpack_require__(55);
+var _chorus = __webpack_require__(56);
 
 var _chorus2 = _interopRequireDefault(_chorus);
 
-var _delay = __webpack_require__(57);
+var _delay = __webpack_require__(58);
 
 var _delay2 = _interopRequireDefault(_delay);
 
-var _phaser = __webpack_require__(63);
+var _phaser = __webpack_require__(64);
 
 var _phaser2 = _interopRequireDefault(_phaser);
 
-var _overdrive = __webpack_require__(62);
-
-var _overdrive2 = _interopRequireDefault(_overdrive);
-
-var _compressor = __webpack_require__(56);
+var _compressor = __webpack_require__(57);
 
 var _compressor2 = _interopRequireDefault(_compressor);
 
-var _lowpass = __webpack_require__(60);
-
-var _lowpass2 = _interopRequireDefault(_lowpass);
-
-var _highpass = __webpack_require__(59);
-
-var _highpass2 = _interopRequireDefault(_highpass);
-
-var _tremolo = __webpack_require__(65);
+var _tremolo = __webpack_require__(67);
 
 var _tremolo2 = _interopRequireDefault(_tremolo);
 
-var _wahwah = __webpack_require__(66);
+var _wahwah = __webpack_require__(68);
 
 var _wahwah2 = _interopRequireDefault(_wahwah);
 
-var _bitcrusher = __webpack_require__(54);
+var _bitcrusher = __webpack_require__(55);
 
 var _bitcrusher2 = _interopRequireDefault(_bitcrusher);
 
-var _moog = __webpack_require__(61);
+var _moog = __webpack_require__(63);
 
 var _moog2 = _interopRequireDefault(_moog);
 
-var _pingPongDelay = __webpack_require__(64);
+var _pingPongDelay = __webpack_require__(65);
 
 var _pingPongDelay2 = _interopRequireDefault(_pingPongDelay);
 
+var _gain = __webpack_require__(60);
+
+var _gain2 = _interopRequireDefault(_gain);
+
+var _lowpass = __webpack_require__(62);
+
+var _lowpass2 = _interopRequireDefault(_lowpass);
+
+var _highpass = __webpack_require__(61);
+
+var _highpass2 = _interopRequireDefault(_highpass);
+
+var _dubDelay = __webpack_require__(59);
+
+var _dubDelay2 = _interopRequireDefault(_dubDelay);
+
+var _reverb = __webpack_require__(66);
+
+var _reverb2 = _interopRequireDefault(_reverb);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EFFECT_DATA = exports.EFFECT_DATA = [_gain.gainData, _highpass.highpassData, _lowpass.lowpassData, _delay.delayData, _chorus.chorusData, _phaser.phaserData, _overdrive.overdriveData, _compressor.compressorData, _tremolo.tremoloData, _wahwah.wahWahData, _bitcrusher.bitcrusherData, _moog.moogData, _pingPongDelay.pingPongDelayData];
+var EFFECT_DATA = exports.EFFECT_DATA = [_gain.gainData, _highpass.highpassData, _lowpass.lowpassData, _dubDelay.dubDelayData, _reverb.reverbData, _chorus.chorusData, _delay.delayData, _phaser.phaserData, _compressor.compressorData, _tremolo.tremoloData, _wahwah.wahWahData, _bitcrusher.bitcrusherData, _moog.moogData, _pingPongDelay.pingPongDelayData];
 
 function createEffectCollection(audioCtx) {
   var tuna = new _tunajs2.default(audioCtx);
 
   return {
     gain: (0, _gain2.default)(audioCtx),
+    lowpass: (0, _lowpass2.default)(audioCtx),
+    highpass: (0, _highpass2.default)(audioCtx),
+    dubDelay: (0, _dubDelay2.default)(audioCtx),
+    reverb: (0, _reverb2.default)(audioCtx),
     chorus: (0, _chorus2.default)(audioCtx, tuna),
     delay: (0, _delay2.default)(audioCtx, tuna),
     phaser: (0, _phaser2.default)(audioCtx, tuna),
-    overdrive: (0, _overdrive2.default)(audioCtx, tuna),
     compressor: (0, _compressor2.default)(audioCtx, tuna),
-    lowpass: (0, _lowpass2.default)(audioCtx),
-    highpass: (0, _highpass2.default)(audioCtx),
     tremolo: (0, _tremolo2.default)(audioCtx, tuna),
     wahwah: (0, _wahwah2.default)(audioCtx, tuna),
     bitcrusher: (0, _bitcrusher2.default)(audioCtx, tuna),
@@ -4804,18 +5288,6 @@ function createEffectCollection(audioCtx) {
     pingPongDelay: (0, _pingPongDelay2.default)(audioCtx, tuna)
   };
 }
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(76), __esModule: true };
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(77), __esModule: true };
 
 /***/ }),
 /* 70 */
@@ -4851,12 +5323,24 @@ module.exports = { "default": __webpack_require__(82), __esModule: true };
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(83), __esModule: true };
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(84), __esModule: true };
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 exports.__esModule = true;
 
-var _from = __webpack_require__(68);
+var _from = __webpack_require__(70);
 
 var _from2 = _interopRequireDefault(_from);
 
@@ -4875,67 +5359,67 @@ exports.default = function (arr) {
 };
 
 /***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(47);
-__webpack_require__(106);
-module.exports = __webpack_require__(4).Array.from;
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(108);
-module.exports = __webpack_require__(4).Object.assign;
-
-/***/ }),
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(109);
-var $Object = __webpack_require__(4).Object;
-module.exports = function create(P, D){
-  return $Object.create(P, D);
-};
+__webpack_require__(48);
+__webpack_require__(108);
+module.exports = __webpack_require__(4).Array.from;
 
 /***/ }),
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(110);
-var $Object = __webpack_require__(4).Object;
-module.exports = function defineProperty(it, key, desc){
-  return $Object.defineProperty(it, key, desc);
-};
+module.exports = __webpack_require__(4).Object.assign;
 
 /***/ }),
 /* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(111);
-module.exports = __webpack_require__(4).Object.setPrototypeOf;
+var $Object = __webpack_require__(4).Object;
+module.exports = function create(P, D){
+  return $Object.create(P, D);
+};
 
 /***/ }),
 /* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(113);
 __webpack_require__(112);
-__webpack_require__(114);
-__webpack_require__(115);
-module.exports = __webpack_require__(4).Symbol;
+var $Object = __webpack_require__(4).Object;
+module.exports = function defineProperty(it, key, desc){
+  return $Object.defineProperty(it, key, desc);
+};
 
 /***/ }),
 /* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(47);
-__webpack_require__(116);
-module.exports = __webpack_require__(36).f('iterator');
+__webpack_require__(113);
+module.exports = __webpack_require__(4).Object.setPrototypeOf;
 
 /***/ }),
 /* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(115);
+__webpack_require__(114);
+__webpack_require__(116);
+__webpack_require__(117);
+module.exports = __webpack_require__(4).Symbol;
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(48);
+__webpack_require__(118);
+module.exports = __webpack_require__(36).f('iterator');
+
+/***/ }),
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -4944,20 +5428,20 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports) {
 
 module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(10)
-  , toLength  = __webpack_require__(46)
-  , toIndex   = __webpack_require__(104);
+  , toLength  = __webpack_require__(47)
+  , toIndex   = __webpack_require__(106);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -4976,12 +5460,12 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = __webpack_require__(22)
-  , TAG = __webpack_require__(3)('toStringTag')
+  , TAG = __webpack_require__(2)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
 
@@ -5004,7 +5488,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5018,7 +5502,7 @@ module.exports = function(object, index, value){
 };
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -5038,18 +5522,18 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(5).document && document.documentElement;
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
 var Iterators  = __webpack_require__(15)
-  , ITERATOR   = __webpack_require__(3)('iterator')
+  , ITERATOR   = __webpack_require__(2)('iterator')
   , ArrayProto = Array.prototype;
 
 module.exports = function(it){
@@ -5057,7 +5541,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -5067,7 +5551,7 @@ module.exports = Array.isArray || function isArray(arg){
 };
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -5084,7 +5568,7 @@ module.exports = function(iterator, fn, value, entries){
 };
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5095,7 +5579,7 @@ var create         = __webpack_require__(27)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(12)(IteratorPrototype, __webpack_require__(3)('iterator'), function(){ return this; });
+__webpack_require__(12)(IteratorPrototype, __webpack_require__(2)('iterator'), function(){ return this; });
 
 module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -5103,10 +5587,10 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ITERATOR     = __webpack_require__(3)('iterator')
+var ITERATOR     = __webpack_require__(2)('iterator')
   , SAFE_CLOSING = false;
 
 try {
@@ -5129,7 +5613,7 @@ module.exports = function(exec, skipClosing){
 };
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -5137,7 +5621,7 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getKeys   = __webpack_require__(16)
@@ -5152,7 +5636,7 @@ module.exports = function(object, el){
 };
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var META     = __webpack_require__(19)('meta')
@@ -5210,7 +5694,7 @@ var meta = module.exports = {
 };
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5220,7 +5704,7 @@ var getKeys  = __webpack_require__(16)
   , gOPS     = __webpack_require__(28)
   , pIE      = __webpack_require__(18)
   , toObject = __webpack_require__(33)
-  , IObject  = __webpack_require__(40)
+  , IObject  = __webpack_require__(41)
   , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
@@ -5249,7 +5733,7 @@ module.exports = !$assign || __webpack_require__(13)(function(){
 } : $assign;
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP       = __webpack_require__(6)
@@ -5267,12 +5751,12 @@ module.exports = __webpack_require__(7) ? Object.defineProperties : function def
 };
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(10)
-  , gOPN      = __webpack_require__(43).f
+  , gOPN      = __webpack_require__(44).f
   , toString  = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -5292,7 +5776,7 @@ module.exports.f = function getOwnPropertyNames(it){
 
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -5310,7 +5794,7 @@ module.exports = Object.getPrototypeOf || function(O){
 };
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -5325,7 +5809,7 @@ module.exports = {
   set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
     function(test, buggy, set){
       try {
-        set = __webpack_require__(23)(Function.call, __webpack_require__(42).f(Object.prototype, '__proto__').set, 2);
+        set = __webpack_require__(23)(Function.call, __webpack_require__(43).f(Object.prototype, '__proto__').set, 2);
         set(test, []);
         buggy = !(test instanceof Array);
       } catch(e){ buggy = true; }
@@ -5340,7 +5824,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(32)
@@ -5362,7 +5846,7 @@ module.exports = function(TO_STRING){
 };
 
 /***/ }),
-/* 104 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(32)
@@ -5374,11 +5858,11 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof   = __webpack_require__(86)
-  , ITERATOR  = __webpack_require__(3)('iterator')
+var classof   = __webpack_require__(88)
+  , ITERATOR  = __webpack_require__(2)('iterator')
   , Iterators = __webpack_require__(15);
 module.exports = __webpack_require__(4).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
@@ -5387,7 +5871,7 @@ module.exports = __webpack_require__(4).getIteratorMethod = function(it){
 };
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5395,13 +5879,13 @@ module.exports = __webpack_require__(4).getIteratorMethod = function(it){
 var ctx            = __webpack_require__(23)
   , $export        = __webpack_require__(8)
   , toObject       = __webpack_require__(33)
-  , call           = __webpack_require__(92)
-  , isArrayIter    = __webpack_require__(90)
-  , toLength       = __webpack_require__(46)
-  , createProperty = __webpack_require__(87)
-  , getIterFn      = __webpack_require__(105);
+  , call           = __webpack_require__(94)
+  , isArrayIter    = __webpack_require__(92)
+  , toLength       = __webpack_require__(47)
+  , createProperty = __webpack_require__(89)
+  , getIterFn      = __webpack_require__(107);
 
-$export($export.S + $export.F * !__webpack_require__(94)(function(iter){ Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(96)(function(iter){ Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
     var O       = toObject(arrayLike)
@@ -5431,13 +5915,13 @@ $export($export.S + $export.F * !__webpack_require__(94)(function(iter){ Array.f
 
 
 /***/ }),
-/* 107 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(84)
-  , step             = __webpack_require__(95)
+var addToUnscopables = __webpack_require__(86)
+  , step             = __webpack_require__(97)
   , Iterators        = __webpack_require__(15)
   , toIObject        = __webpack_require__(10);
 
@@ -5445,7 +5929,7 @@ var addToUnscopables = __webpack_require__(84)
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(41)(Array, 'Array', function(iterated, kind){
+module.exports = __webpack_require__(42)(Array, 'Array', function(iterated, kind){
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
@@ -5471,16 +5955,16 @@ addToUnscopables('values');
 addToUnscopables('entries');
 
 /***/ }),
-/* 108 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(8);
 
-$export($export.S + $export.F, 'Object', {assign: __webpack_require__(98)});
+$export($export.S + $export.F, 'Object', {assign: __webpack_require__(100)});
 
 /***/ }),
-/* 109 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(8)
@@ -5488,7 +5972,7 @@ var $export = __webpack_require__(8)
 $export($export.S, 'Object', {create: __webpack_require__(27)});
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(8);
@@ -5496,21 +5980,21 @@ var $export = __webpack_require__(8);
 $export($export.S + $export.F * !__webpack_require__(7), 'Object', {defineProperty: __webpack_require__(6).f});
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
 var $export = __webpack_require__(8);
-$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(102).set});
+$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(104).set});
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5520,25 +6004,25 @@ var global         = __webpack_require__(5)
   , has            = __webpack_require__(9)
   , DESCRIPTORS    = __webpack_require__(7)
   , $export        = __webpack_require__(8)
-  , redefine       = __webpack_require__(45)
-  , META           = __webpack_require__(97).KEY
+  , redefine       = __webpack_require__(46)
+  , META           = __webpack_require__(99).KEY
   , $fails         = __webpack_require__(13)
   , shared         = __webpack_require__(31)
   , setToStringTag = __webpack_require__(29)
   , uid            = __webpack_require__(19)
-  , wks            = __webpack_require__(3)
+  , wks            = __webpack_require__(2)
   , wksExt         = __webpack_require__(36)
   , wksDefine      = __webpack_require__(35)
-  , keyOf          = __webpack_require__(96)
-  , enumKeys       = __webpack_require__(88)
-  , isArray        = __webpack_require__(91)
+  , keyOf          = __webpack_require__(98)
+  , enumKeys       = __webpack_require__(90)
+  , isArray        = __webpack_require__(93)
   , anObject       = __webpack_require__(11)
   , toIObject      = __webpack_require__(10)
   , toPrimitive    = __webpack_require__(34)
   , createDesc     = __webpack_require__(17)
   , _create        = __webpack_require__(27)
-  , gOPNExt        = __webpack_require__(100)
-  , $GOPD          = __webpack_require__(42)
+  , gOPNExt        = __webpack_require__(102)
+  , $GOPD          = __webpack_require__(43)
   , $DP            = __webpack_require__(6)
   , $keys          = __webpack_require__(16)
   , gOPD           = $GOPD.f
@@ -5663,7 +6147,7 @@ if(!USE_NATIVE){
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f   = $defineProperty;
-  __webpack_require__(43).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(44).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(18).f  = $propertyIsEnumerable;
   __webpack_require__(28).f = $getOwnPropertySymbols;
 
@@ -5751,26 +6235,26 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(35)('asyncIterator');
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(35)('observable');
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(107);
+__webpack_require__(109);
 var global        = __webpack_require__(5)
   , hide          = __webpack_require__(12)
   , Iterators     = __webpack_require__(15)
-  , TO_STRING_TAG = __webpack_require__(3)('toStringTag');
+  , TO_STRING_TAG = __webpack_require__(2)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
   var NAME       = collections[i]

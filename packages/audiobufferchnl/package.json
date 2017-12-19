@@ -1,6 +1,6 @@
 {
   "name": "audiobufferchnl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AudioBufferChnl = Chnl + BufferSourceNode",
   "main": "dist/audiobufferchnl.js",
   "scripts": {
@@ -11,6 +11,6 @@
   "author": "Maximilian Torggler",
   "license": "ISC",
   "dependencies": {
-    "webaudio-chnl": "file:///home/scriptify/DEV/sountility/packages/webaudio-chnl"
+    "webaudio-chnl": "0.0.8"
   }
 }

@@ -3,6 +3,7 @@ import Chnl from 'webaudio-chnl';
 export default class AudioBufferChnl extends Chnl {
 
   bufferSourceNode;
+  canStop = true;
 
   constructor(audioCtx, bufferSourceNode) {
     super(audioCtx);
@@ -11,7 +12,7 @@ export default class AudioBufferChnl extends Chnl {
 
   setBufferSourceNode(bufferSourceNode) {
     this.bufferSourceNode = bufferSourceNode;
-    this.bufferSourceNode.connect(this);
+    this.bufferSourceNode.connect(this.input);
   }
 
   stop() {
@@ -23,18 +24,18 @@ export default class AudioBufferChnl extends Chnl {
       for (let i = 0; i < channelDataCurrent.length; i++)
         channelDataNew[i] = channelDataCurrent[i];
     } */
-
-    const newBufferSource = this.context.createBufferSource();
-    newBufferSource.buffer = this.bufferSourceNode.buffer;
-    newBufferSource.loop = this.bufferSourceNode.loop;
-
-    this.bufferSourceNode.stop();
-
-    this.setBufferSourceNode(newBufferSource);
+    if (this.canStop)
+      this.bufferSourceNode.stop();
   }
 
   play() {
     this.bufferSourceNode.start(0);
+
+    const newBufferSource = this.context.createBufferSource();
+    newBufferSource.buffer = this.bufferSourceNode.buffer;
+    newBufferSource.loop = this.bufferSourceNode.loop;
+    this.setBufferSourceNode(newBufferSource);
+    this.canStop = false;
   }
 
 }
