@@ -13,31 +13,33 @@ export default class AudioLooper {
     const isFirstTrack = (this.bufferNodes.size === 0);
     let finalAudioBuffer;
 
-    if (!isFirstTrack && doProcessing) {
-      // Prepare buffer!
-      // Step 1: fade-in + fade-out
-      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-        const channelData = audioBuffer.getChannelData(channel);
-        const FADE_LENGTH = 100;
-        for (let i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
-          const fadeOutPos = channelData.length - i - 1;
-          channelData[i] = (channelData[i] * i) / FADE_LENGTH;
-          channelData[fadeOutPos] = (channelData[fadeOutPos] * i) / FADE_LENGTH;
-        }
+    // Prepare buffer!
+    // Step 1: fade-in + fade-out
+    for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+      const channelData = audioBuffer.getChannelData(channel);
+      const FADE_LENGTH = 100;
+      for (let i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
+        const fadeOutPos = channelData.length - i - 1;
+        channelData[i] = (channelData[i] * i) / FADE_LENGTH;
+        channelData[fadeOutPos] = (channelData[fadeOutPos] * i) / FADE_LENGTH;
       }
+    }
 
+    if (!isFirstTrack && doProcessing) {
       // Step 2: fit it the first track
       const firstTrackBuffer = this.firstTrack.bufferNode.buffer;
       const percentualRatio = Math.ceil(audioBuffer.length / firstTrackBuffer.length);
       const newAudioBuffer = this.audioCtx.createBuffer(audioBuffer.numberOfChannels, firstTrackBuffer.length * percentualRatio, firstTrackBuffer.sampleRate);
+      /* console.log(`newAudioBuffer duration: ${ newAudioBuffer.duration }`);
+      console.log(`oldAudioBuffer duration: ${ audioBuffer.duration }`);
+      console.log(`firstTrack duration: ${ this.firstTrack.duration }`); */
 
       // is this even needed or is it enough to:
       // newAudioBuffer.copyFromChannel(audioBuffer, 2, 0); ????
       for (let channel = 0; channel < newAudioBuffer.numberOfChannels; channel++) {
         const channelDataNew = newAudioBuffer.getChannelData(channel);
         const channelDataCurrent = audioBuffer.getChannelData(channel);
-        for (let i = 0; i < channelDataCurrent.length; i++)
-          channelDataNew[i] = channelDataCurrent[i];
+        channelDataNew.set(channelDataCurrent, 0);
       }
 
       finalAudioBuffer = newAudioBuffer;
@@ -66,6 +68,7 @@ export default class AudioLooper {
     const numParts = Math.floor(part / this.firstTrack.duration);
     const offset = part - (numParts * this.firstTrack.duration);
 
+    // const startTrackAt = isFirstTrack ? 0 : track.duration - offset;
     bufferNode.start(0, offset);
 
     // Return bufferNode, so user can connect it ecc.

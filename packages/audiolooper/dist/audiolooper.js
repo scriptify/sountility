@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -236,32 +236,33 @@ var AudioLooper = function () {
       var isFirstTrack = this.bufferNodes.size === 0;
       var finalAudioBuffer = void 0;
 
-      if (!isFirstTrack && doProcessing) {
-        // Prepare buffer!
-        // Step 1: fade-in + fade-out
-        for (var channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-          var channelData = audioBuffer.getChannelData(channel);
-          var FADE_LENGTH = 100;
-          for (var i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
-            var fadeOutPos = channelData.length - i - 1;
-            channelData[i] = channelData[i] * i / FADE_LENGTH;
-            channelData[fadeOutPos] = channelData[fadeOutPos] * i / FADE_LENGTH;
-          }
+      // Prepare buffer!
+      // Step 1: fade-in + fade-out
+      for (var channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+        var channelData = audioBuffer.getChannelData(channel);
+        var FADE_LENGTH = 100;
+        for (var i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
+          var fadeOutPos = channelData.length - i - 1;
+          channelData[i] = channelData[i] * i / FADE_LENGTH;
+          channelData[fadeOutPos] = channelData[fadeOutPos] * i / FADE_LENGTH;
         }
+      }
 
+      if (!isFirstTrack && doProcessing) {
         // Step 2: fit it the first track
         var firstTrackBuffer = this.firstTrack.bufferNode.buffer;
         var percentualRatio = Math.ceil(audioBuffer.length / firstTrackBuffer.length);
         var newAudioBuffer = this.audioCtx.createBuffer(audioBuffer.numberOfChannels, firstTrackBuffer.length * percentualRatio, firstTrackBuffer.sampleRate);
+        /* console.log(`newAudioBuffer duration: ${ newAudioBuffer.duration }`);
+        console.log(`oldAudioBuffer duration: ${ audioBuffer.duration }`);
+        console.log(`firstTrack duration: ${ this.firstTrack.duration }`); */
 
         // is this even needed or is it enough to:
         // newAudioBuffer.copyFromChannel(audioBuffer, 2, 0); ????
         for (var _channel = 0; _channel < newAudioBuffer.numberOfChannels; _channel++) {
           var channelDataNew = newAudioBuffer.getChannelData(_channel);
           var channelDataCurrent = audioBuffer.getChannelData(_channel);
-          for (var _i = 0; _i < channelDataCurrent.length; _i++) {
-            channelDataNew[_i] = channelDataCurrent[_i];
-          }
+          channelDataNew.set(channelDataCurrent, 0);
         }
 
         finalAudioBuffer = newAudioBuffer;
@@ -290,6 +291,7 @@ var AudioLooper = function () {
       var numParts = Math.floor(part / this.firstTrack.duration);
       var offset = part - numParts * this.firstTrack.duration;
 
+      // const startTrackAt = isFirstTrack ? 0 : track.duration - offset;
       bufferNode.start(0, offset);
 
       // Return bufferNode, so user can connect it ecc.
