@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -85,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 exports.__esModule = true;
 
-var _assign = __webpack_require__(92);
+var _assign = __webpack_require__(94);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -107,22 +107,6 @@ exports.default = _assign2.default || function (target) {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store      = __webpack_require__(37)('wks')
-  , uid        = __webpack_require__(28)
-  , Symbol     = __webpack_require__(4).Symbol
-  , USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function(name){
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -170,6 +154,22 @@ osci.start();
 window.setTimeout(() => {
   effect.disconnect();
 }, 1000);*/
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var store      = __webpack_require__(37)('wks')
+  , uid        = __webpack_require__(25)
+  , Symbol     = __webpack_require__(4).Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
 
 /***/ }),
 /* 3 */
@@ -2403,6 +2403,27 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var anObject       = __webpack_require__(9)
+  , IE8_DOM_DEFINE = __webpack_require__(52)
+  , toPrimitive    = __webpack_require__(41)
+  , dP             = Object.defineProperty;
+
+exports.f = __webpack_require__(10) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if(IE8_DOM_DEFINE)try {
+    return dP(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -2415,7 +2436,7 @@ exports.default = function (instance, Constructor) {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2423,7 +2444,7 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(94);
+var _defineProperty = __webpack_require__(96);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -2446,27 +2467,6 @@ exports.default = function () {
     return Constructor;
   };
 }();
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject       = __webpack_require__(9)
-  , IE8_DOM_DEFINE = __webpack_require__(51)
-  , toPrimitive    = __webpack_require__(41)
-  , dP             = Object.defineProperty;
-
-exports.f = __webpack_require__(10) ? Object.defineProperty : function defineProperty(O, P, Attributes){
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if(IE8_DOM_DEFINE)try {
-    return dP(O, P, Attributes);
-  } catch(e){ /* empty */ }
-  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
-  if('value' in Attributes)O[P] = Attributes.value;
-  return O;
-};
 
 /***/ }),
 /* 9 */
@@ -2566,7 +2566,7 @@ module.exports = function(it, key){
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP         = __webpack_require__(8)
+var dP         = __webpack_require__(6)
   , createDesc = __webpack_require__(21);
 module.exports = __webpack_require__(10) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
@@ -2580,7 +2580,7 @@ module.exports = __webpack_require__(10) ? function(object, key, value){
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(52)
+var IObject = __webpack_require__(53)
   , defined = __webpack_require__(31);
 module.exports = function(it){
   return IObject(defined(it));
@@ -2652,7 +2652,7 @@ module.exports = {};
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = __webpack_require__(59)
+var $keys       = __webpack_require__(60)
   , enumBugKeys = __webpack_require__(33);
 
 module.exports = Object.keys || function keys(O){
@@ -2674,6 +2674,67 @@ module.exports = function(bitmap, value){
 
 /***/ }),
 /* 22 */
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(6).f
+  , has = __webpack_require__(12)
+  , TAG = __webpack_require__(2)('toStringTag');
+
+module.exports = function(it, tag, stat){
+  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+var id = 0
+  , px = Math.random();
+module.exports = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2683,19 +2744,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = __webpack_require__(99);
+var _toConsumableArray2 = __webpack_require__(101);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _webaudioEffectUnitsCollection = __webpack_require__(88);
+var _webaudioEffectUnitsCollection = __webpack_require__(90);
 
 var _webaudioEffectUnitsCollection2 = _interopRequireDefault(_webaudioEffectUnitsCollection);
 
@@ -2704,6 +2765,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Chnl = function () {
   function Chnl(audioCtx) {
     (0, _classCallCheck3.default)(this, Chnl);
+    this.isChnl = true;
     this.currentGraph = [];
 
     this.context = audioCtx;
@@ -2729,7 +2791,7 @@ var Chnl = function () {
       for (var _i = 0; _i < graph.length - 1; _i++) {
         var _currNode = graph[_i];
         var nextNode = graph[_i + 1];
-        _currNode.connect(nextNode);
+        if (nextNode.isEffectUnit) _currNode.connect(nextNode.input);else _currNode.connect(nextNode);
       }
 
       this.currentGraph = graph;
@@ -2762,7 +2824,7 @@ var Chnl = function () {
   }, {
     key: 'connect',
     value: function connect(node) {
-      this.output.connect(node);
+      if (node.isChnl) this.output.connect(node.input);else this.output.connect(node);
     }
   }, {
     key: 'getAnalyser',
@@ -2819,7 +2881,7 @@ osci.start();
 exports.default = Chnl;
 
 /***/ }),
-/* 23 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2827,15 +2889,15 @@ exports.default = Chnl;
 
 exports.__esModule = true;
 
-var _setPrototypeOf = __webpack_require__(95);
+var _setPrototypeOf = __webpack_require__(97);
 
 var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-var _create = __webpack_require__(93);
+var _create = __webpack_require__(95);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _typeof2 = __webpack_require__(47);
+var _typeof2 = __webpack_require__(48);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -2858,7 +2920,7 @@ exports.default = function (subClass, superClass) {
 };
 
 /***/ }),
-/* 24 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2866,7 +2928,7 @@ exports.default = function (subClass, superClass) {
 
 exports.__esModule = true;
 
-var _typeof2 = __webpack_require__(47);
+var _typeof2 = __webpack_require__(48);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -2879,67 +2941,6 @@ exports.default = function (self, call) {
 
   return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
 };
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = true;
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-exports.f = {}.propertyIsEnumerable;
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(8).f
-  , has = __webpack_require__(12)
-  , TAG = __webpack_require__(1)('toStringTag');
-
-module.exports = function(it, tag, stat){
-  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
-};
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-var id = 0
-  , px = Math.random();
-module.exports = function(key){
-  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
 
 /***/ }),
 /* 30 */
@@ -2987,7 +2988,7 @@ module.exports = (
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(9)
-  , dPs         = __webpack_require__(122)
+  , dPs         = __webpack_require__(124)
   , enumBugKeys = __webpack_require__(33)
   , IE_PROTO    = __webpack_require__(36)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
@@ -3002,7 +3003,7 @@ var createDict = function(){
     , gt     = '>'
     , iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(50).appendChild(iframe);
+  __webpack_require__(51).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -3039,7 +3040,7 @@ exports.f = Object.getOwnPropertySymbols;
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(37)('keys')
-  , uid    = __webpack_require__(28);
+  , uid    = __webpack_require__(25);
 module.exports = function(key){
   return shared[key] || (shared[key] = uid(key));
 };
@@ -3110,9 +3111,9 @@ module.exports = function(it, S){
 
 var global         = __webpack_require__(4)
   , core           = __webpack_require__(3)
-  , LIBRARY        = __webpack_require__(25)
+  , LIBRARY        = __webpack_require__(22)
   , wksExt         = __webpack_require__(43)
-  , defineProperty = __webpack_require__(8).f;
+  , defineProperty = __webpack_require__(6).f;
 module.exports = function(name){
   var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
   if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
@@ -3122,7 +3123,7 @@ module.exports = function(name){
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(1);
+exports.f = __webpack_require__(2);
 
 /***/ }),
 /* 44 */
@@ -3130,10 +3131,10 @@ exports.f = __webpack_require__(1);
 
 "use strict";
 
-var $at  = __webpack_require__(129)(true);
+var $at  = __webpack_require__(131)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(55)(String, 'String', function(iterated){
+__webpack_require__(56)(String, 'String', function(iterated){
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -3155,16 +3156,59 @@ __webpack_require__(55)(String, 'String', function(iterated){
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
+});
+exports.isInRange = isInRange;
+exports.getWetLevel = getWetLevel;
+exports.getDryLevel = getDryLevel;
+/* eslint-disable */
+
+var baseEffect = exports.baseEffect = Object.create(null, {
+
+	connect: {
+		enumerable: true,
+
+		value: function value(audioNode) {
+			this.output.connect(audioNode);
+			return this;
+		}
+	},
+
+	disconnect: {
+		enumerable: true,
+
+		value: function value(audioNode) {
+			this.output.disconnect(audioNode);
+			return this;
+		}
+	}
 });
 
-var _recorder = __webpack_require__(90);
+function isNumber(arg) {
+	return toString.call(arg) === '[object Number]' && arg === +arg;
+}
 
-var _recorder2 = _interopRequireDefault(_recorder);
+function isInRange(arg, min, max) {
+	if (!isNumber(arg) || !isNumber(min) || !isNumber(max)) return false;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	return arg >= min && arg <= max;
+}
 
-exports.default = _recorder2.default;
+function getWetLevel(mix) {
+	if (!isNumber(mix) || mix > 1 || mix < 0) return 0;
+
+	if (mix >= 0.5) return 1;
+
+	return 1 - (0.5 - mix) * 2;
+}
+
+function getDryLevel(mix) {
+	if (!isNumber(mix) || mix > 1 || mix < 0) return 0;
+
+	if (mix <= 0.5) return 1;
+
+	return 1 - (mix - 0.5) * 2;
+}
 
 /***/ }),
 /* 46 */
@@ -3173,9 +3217,28 @@ exports.default = _recorder2.default;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _recorder = __webpack_require__(92);
+
+var _recorder2 = _interopRequireDefault(_recorder);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _recorder2.default;
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 exports.__esModule = true;
 
-var _promise = __webpack_require__(96);
+var _promise = __webpack_require__(98);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -3211,7 +3274,7 @@ exports.default = function (fn) {
 };
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3219,11 +3282,11 @@ exports.default = function (fn) {
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(98);
+var _iterator = __webpack_require__(100);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(97);
+var _symbol = __webpack_require__(99);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -3238,19 +3301,19 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(142);
+module.exports = __webpack_require__(143);
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = __webpack_require__(17)
-  , TAG = __webpack_require__(1)('toStringTag')
+  , TAG = __webpack_require__(2)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
 
@@ -3273,13 +3336,13 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(4).document && document.documentElement;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(10) && !__webpack_require__(18)(function(){
@@ -3287,7 +3350,7 @@ module.exports = !__webpack_require__(10) && !__webpack_require__(18)(function()
 });
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -3297,12 +3360,12 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 };
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
 var Iterators  = __webpack_require__(19)
-  , ITERATOR   = __webpack_require__(1)('iterator')
+  , ITERATOR   = __webpack_require__(2)('iterator')
   , ArrayProto = Array.prototype;
 
 module.exports = function(it){
@@ -3310,7 +3373,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -3327,21 +3390,21 @@ module.exports = function(iterator, fn, value, entries){
 };
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var LIBRARY        = __webpack_require__(25)
+var LIBRARY        = __webpack_require__(22)
   , $export        = __webpack_require__(11)
-  , redefine       = __webpack_require__(60)
+  , redefine       = __webpack_require__(61)
   , hide           = __webpack_require__(13)
   , has            = __webpack_require__(12)
   , Iterators      = __webpack_require__(19)
-  , $iterCreate    = __webpack_require__(116)
-  , setToStringTag = __webpack_require__(27)
-  , getPrototypeOf = __webpack_require__(124)
-  , ITERATOR       = __webpack_require__(1)('iterator')
+  , $iterCreate    = __webpack_require__(118)
+  , setToStringTag = __webpack_require__(24)
+  , getPrototypeOf = __webpack_require__(126)
+  , ITERATOR       = __webpack_require__(2)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
   , KEYS           = 'keys'
@@ -3403,10 +3466,10 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 };
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ITERATOR     = __webpack_require__(1)('iterator')
+var ITERATOR     = __webpack_require__(2)('iterator')
   , SAFE_CLOSING = false;
 
 try {
@@ -3429,15 +3492,15 @@ module.exports = function(exec, skipClosing){
 };
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE            = __webpack_require__(26)
+var pIE            = __webpack_require__(23)
   , createDesc     = __webpack_require__(21)
   , toIObject      = __webpack_require__(14)
   , toPrimitive    = __webpack_require__(41)
   , has            = __webpack_require__(12)
-  , IE8_DOM_DEFINE = __webpack_require__(51)
+  , IE8_DOM_DEFINE = __webpack_require__(52)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(10) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -3450,11 +3513,11 @@ exports.f = __webpack_require__(10) ? gOPD : function getOwnPropertyDescriptor(O
 };
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = __webpack_require__(59)
+var $keys      = __webpack_require__(60)
   , hiddenKeys = __webpack_require__(33).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
@@ -3462,12 +3525,12 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has          = __webpack_require__(12)
   , toIObject    = __webpack_require__(14)
-  , arrayIndexOf = __webpack_require__(110)(false)
+  , arrayIndexOf = __webpack_require__(112)(false)
   , IE_PROTO     = __webpack_require__(36)('IE_PROTO');
 
 module.exports = function(object, names){
@@ -3484,18 +3547,18 @@ module.exports = function(object, names){
 };
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(13);
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx                = __webpack_require__(15)
-  , invoke             = __webpack_require__(114)
-  , html               = __webpack_require__(50)
+  , invoke             = __webpack_require__(116)
+  , html               = __webpack_require__(51)
   , cel                = __webpack_require__(32)
   , global             = __webpack_require__(4)
   , process            = global.process
@@ -3570,11 +3633,11 @@ module.exports = {
 };
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof   = __webpack_require__(49)
-  , ITERATOR  = __webpack_require__(1)('iterator')
+var classof   = __webpack_require__(50)
+  , ITERATOR  = __webpack_require__(2)('iterator')
   , Iterators = __webpack_require__(19);
 module.exports = __webpack_require__(3).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
@@ -3583,20 +3646,20 @@ module.exports = __webpack_require__(3).getIteratorMethod = function(it){
 };
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(132);
+__webpack_require__(134);
 var global        = __webpack_require__(4)
   , hide          = __webpack_require__(13)
   , Iterators     = __webpack_require__(19)
-  , TO_STRING_TAG = __webpack_require__(1)('toStringTag');
+  , TO_STRING_TAG = __webpack_require__(2)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
   var NAME       = collections[i]
@@ -3607,12 +3670,12 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
 }
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 /**
  * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
  */
 var byteToHex = [];
 for (var i = 0; i < 256; ++i) {
@@ -3622,7 +3685,7 @@ for (var i = 0; i < 256; ++i) {
 function bytesToUuid(buf, offset) {
   var i = offset || 0;
   var bth = byteToHex;
-  return  bth[buf[i++]] + bth[buf[i++]] +
+  return bth[buf[i++]] + bth[buf[i++]] +
           bth[buf[i++]] + bth[buf[i++]] + '-' +
           bth[buf[i++]] + bth[buf[i++]] + '-' +
           bth[buf[i++]] + bth[buf[i++]] + '-' +
@@ -3636,7 +3699,7 @@ module.exports = bytesToUuid;
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
@@ -3648,7 +3711,7 @@ var rng;
 var crypto = global.crypto || global.msCrypto; // for IE 11
 if (crypto && crypto.getRandomValues) {
   // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16);
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
   rng = function whatwgRNG() {
     crypto.getRandomValues(rnds8);
     return rnds8;
@@ -3660,7 +3723,7 @@ if (!rng) {
   //
   // If all else fails, use Math.random().  It's fast, but is of unspecified
   // quality.
-  var  rnds = new Array(16);
+  var rnds = new Array(16);
   rng = function() {
     for (var i = 0, r; i < 16; i++) {
       if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
@@ -3673,10 +3736,10 @@ if (!rng) {
 
 module.exports = rng;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3686,19 +3749,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = __webpack_require__(48);
+var _regenerator = __webpack_require__(49);
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _asyncToGenerator2 = __webpack_require__(46);
+var _asyncToGenerator2 = __webpack_require__(47);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -3710,19 +3773,15 @@ var _audiolooper = __webpack_require__(70);
 
 var _audiolooper2 = _interopRequireDefault(_audiolooper);
 
-var _wmstr = __webpack_require__(89);
+var _wmstr = __webpack_require__(91);
 
 var _wmstr2 = _interopRequireDefault(_wmstr);
 
-var _audiobufferchnl = __webpack_require__(68);
+var _audiobufferchnl = __webpack_require__(69);
 
 var _audiobufferchnl2 = _interopRequireDefault(_audiobufferchnl);
 
-var _audiochnl = __webpack_require__(69);
-
-var _audiochnl2 = _interopRequireDefault(_audiochnl);
-
-var _uuid = __webpack_require__(144);
+var _uuid = __webpack_require__(145);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3730,17 +3789,9 @@ var SoundCycle = function () {
   function SoundCycle() {
     var readyCb = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
     (0, _classCallCheck3.default)(this, SoundCycle);
-    this.MODES = {
-      ADD_TO_LANE: 'ADD_TO_LANE',
-      NEW_LANE: 'NEW_LANE',
-      SINGLE_SEQUENCE: 'SINGLE_SEQUENCE',
-      FREE_LOOPING: 'FREE_LOOPING'
-    };
     this.tracks = new Map();
     this.loopers = new Map();
     this.currentLane = '';
-    this.masterChnlId = 'MASTER_ID';
-    this.recorderChnlId = 'RECORDER_ID';
 
     var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     this.audioCtx = audioCtx;
@@ -3748,10 +3799,10 @@ var SoundCycle = function () {
     this.recorder.getInput().then(readyCb);
 
     this.wmstr = new _wmstr2.default(audioCtx);
-    this.currentMode = this.MODES.NEW_LANE;
+    this.currentMode = SoundCycle.MODES.NEW_LANE;
 
-    this.tracks.set(this.masterChnlId, this.wmstr);
-    this.tracks.set(this.recorderChnlId, this.recorder);
+    this.tracks.set(SoundCycle.masterChnlId, this.wmstr);
+    this.tracks.set(SoundCycle.recorderChnlId, this.recorder);
 
     this.wmstr.connect(this.audioCtx.destination);
   }
@@ -3771,11 +3822,16 @@ var SoundCycle = function () {
 
       return this.projectName + '.wav';
     }
+
+    /* eslint-disable */
+
   }, {
     key: 'getModes',
     value: function getModes() {
-      return this.MODES;
+      return SoundCycle.MODES;
     }
+    /* eslint-ensable */
+
   }, {
     key: 'getCurrentMode',
     value: function getCurrentMode() {
@@ -3802,7 +3858,7 @@ var SoundCycle = function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         var _this = this;
 
-        var newTrackId, looper, audioBuffer, newLooperId, audioObj, audioChnl, _looper, _audioBuffer, _audioBuffer2, bufferNode, channel, channelData, FADE_LENGTH, i, fadeOutPos, audioBufferChnl;
+        var newTrackId, looper, audioBuffer, newLooperId, _audioBuffer, bufferNode, channel, channelData, FADE_LENGTH, i, fadeOutPos, audioBufferChnl, _looper, _audioBuffer2, _audioBuffer3, _bufferNode, _channel, _channelData, _FADE_LENGTH, _i, _fadeOutPos, _audioBufferChnl;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -3810,7 +3866,7 @@ var SoundCycle = function () {
               case 0:
                 newTrackId = (0, _uuid.v4)();
                 _context.t0 = this.currentMode;
-                _context.next = _context.t0 === this.MODES.NEW_LANE ? 4 : _context.t0 === this.MODES.SINGLE_SEQUENCE ? 11 : _context.t0 === this.MODES.ADD_TO_LANE ? 18 : _context.t0 === this.MODES.FREE_LOOPING ? 26 : 38;
+                _context.next = _context.t0 === SoundCycle.MODES.NEW_LANE ? 4 : _context.t0 === SoundCycle.MODES.SINGLE_SEQUENCE ? 11 : _context.t0 === SoundCycle.MODES.ADD_TO_LANE ? 21 : _context.t0 === SoundCycle.MODES.FREE_LOOPING ? 29 : 41;
                 break;
 
               case 4:
@@ -3840,64 +3896,17 @@ var SoundCycle = function () {
 
               case 11:
                 _context.next = 13;
-                return this.recorder.stopRecording({ type: 'audio' });
+                return this.recorder.stopRecording({ type: 'buffer' });
 
               case 13:
-                audioObj = _context.sent;
-                audioChnl = new _audiochnl2.default(this.audioCtx, audioObj);
-
-                audioChnl.connect(this.wmstr);
-
-                this.tracks.set(newTrackId, {
-                  chnl: audioChnl
-                });
-
-                return _context.abrupt('return', {
-                  chnlId: newTrackId
-                });
-
-              case 18:
-                if (this.loopers.has(this.currentLane)) {
-                  _context.next = 20;
-                  break;
-                }
-
-                throw new Error('You tried to access an inexistent lane!');
-
-              case 20:
-                _looper = this.loopers.get(this.currentLane);
-                _context.next = 23;
-                return this.recorder.stopRecording({ type: 'buffer' });
-
-              case 23:
                 _audioBuffer = _context.sent;
-
-
-                _looper.addTrack({
-                  id: newTrackId,
-                  audioBuffer: _audioBuffer,
-                  trackAdded: function trackAdded(bufferSourceNode) {
-                    _this.trackAddedToLaneCb(bufferSourceNode, newTrackId, _this.currentLane);
-                  } });
-
-                return _context.abrupt('return', {
-                  chnlId: newTrackId
-                });
-
-              case 26:
-                _context.next = 28;
-                return this.recorder.stopRecording({ type: 'buffer' });
-
-              case 28:
-                _audioBuffer2 = _context.sent;
                 bufferNode = this.audioCtx.createBufferSource();
 
-                bufferNode.buffer = _audioBuffer2;
-                bufferNode.loop = true;
+                bufferNode.buffer = _audioBuffer;
 
                 // Create fade
-                for (channel = 0; channel < _audioBuffer2.numberOfChannels; channel++) {
-                  channelData = _audioBuffer2.getChannelData(channel);
+                for (channel = 0; channel < _audioBuffer.numberOfChannels; channel++) {
+                  channelData = _audioBuffer.getChannelData(channel);
                   FADE_LENGTH = 100;
 
                   for (i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
@@ -3912,8 +3921,6 @@ var SoundCycle = function () {
 
                 audioBufferChnl.connect(this.wmstr);
 
-                bufferNode.start(0);
-
                 this.tracks.set(newTrackId, {
                   chnl: audioBufferChnl
                 });
@@ -3922,10 +3929,76 @@ var SoundCycle = function () {
                   chnlId: newTrackId
                 });
 
-              case 38:
+              case 21:
+                if (this.loopers.has(this.currentLane)) {
+                  _context.next = 23;
+                  break;
+                }
+
+                throw new Error('You tried to access an inexistent lane!');
+
+              case 23:
+                _looper = this.loopers.get(this.currentLane);
+                _context.next = 26;
+                return this.recorder.stopRecording({ type: 'buffer' });
+
+              case 26:
+                _audioBuffer2 = _context.sent;
+
+
+                _looper.addTrack({
+                  id: newTrackId,
+                  audioBuffer: _audioBuffer2,
+                  trackAdded: function trackAdded(bufferSourceNode) {
+                    _this.trackAddedToLaneCb(bufferSourceNode, newTrackId, _this.currentLane);
+                  } });
+
+                return _context.abrupt('return', {
+                  chnlId: newTrackId
+                });
+
+              case 29:
+                _context.next = 31;
+                return this.recorder.stopRecording({ type: 'buffer' });
+
+              case 31:
+                _audioBuffer3 = _context.sent;
+                _bufferNode = this.audioCtx.createBufferSource();
+
+                _bufferNode.buffer = _audioBuffer3;
+                _bufferNode.loop = true;
+
+                // Create fade
+                for (_channel = 0; _channel < _audioBuffer3.numberOfChannels; _channel++) {
+                  _channelData = _audioBuffer3.getChannelData(_channel);
+                  _FADE_LENGTH = 100;
+
+                  for (_i = 0; _i < _FADE_LENGTH && _i < _channelData.length; _i++) {
+                    _fadeOutPos = _channelData.length - _i - 1;
+
+                    _channelData[_i] = _channelData[_i] * _i / _FADE_LENGTH;
+                    _channelData[_fadeOutPos] = _channelData[_fadeOutPos] * _i / _FADE_LENGTH;
+                  }
+                }
+
+                _audioBufferChnl = new _audiobufferchnl2.default(this.audioCtx, _bufferNode);
+
+                _audioBufferChnl.connect(this.wmstr);
+
+                _bufferNode.start(0);
+
+                this.tracks.set(newTrackId, {
+                  chnl: _audioBufferChnl
+                });
+
+                return _context.abrupt('return', {
+                  chnlId: newTrackId
+                });
+
+              case 41:
                 throw new Error('Invalid method!');
 
-              case 39:
+              case 42:
               case 'end':
                 return _context.stop();
             }
@@ -3961,7 +4034,6 @@ var SoundCycle = function () {
       if (!this.tracks.has(id)) throw new Error('You tried to play an inexistent track!');
 
       var track = this.tracks.get(id);
-
       if (!track.looperId) track.chnl.play();else {
         var looper = this.loopers.get(track.looperId);
         looper.playTrack({ id: id });
@@ -3979,7 +4051,7 @@ var SoundCycle = function () {
         var looper = this.loopers.get(track.looperId);
         looper.removeTrack({ id: id });
       }
-      if (track.chnl.bufferSourceNode) track.chnl.bufferSourceNode.stop();
+      if (track.chnl.bufferSourceNode) track.chnl.stop();
 
       this.tracks.delete(id);
     }
@@ -4038,16 +4110,25 @@ var SoundCycle = function () {
 
       SoundCycle.getEffectByName(chnlToEdit, effectName).setValue(valueType, value);
     }
+
+    /* eslint-disable */
+
   }, {
     key: 'getMasterChnlId',
     value: function getMasterChnlId() {
-      return this.masterChnlId;
+      return SoundCycle.masterChnlId;
     }
+    /* eslint-enable */
+
+    /* eslint-disable */
+
   }, {
     key: 'getRecorderChnlId',
     value: function getRecorderChnlId() {
-      return this.recorderChnlId;
+      return SoundCycle.recorderChnlId;
     }
+    /* eslint-enable */
+
   }, {
     key: 'startProjectRecording',
     value: function startProjectRecording() {
@@ -4071,7 +4152,7 @@ var SoundCycle = function () {
   }, {
     key: 'getChnlById',
     value: function getChnlById(id) {
-      if (id === this.masterChnlId) return this.wmstr;else if (id === this.recorderChnlId) return this.recorder;
+      if (id === SoundCycle.masterChnlId) return this.wmstr;else if (id === SoundCycle.recorderChnlId) return this.recorder;
 
       if (!this.tracks.has(id)) throw new Error('You tried to access an inexistent track!');
       return this.tracks.get(id).chnl;
@@ -4105,10 +4186,18 @@ var SoundCycle = function () {
   return SoundCycle;
 }();
 
+SoundCycle.MODES = {
+  ADD_TO_LANE: 'ADD_TO_LANE',
+  NEW_LANE: 'NEW_LANE',
+  SINGLE_SEQUENCE: 'SINGLE_SEQUENCE',
+  FREE_LOOPING: 'FREE_LOOPING'
+};
+SoundCycle.masterChnlId = 'MASTER_ID';
+SoundCycle.recorderChnlId = 'RECORDER_ID';
 exports.default = SoundCycle;
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4118,23 +4207,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(24);
+var _possibleConstructorReturn2 = __webpack_require__(29);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(23);
+var _inherits2 = __webpack_require__(28);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _webaudioChnl = __webpack_require__(22);
+var _webaudioChnl = __webpack_require__(27);
 
 var _webaudioChnl2 = _interopRequireDefault(_webaudioChnl);
 
@@ -4148,6 +4237,8 @@ var AudioBufferChnl = function (_Chnl) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AudioBufferChnl.__proto__ || Object.getPrototypeOf(AudioBufferChnl)).call(this, audioCtx));
 
+    _this.canStop = true;
+
     _this.setBufferSourceNode(bufferSourceNode);
     return _this;
   }
@@ -4156,7 +4247,7 @@ var AudioBufferChnl = function (_Chnl) {
     key: 'setBufferSourceNode',
     value: function setBufferSourceNode(bufferSourceNode) {
       this.bufferSourceNode = bufferSourceNode;
-      this.bufferSourceNode.connect(this);
+      this.bufferSourceNode.connect(this.input);
     }
   }, {
     key: 'stop',
@@ -4168,19 +4259,18 @@ var AudioBufferChnl = function (_Chnl) {
         for (let i = 0; i < channelDataCurrent.length; i++)
           channelDataNew[i] = channelDataCurrent[i];
       } */
-
-      var newBufferSource = this.context.createBufferSource();
-      newBufferSource.buffer = this.bufferSourceNode.buffer;
-      newBufferSource.loop = this.bufferSourceNode.loop;
-
-      this.bufferSourceNode.stop();
-
-      this.setBufferSourceNode(newBufferSource);
+      if (this.canStop) this.bufferSourceNode.stop();
     }
   }, {
     key: 'play',
     value: function play() {
       this.bufferSourceNode.start(0);
+
+      var newBufferSource = this.context.createBufferSource();
+      newBufferSource.buffer = this.bufferSourceNode.buffer;
+      newBufferSource.loop = this.bufferSourceNode.loop;
+      this.setBufferSourceNode(newBufferSource);
+      this.canStop = false;
     }
   }]);
   return AudioBufferChnl;
@@ -4198,102 +4288,6 @@ console.log(bufferChnl); */
 exports.default = AudioBufferChnl;
 
 /***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _classCallCheck2 = __webpack_require__(6);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(7);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(24);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(23);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _webaudioChnl = __webpack_require__(22);
-
-var _webaudioChnl2 = _interopRequireDefault(_webaudioChnl);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var AudioChnl = function (_Chnl) {
-  (0, _inherits3.default)(AudioChnl, _Chnl);
-
-  function AudioChnl(audioCtx, audioObj) {
-    var loaded = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
-    (0, _classCallCheck3.default)(this, AudioChnl);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (AudioChnl.__proto__ || Object.getPrototypeOf(AudioChnl)).call(this, audioCtx));
-
-    _this.isReady = false;
-
-    _this.audioObj = audioObj;
-
-    _this.audioObj.addEventListener('loadedmetadata', function () {
-      _this.isReady = true;
-      loaded();
-    });
-
-    var mediaSource = audioCtx.createMediaElementSource(audioObj);
-    mediaSource.connect(_this);
-    return _this;
-  }
-
-  (0, _createClass3.default)(AudioChnl, [{
-    key: 'start',
-    value: function start() {
-      this.audioObj.play();
-    }
-  }, {
-    key: 'stop',
-    value: function stop() {
-      this.audioObj.currentTime = 0;
-      this.pause();
-    }
-  }, {
-    key: 'pause',
-    value: function pause() {
-      this.audioObj.pause();
-    }
-  }, {
-    key: 'seek',
-    value: function seek(time) {
-      // Time in seconds
-      this.audioObj.currentTime = time;
-    }
-  }]);
-  return AudioChnl;
-}(_webaudioChnl2.default);
-
-/* const audioCtx = new AudioContext();
-const audio = new Audio(song);
-const audioChnl = new AudioChnl(audioCtx, audio);
-audioChnl.start();
-window.setTimeout(() => {
-  audioChnl.pause();
-  window.setTimeout(() => {
-    audioChnl.start();
-  }, 4000);
-}, 6000); */
-
-
-exports.default = AudioChnl;
-
-/***/ }),
 /* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4304,11 +4298,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4339,32 +4333,33 @@ var AudioLooper = function () {
       var isFirstTrack = this.bufferNodes.size === 0;
       var finalAudioBuffer = void 0;
 
-      if (!isFirstTrack && doProcessing) {
-        // Prepare buffer!
-        // Step 1: fade-in + fade-out
-        for (var channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-          var channelData = audioBuffer.getChannelData(channel);
-          var FADE_LENGTH = 100;
-          for (var i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
-            var fadeOutPos = channelData.length - i - 1;
-            channelData[i] = channelData[i] * i / FADE_LENGTH;
-            channelData[fadeOutPos] = channelData[fadeOutPos] * i / FADE_LENGTH;
-          }
+      // Prepare buffer!
+      // Step 1: fade-in + fade-out
+      for (var channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+        var channelData = audioBuffer.getChannelData(channel);
+        var FADE_LENGTH = 100;
+        for (var i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
+          var fadeOutPos = channelData.length - i - 1;
+          channelData[i] = channelData[i] * i / FADE_LENGTH;
+          channelData[fadeOutPos] = channelData[fadeOutPos] * i / FADE_LENGTH;
         }
+      }
 
+      if (!isFirstTrack && doProcessing) {
         // Step 2: fit it the first track
         var firstTrackBuffer = this.firstTrack.bufferNode.buffer;
         var percentualRatio = Math.ceil(audioBuffer.length / firstTrackBuffer.length);
         var newAudioBuffer = this.audioCtx.createBuffer(audioBuffer.numberOfChannels, firstTrackBuffer.length * percentualRatio, firstTrackBuffer.sampleRate);
+        /* console.log(`newAudioBuffer duration: ${ newAudioBuffer.duration }`);
+        console.log(`oldAudioBuffer duration: ${ audioBuffer.duration }`);
+        console.log(`firstTrack duration: ${ this.firstTrack.duration }`); */
 
         // is this even needed or is it enough to:
         // newAudioBuffer.copyFromChannel(audioBuffer, 2, 0); ????
         for (var _channel = 0; _channel < newAudioBuffer.numberOfChannels; _channel++) {
           var channelDataNew = newAudioBuffer.getChannelData(_channel);
           var channelDataCurrent = audioBuffer.getChannelData(_channel);
-          for (var _i = 0; _i < channelDataCurrent.length; _i++) {
-            channelDataNew[_i] = channelDataCurrent[_i];
-          }
+          channelDataNew.set(channelDataCurrent, 0);
         }
 
         finalAudioBuffer = newAudioBuffer;
@@ -4393,6 +4388,7 @@ var AudioLooper = function () {
       var numParts = Math.floor(part / this.firstTrack.duration);
       var offset = part - numParts * this.firstTrack.duration;
 
+      // const startTrackAt = isFirstTrack ? 0 : track.duration - offset;
       bufferNode.start(0, offset);
 
       // Return bufferNode, so user can connect it ecc.
@@ -4504,35 +4500,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = __webpack_require__(48);
+var _regenerator = __webpack_require__(49);
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _asyncToGenerator2 = __webpack_require__(46);
+var _asyncToGenerator2 = __webpack_require__(47);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(24);
+var _possibleConstructorReturn2 = __webpack_require__(29);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(23);
+var _inherits2 = __webpack_require__(28);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _webaudioChnl = __webpack_require__(22);
+var _webaudioChnl = __webpack_require__(27);
 
 var _webaudioChnl2 = _interopRequireDefault(_webaudioChnl);
 
-var _wrecorder = __webpack_require__(45);
+var _wrecorder = __webpack_require__(46);
 
 var _wrecorder2 = _interopRequireDefault(_wrecorder);
 
@@ -4581,7 +4577,7 @@ var Recordy = function (_Chnl) {
                 stream = _context.sent;
                 mediaStream = this.context.createMediaStreamSource(stream);
 
-                mediaStream.connect(this);
+                mediaStream.connect(this.input);
                 return _context.abrupt('return', true);
 
               case 6:
@@ -4684,7 +4680,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _soundcycle = __webpack_require__(67);
+var _soundcycle = __webpack_require__(68);
 
 var _soundcycle2 = _interopRequireDefault(_soundcycle);
 
@@ -4729,11 +4725,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4747,6 +4743,7 @@ var EffectUnit = function () {
     var audioCtx = arguments[1];
     (0, _classCallCheck3.default)(this, EffectUnit);
     this.isEffectUnit = true;
+    this.wasInitialized = false;
 
     /*
       The options object must have the following structure:
@@ -4761,22 +4758,43 @@ var EffectUnit = function () {
 
     this.name = name;
     this.audioCtx = audioCtx;
-    this.effectChain = (0, _util.functionsToValues)(options.effectChain);
+    this.options = options;
 
-    // Give all 'set'-methods of the specified values the effectChain as the first parameter
-    this.values = (0, _util.bindMethodsToValues)(options.values, this.effectChain);
+    this.effectGain = this.audioCtx.createGain(); // Set to 1 ==> Effect is on; Set to 0 ==> Effect is off
+    this.directGain = this.audioCtx.createGain(); // Set to 0 ==> Effect is on; Set to 1 ==> Effect is off
 
-    // Now execute all 'set'-methods of the according values which have a 'defaultValue'-field in their 'options'-object
-    this.values.forEach(function (value) {
-      if (value.options.defaultValue) value.set(value.options.defaultValue);
-    });
+    this.output = this.audioCtx.createGain();
+    this.input = this.audioCtx.createGain();
 
-    this.setupEffectChain();
+    this.input.connect(this.effectGain);
+    this.input.connect(this.directGain);
+
+    // Connect direct gain to ouput
+    this.directGain.connect(this.output);
   }
 
   (0, _createClass3.default)(EffectUnit, [{
+    key: 'init',
+    value: function init() {
+      if (this.wasInitialized) return;
+
+      this.effectChain = (0, _util.functionsToValues)(this.options.effectChain);
+
+      // Give all 'set'-methods of the specified values the effectChain as the first parameter
+      this.values = (0, _util.bindMethodsToValues)(this.options.values, this.effectChain);
+
+      // Now execute all 'set'-methods of the according values which have a 'defaultValue'-field in their 'options'-object
+      this.values.forEach(function (value) {
+        if (value.options.defaultValue) value.set(value.options.defaultValue);
+      });
+
+      this.setupEffectChain();
+      this.wasInitialized = true;
+    }
+  }, {
     key: 'enable',
     value: function enable() {
+      this.init();
       this.effectGain.gain.value = 1;
       this.directGain.gain.value = 0;
     }
@@ -4789,7 +4807,7 @@ var EffectUnit = function () {
   }, {
     key: 'connect',
     value: function connect(node) {
-      if (node.isEffectUnit) this.output.connect(node.input);else {
+      if (node.isEffectUnit || node.input) this.output.connect(node.input);else {
         // Common audioNode
         this.output.connect(node);
       }
@@ -4807,40 +4825,30 @@ var EffectUnit = function () {
   }, {
     key: 'setupEffectChain',
     value: function setupEffectChain() {
-      this.effectGain = this.audioCtx.createGain(); // Set to 1 ==> Effect is on; Set to 0 ==> Effect is off
-      this.directGain = this.audioCtx.createGain(); // Set to 0 ==> Effect is on; Set to 1 ==> Effect is off
-
-      this.output = this.audioCtx.createGain();
-      this.input = this.audioCtx.createGain();
-
-      this.input.connect(this.effectGain);
-      this.input.connect(this.directGain);
-
-      // Connect direct gain to ouput
-      this.directGain.connect(this.output);
-
       // Connect the effectChain
       var effects = (0, _util.objToArray)(this.effectChain);
 
       // Effect chain not empty?
       if (effects.length >= 1) {
         // Connect effect gain to first effect
-        this.effectGain.connect(effects[0]);
+        EffectUnit.connectNodes(this.effectGain, effects[0]);
         // Connect all other effect to the following effect
         for (var i = 0; i < effects.length - 1; i++) {
-          effects[i].connect(effects[i + 1]);
+          EffectUnit.connectNodes(effects[i], effects[i + 1]);
         } // Connect the last effect to the output gain
         effects[effects.length - 1].connect(this.output);
       }
-
-      // Turn on after the effectChain was connected
-      this.enable();
     }
   }, {
     key: 'disconnect',
     value: function disconnect() {
       // Disconnect all outgoing connections
       this.output.disconnect();
+    }
+  }], [{
+    key: 'connectNodes',
+    value: function connectNodes(nodeA, nodeB) {
+      if (nodeB.isEffectUnit || nodeB.input) nodeA.connect(nodeB.input);else nodeA.connect(nodeB);
     }
   }]);
   return EffectUnit;
@@ -4923,7 +4931,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createBitcrusher;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -4972,11 +4980,13 @@ function createBitcrusher(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, bitcrusherData, {
     effectChain: {
-      bitcrusher: new tuna.Bitcrusher({
-        bits: 4, // 1 to 16
-        normfreq: 0.1, // 0 to 1
-        bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
-      })
+      bitcrusher: function bitcrusher() {
+        return new tuna.Bitcrusher({
+          bits: 4, // 1 to 16
+          normfreq: 0.1, // 0 to 1
+          bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
+        });
+      }
     }
   }), audioCtx);
 }
@@ -4999,7 +5009,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createChorus;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5061,11 +5071,13 @@ function createChorus(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, chorusData, {
     effectChain: {
-      chorus: new tuna.Chorus({
-        rate: DEFAULT_RATE, // 0.01 - 8
-        feedback: DEFAULT_FEEDBACK, // 0 - 1
-        delay: DEFAULT_DELAY // 0 - 1
-      })
+      chorus: function chorus() {
+        return new tuna.Chorus({
+          rate: DEFAULT_RATE, // 0.01 - 8
+          feedback: DEFAULT_FEEDBACK, // 0 - 1
+          delay: DEFAULT_DELAY // 0 - 1
+        });
+      }
     }
   }), audioCtx);
 }
@@ -5088,7 +5100,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createCompressor;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5199,15 +5211,17 @@ function createCompressor(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, compressorData, {
     effectChain: {
-      compressor: new tuna.Compressor({
-        threshold: DEFAULT_THRESHOLD, // -100 to 0
-        makeupGain: DEFAULT_MAKEUPGAIN, // 0 and up
-        attack: DEFAULT_ATTACK, // 0 to 1000
-        release: DEFAULT_RELEASE, // 0 to 3000
-        ratio: DEFAULT_RATIO, // 1 to 20
-        knee: DEFAULT_KNEE, // 0 to 40
-        automakeup: DEFAULT_AUTOMAKEUP // true/false
-      })
+      compressor: function compressor() {
+        return new tuna.Compressor({
+          threshold: DEFAULT_THRESHOLD, // -100 to 0
+          makeupGain: DEFAULT_MAKEUPGAIN, // 0 and up
+          attack: DEFAULT_ATTACK, // 0 to 1000
+          release: DEFAULT_RELEASE, // 0 to 3000
+          ratio: DEFAULT_RATIO, // 1 to 20
+          knee: DEFAULT_KNEE, // 0 to 40
+          automakeup: DEFAULT_AUTOMAKEUP // true/false
+        });
+      }
     }
   }), audioCtx);
 }
@@ -5230,7 +5244,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createDelay;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5318,19 +5332,230 @@ function createDelay(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, delayData, {
     effectChain: {
-      delay: new tuna.Delay({
-        feedback: DEFAULT_FEEDBACK, // 0 to 1+
-        delayTime: DEFAULT_DELAYTIME, // 1 to 10000 milliseconds
-        wetLevel: DEFAULT_WETLEVEL, // 0 to 1+
-        dryLevel: DEFAULT_DRYLEVEL, // 0 to 1+
-        cutoff: DEFAULT_CUTOFF // cutoff frequency of the built in lowpass-filter. 20 to 22050
-      })
+      delay: function delay() {
+        return new tuna.Delay({
+          feedback: DEFAULT_FEEDBACK, // 0 to 1+
+          delayTime: DEFAULT_DELAYTIME, // 1 to 10000 milliseconds
+          wetLevel: DEFAULT_WETLEVEL, // 0 to 1+
+          dryLevel: DEFAULT_DRYLEVEL, // 0 to 1+
+          cutoff: DEFAULT_CUTOFF // cutoff frequency of the built in lowpass-filter. 20 to 22050
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
 /* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.dubDelayData = undefined;
+
+var _extends2 = __webpack_require__(0);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+exports.default = createDubDelay;
+
+var _pizzicato = __webpack_require__(45);
+
+var _webaudioEffectUnit = __webpack_require__(1);
+
+var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable */
+
+var DubDelay = function DubDelay(audioCtx, options) {
+
+	this.options = {};
+	options = options || this.options;
+
+	var defaults = {
+		feedback: 0.6,
+		time: 0.7,
+		mix: 0.5,
+		cutoff: 700
+	};
+
+	this.input = audioCtx.createGain();
+	this.output = audioCtx.createGain();
+	this.dryGainNode = audioCtx.createGain();
+	this.wetGainNode = audioCtx.createGain();
+	this.feedbackGainNode = audioCtx.createGain();
+	this.delayNode = audioCtx.createDelay();
+	this.bqFilterNode = audioCtx.createBiquadFilter();
+
+	// dry mix
+	this.input.connect(this.dryGainNode);
+	this.dryGainNode.connect(this.output);
+
+	// wet mix
+	this.input.connect(this.wetGainNode);
+	this.input.connect(this.feedbackGainNode);
+
+	this.feedbackGainNode.connect(this.bqFilterNode);
+	this.bqFilterNode.connect(this.delayNode);
+	this.delayNode.connect(this.feedbackGainNode);
+	this.delayNode.connect(this.wetGainNode);
+
+	this.wetGainNode.connect(this.output);
+
+	for (var key in defaults) {
+		this[key] = options[key];
+		this[key] = this[key] === undefined || this[key] === null ? defaults[key] : this[key];
+	}
+};
+
+DubDelay.prototype = Object.create(_pizzicato.baseEffect, {
+
+	/**
+  * Gets and sets the dry/wet mix.
+  */
+	mix: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.mix;
+		},
+
+		set: function set(mix) {
+			if (!(0, _pizzicato.isInRange)(mix, 0, 1)) return;
+
+			this.options.mix = mix;
+			this.dryGainNode.gain.value = (0, _pizzicato.getDryLevel)(this.mix);
+			this.wetGainNode.gain.value = (0, _pizzicato.getWetLevel)(this.mix);
+		}
+	},
+
+	/**
+  * Time between each delayed sound
+  */
+	time: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.time;
+		},
+
+		set: function set(time) {
+			if (!(0, _pizzicato.isInRange)(time, 0, 180)) return;
+
+			this.options.time = time;
+			this.delayNode.delayTime.value = time;
+		}
+	},
+
+	/**
+  * Strength of each of the echoed delayed sounds.
+  */
+	feedback: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.feedback;
+		},
+
+		set: function set(feedback) {
+			if (!(0, _pizzicato.isInRange)(feedback, 0, 1)) return;
+
+			this.options.feedback = parseFloat(feedback, 10);
+			this.feedbackGainNode.gain.value = this.feedback;
+		}
+	},
+
+	/**
+  * Frequency on delay repeats
+  */
+	cutoff: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.cutoff;
+		},
+
+		set: function set(cutoff) {
+			if (!(0, _pizzicato.isInRange)(cutoff, 0, 4000)) return;
+
+			this.options.cutoff = cutoff;
+			this.bqFilterNode.frequency.value = this.cutoff;
+		}
+	}
+
+});
+
+var dubDelayData = exports.dubDelayData = {
+	name: 'dubDelay',
+	values: [{
+		name: 'mix',
+		options: {
+			type: 'range',
+			defaultValue: 0.5,
+			min: 0,
+			max: 1,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.mix = value;
+		}
+	}, {
+		name: 'feedback',
+		options: {
+			type: 'range',
+			defaultValue: 0.6,
+			min: 0,
+			max: 1,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.feedback = value;
+		}
+	}, {
+		name: 'time',
+		options: {
+			type: 'range',
+			defaultValue: 0.7,
+			min: 0,
+			max: 180,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.time = value;
+		}
+	}, {
+		name: 'cutoff',
+		options: {
+			type: 'range',
+			defaultValue: 700,
+			min: 0,
+			max: 4000,
+			step: 100
+		},
+		set: function set(effectChain, value) {
+			effectChain.dubDelay.cutoff = value;
+		}
+	}]
+};
+
+function createDubDelay(audioCtx) {
+	return new _webaudioEffectUnit2.default((0, _extends3.default)({}, dubDelayData, {
+		effectChain: {
+			dubDelay: function dubDelay() {
+				return new DubDelay(audioCtx);
+			}
+		}
+	}), audioCtx);
+}
+
+/***/ }),
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5347,7 +5572,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createGain;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5380,15 +5605,21 @@ var gainData = exports.gainData = {
 };
 
 function createGain(audioCtx) {
-  return new _webaudioEffectUnit2.default((0, _extends3.default)({}, gainData, {
+  var gainNode = new _webaudioEffectUnit2.default((0, _extends3.default)({}, gainData, {
     effectChain: {
-      gain: audioCtx.createGain()
+      gain: function createGainNode() {
+        return audioCtx.createGain();
+      }
     }
   }), audioCtx);
+
+  gainNode.enable();
+
+  return gainNode;
 }
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5405,7 +5636,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createLowpass;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5444,7 +5675,7 @@ function createLowpass(audioCtx) {
 }
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5461,7 +5692,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createLowpass;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5500,7 +5731,7 @@ function createLowpass(audioCtx) {
 }
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5517,7 +5748,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createMoog;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5566,17 +5797,19 @@ function createMoog(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, moogData, {
     effectChain: {
-      moog: new tuna.MoogFilter({
-        cutoff: 0.065, // 0 to 1
-        resonance: 3.5, // 0 to 4
-        bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
-      })
+      moog: function moog() {
+        return new tuna.MoogFilter({
+          cutoff: 0.065, // 0 to 1
+          resonance: 3.5, // 0 to 4
+          bufferSize: 4096 // 256 to 16384, NOT INCLUDED AS EDITABLE!
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5593,7 +5826,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createPhaser;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5681,19 +5914,21 @@ function createPhaser(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, phaserData, {
     effectChain: {
-      phaser: new tuna.Phaser({
-        rate: 1.2, // 0.01 to 8 is a decent range, but higher values are possible
-        depth: 0.3, // 0 to 1
-        feedback: 0.2, // 0 to 1+
-        stereoPhase: 30, // 0 to 180
-        baseModulationFrequency: 700 // 500 to 1500
-      })
+      phaser: function phaser() {
+        return new tuna.Phaser({
+          rate: 1.2, // 0.01 to 8 is a decent range, but higher values are possible
+          depth: 0.3, // 0 to 1
+          feedback: 0.2, // 0 to 1+
+          stereoPhase: 30, // 0 to 180
+          baseModulationFrequency: 700 // 500 to 1500
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5710,7 +5945,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createPingPongDelay;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5785,18 +6020,225 @@ function createPingPongDelay(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, pingPongDelayData, {
     effectChain: {
-      pingpong: new tuna.PingPongDelay({
-        wetLevel: 0.5, // 0 to 1
-        feedback: 0.3, // 0 to 1
-        delayTimeLeft: 150, // 1 to 10000 (milliseconds)
-        delayTimeRight: 200 // 1 to 10000 (milliseconds)
-      })
+      pingpong: function pingpong() {
+        return new tuna.PingPongDelay({
+          wetLevel: 0.5, // 0 to 1
+          feedback: 0.3, // 0 to 1
+          delayTimeLeft: 150, // 1 to 10000 (milliseconds)
+          delayTimeRight: 200 // 1 to 10000 (milliseconds)
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 86 */
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.reverbData = undefined;
+
+var _extends2 = __webpack_require__(0);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+exports.default = createReverbDelay;
+
+var _pizzicato = __webpack_require__(45);
+
+var _webaudioEffectUnit = __webpack_require__(1);
+
+var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable */
+
+var audioCtx = void 0;
+
+var Reverb = function Reverb(audioCtxA, options) {
+	var self = this;
+	audioCtx = audioCtxA;
+
+	this.options = {};
+	options = options || this.options;
+
+	var defaults = {
+		mix: 0.5,
+		time: 0.01,
+		decay: 0.01,
+		reverse: false
+	};
+
+	this.input = audioCtx.createGain();
+	this.reverbNode = audioCtx.createConvolver();
+	this.output = audioCtx.createGain();
+	this.wetGainNode = audioCtx.createGain();
+	this.dryGainNode = audioCtx.createGain();
+
+	this.input.connect(this.reverbNode);
+	this.reverbNode.connect(this.wetGainNode);
+	this.input.connect(this.dryGainNode);
+	this.dryGainNode.connect(this.output);
+	this.wetGainNode.connect(this.output);
+
+	for (var key in defaults) {
+		this[key] = options[key];
+		this[key] = this[key] === undefined || this[key] === null ? defaults[key] : this[key];
+	}
+
+	buildImpulse.bind(this)();
+};
+
+Reverb.prototype = Object.create(_pizzicato.baseEffect, {
+
+	mix: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.mix;
+		},
+
+		set: function set(mix) {
+			if (!(0, _pizzicato.isInRange)(mix, 0, 1)) return;
+
+			this.options.mix = mix;
+			this.dryGainNode.gain.value = (0, _pizzicato.getDryLevel)(this.mix);
+			this.wetGainNode.gain.value = (0, _pizzicato.getWetLevel)(this.mix);
+		}
+	},
+
+	time: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.time;
+		},
+
+		set: function set(time) {
+			if (!(0, _pizzicato.isInRange)(time, 0.0001, 10)) return;
+
+			this.options.time = time;
+			buildImpulse.bind(this)();
+		}
+	},
+
+	decay: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.decay;
+		},
+
+		set: function set(decay) {
+			if (!(0, _pizzicato.isInRange)(decay, 0.0001, 10)) return;
+
+			this.options.decay = decay;
+			buildImpulse.bind(this)();
+		}
+
+	},
+
+	reverse: {
+		enumerable: true,
+
+		get: function get() {
+			return this.options.reverse;
+		},
+
+		set: function set(reverse) {
+			this.options.reverse = reverse;
+			buildImpulse.bind(this)();
+		}
+	}
+
+});
+
+function buildImpulse() {
+
+	var length = audioCtx.sampleRate * this.time;
+	var impulse = audioCtx.createBuffer(2, length, audioCtx.sampleRate);
+	var impulseL = impulse.getChannelData(0);
+	var impulseR = impulse.getChannelData(1);
+	var n, i;
+
+	for (i = 0; i < length; i++) {
+		n = this.reverse ? length - i : i;
+		impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this.decay);
+		impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, this.decay);
+	}
+
+	this.reverbNode.buffer = impulse;
+}
+
+var reverbData = exports.reverbData = {
+	name: 'reverb',
+	values: [{
+		name: 'mix',
+		options: {
+			type: 'range',
+			defaultValue: 0.5,
+			min: 0,
+			max: 1,
+			step: 0.01
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverb.mix = value;
+		}
+	}, {
+		name: 'time',
+		options: {
+			type: 'range',
+			defaultValue: 5,
+			min: 0.0001,
+			max: 10,
+			step: 0.001
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverb.time = value;
+		}
+	}, {
+		name: 'decay',
+		options: {
+			type: 'range',
+			defaultValue: 3,
+			min: 0.0001,
+			max: 10,
+			step: 0.001
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverb.decay = value;
+		}
+	}, {
+		name: 'reverse',
+		options: {
+			type: 'switch',
+			defaultValue: false
+		},
+		set: function set(effectChain, value) {
+			effectChain.reverse.reverse = value;
+		}
+	}]
+};
+
+function createReverbDelay(audioCtx) {
+	return new _webaudioEffectUnit2.default((0, _extends3.default)({}, reverbData, {
+		effectChain: {
+			reverb: function reverb() {
+				return new Reverb(audioCtx);
+			}
+		}
+	}), audioCtx);
+}
+
+/***/ }),
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5813,7 +6255,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createTremolo;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -5834,7 +6276,7 @@ var tremoloData = exports.tremoloData = {
     options: {
       type: 'range',
       defaultValue: DEFAULT_INTENSITY,
-      min: 0,
+      min: 0.0001,
       max: 1,
       step: 0.01
     },
@@ -5875,17 +6317,19 @@ function createTremolo(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, tremoloData, {
     effectChain: {
-      tremolo: new tuna.Tremolo({
-        intensity: DEFAULT_INTENSITY, // 0 to 1
-        rate: DEFAULT_RATE, // 0.001 to 8
-        stereoPhase: DEFAULT_STEREOPHASE // 0 to 180
-      })
+      tremolo: function tremolo() {
+        return new tuna.Tremolo({
+          intensity: DEFAULT_INTENSITY, // 0 to 1
+          rate: DEFAULT_RATE, // 0.001 to 8
+          stereoPhase: DEFAULT_STEREOPHASE // 0 to 180
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5902,7 +6346,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = createWahWah;
 
-var _webaudioEffectUnit = __webpack_require__(2);
+var _webaudioEffectUnit = __webpack_require__(1);
 
 var _webaudioEffectUnit2 = _interopRequireDefault(_webaudioEffectUnit);
 
@@ -6000,20 +6444,22 @@ function createWahWah(audioCtx) {
 
   return new _webaudioEffectUnit2.default((0, _extends3.default)({}, wahWahData, {
     effectChain: {
-      wahwah: new tuna.WahWah({
-        automode: DEFAULT_AUTOMODE, // true/false
-        baseFrequency: DEFAULT_BASEFREQUENCY, // 0 to 1
-        excursionOctaves: DEFAULT_EXCURSIONOCTAVES, // 1 to 6
-        sweep: DEFAULT_SWEEP, // 0 to 1
-        resonance: DEFAULT_RESONANCE, // 1 to 100
-        sensitivity: DEFAULT_SENSITIVITY // -1 to 1
-      })
+      wahwah: function wahwah() {
+        return new tuna.WahWah({
+          automode: DEFAULT_AUTOMODE, // true/false
+          baseFrequency: DEFAULT_BASEFREQUENCY, // 0 to 1
+          excursionOctaves: DEFAULT_EXCURSIONOCTAVES, // 1 to 6
+          sweep: DEFAULT_SWEEP, // 0 to 1
+          resonance: DEFAULT_RESONANCE, // 1 to 100
+          sensitivity: DEFAULT_SENSITIVITY // -1 to 1
+        });
+      }
     }
   }), audioCtx);
 }
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6029,10 +6475,6 @@ var _tunajs = __webpack_require__(5);
 
 var _tunajs2 = _interopRequireDefault(_tunajs);
 
-var _gain = __webpack_require__(80);
-
-var _gain2 = _interopRequireDefault(_gain);
-
 var _chorus = __webpack_require__(77);
 
 var _chorus2 = _interopRequireDefault(_chorus);
@@ -6041,7 +6483,7 @@ var _delay = __webpack_require__(79);
 
 var _delay2 = _interopRequireDefault(_delay);
 
-var _phaser = __webpack_require__(84);
+var _phaser = __webpack_require__(85);
 
 var _phaser2 = _interopRequireDefault(_phaser);
 
@@ -6049,19 +6491,11 @@ var _compressor = __webpack_require__(78);
 
 var _compressor2 = _interopRequireDefault(_compressor);
 
-var _lowpass = __webpack_require__(82);
-
-var _lowpass2 = _interopRequireDefault(_lowpass);
-
-var _highpass = __webpack_require__(81);
-
-var _highpass2 = _interopRequireDefault(_highpass);
-
-var _tremolo = __webpack_require__(86);
+var _tremolo = __webpack_require__(88);
 
 var _tremolo2 = _interopRequireDefault(_tremolo);
 
-var _wahwah = __webpack_require__(87);
+var _wahwah = __webpack_require__(89);
 
 var _wahwah2 = _interopRequireDefault(_wahwah);
 
@@ -6069,29 +6503,51 @@ var _bitcrusher = __webpack_require__(76);
 
 var _bitcrusher2 = _interopRequireDefault(_bitcrusher);
 
-var _moog = __webpack_require__(83);
+var _moog = __webpack_require__(84);
 
 var _moog2 = _interopRequireDefault(_moog);
 
-var _pingPongDelay = __webpack_require__(85);
+var _pingPongDelay = __webpack_require__(86);
 
 var _pingPongDelay2 = _interopRequireDefault(_pingPongDelay);
 
+var _gain = __webpack_require__(81);
+
+var _gain2 = _interopRequireDefault(_gain);
+
+var _lowpass = __webpack_require__(83);
+
+var _lowpass2 = _interopRequireDefault(_lowpass);
+
+var _highpass = __webpack_require__(82);
+
+var _highpass2 = _interopRequireDefault(_highpass);
+
+var _dubDelay = __webpack_require__(80);
+
+var _dubDelay2 = _interopRequireDefault(_dubDelay);
+
+var _reverb = __webpack_require__(87);
+
+var _reverb2 = _interopRequireDefault(_reverb);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EFFECT_DATA = exports.EFFECT_DATA = [_gain.gainData, _highpass.highpassData, _lowpass.lowpassData, _delay.delayData, _chorus.chorusData, _phaser.phaserData, _compressor.compressorData, _tremolo.tremoloData, _wahwah.wahWahData, _bitcrusher.bitcrusherData, _moog.moogData, _pingPongDelay.pingPongDelayData];
+var EFFECT_DATA = exports.EFFECT_DATA = [_gain.gainData, _highpass.highpassData, _lowpass.lowpassData, _dubDelay.dubDelayData, _reverb.reverbData, _chorus.chorusData, _delay.delayData, _phaser.phaserData, _compressor.compressorData, _tremolo.tremoloData, _wahwah.wahWahData, _bitcrusher.bitcrusherData, _moog.moogData, _pingPongDelay.pingPongDelayData];
 
 function createEffectCollection(audioCtx) {
   var tuna = new _tunajs2.default(audioCtx);
 
   return {
     gain: (0, _gain2.default)(audioCtx),
+    lowpass: (0, _lowpass2.default)(audioCtx),
+    highpass: (0, _highpass2.default)(audioCtx),
+    dubDelay: (0, _dubDelay2.default)(audioCtx),
+    reverb: (0, _reverb2.default)(audioCtx),
     chorus: (0, _chorus2.default)(audioCtx, tuna),
     delay: (0, _delay2.default)(audioCtx, tuna),
     phaser: (0, _phaser2.default)(audioCtx, tuna),
     compressor: (0, _compressor2.default)(audioCtx, tuna),
-    lowpass: (0, _lowpass2.default)(audioCtx),
-    highpass: (0, _highpass2.default)(audioCtx),
     tremolo: (0, _tremolo2.default)(audioCtx, tuna),
     wahwah: (0, _wahwah2.default)(audioCtx, tuna),
     bitcrusher: (0, _bitcrusher2.default)(audioCtx, tuna),
@@ -6101,7 +6557,7 @@ function createEffectCollection(audioCtx) {
 }
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6111,27 +6567,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(24);
+var _possibleConstructorReturn2 = __webpack_require__(29);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(23);
+var _inherits2 = __webpack_require__(28);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _webaudioChnl = __webpack_require__(22);
+var _webaudioChnl = __webpack_require__(27);
 
 var _webaudioChnl2 = _interopRequireDefault(_webaudioChnl);
 
-var _wrecorder = __webpack_require__(45);
+var _wrecorder = __webpack_require__(46);
 
 var _wrecorder2 = _interopRequireDefault(_wrecorder);
 
@@ -6182,7 +6638,7 @@ var Wmstr = function (_Chnl) {
 exports.default = Wmstr;
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6193,15 +6649,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Recorder = undefined;
 
-var _classCallCheck2 = __webpack_require__(6);
+var _classCallCheck2 = __webpack_require__(7);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(7);
+var _createClass2 = __webpack_require__(8);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _inlineWorker = __webpack_require__(147);
+var _inlineWorker = __webpack_require__(148);
 
 var _inlineWorker2 = _interopRequireDefault(_inlineWorker);
 
@@ -6461,18 +6917,6 @@ var Recorder = exports.Recorder = function () {
 exports.default = Recorder;
 
 /***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(100), __esModule: true };
-
-/***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(101), __esModule: true };
-
-/***/ }),
 /* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6512,12 +6956,24 @@ module.exports = { "default": __webpack_require__(107), __esModule: true };
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(108), __esModule: true };
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(109), __esModule: true };
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 exports.__esModule = true;
 
-var _from = __webpack_require__(91);
+var _from = __webpack_require__(93);
 
 var _from2 = _interopRequireDefault(_from);
 
@@ -6536,83 +6992,83 @@ exports.default = function (arr) {
 };
 
 /***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(44);
-__webpack_require__(131);
-module.exports = __webpack_require__(3).Array.from;
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(133);
-module.exports = __webpack_require__(3).Object.assign;
-
-/***/ }),
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(134);
-var $Object = __webpack_require__(3).Object;
-module.exports = function create(P, D){
-  return $Object.create(P, D);
-};
+__webpack_require__(44);
+__webpack_require__(133);
+module.exports = __webpack_require__(3).Array.from;
 
 /***/ }),
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(135);
-var $Object = __webpack_require__(3).Object;
-module.exports = function defineProperty(it, key, desc){
-  return $Object.defineProperty(it, key, desc);
-};
+module.exports = __webpack_require__(3).Object.assign;
 
 /***/ }),
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(136);
-module.exports = __webpack_require__(3).Object.setPrototypeOf;
+var $Object = __webpack_require__(3).Object;
+module.exports = function create(P, D){
+  return $Object.create(P, D);
+};
 
 /***/ }),
 /* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(63);
-__webpack_require__(44);
-__webpack_require__(64);
 __webpack_require__(137);
-module.exports = __webpack_require__(3).Promise;
+var $Object = __webpack_require__(3).Object;
+module.exports = function defineProperty(it, key, desc){
+  return $Object.defineProperty(it, key, desc);
+};
 
 /***/ }),
 /* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(138);
-__webpack_require__(63);
-__webpack_require__(139);
-__webpack_require__(140);
-module.exports = __webpack_require__(3).Symbol;
+module.exports = __webpack_require__(3).Object.setPrototypeOf;
 
 /***/ }),
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(44);
 __webpack_require__(64);
-module.exports = __webpack_require__(43).f('iterator');
+__webpack_require__(44);
+__webpack_require__(65);
+__webpack_require__(139);
+module.exports = __webpack_require__(3).Promise;
 
 /***/ }),
 /* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(140);
+__webpack_require__(64);
+__webpack_require__(141);
+__webpack_require__(142);
+module.exports = __webpack_require__(3).Symbol;
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(44);
+__webpack_require__(65);
+module.exports = __webpack_require__(43).f('iterator');
+
+/***/ }),
+/* 110 */
 /***/ (function(module, exports) {
 
 module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 109 */
+/* 111 */
 /***/ (function(module, exports) {
 
 module.exports = function(it, Constructor, name, forbiddenField){
@@ -6622,14 +7078,14 @@ module.exports = function(it, Constructor, name, forbiddenField){
 };
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(14)
   , toLength  = __webpack_require__(39)
-  , toIndex   = __webpack_require__(130);
+  , toIndex   = __webpack_require__(132);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -6648,12 +7104,12 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $defineProperty = __webpack_require__(8)
+var $defineProperty = __webpack_require__(6)
   , createDesc      = __webpack_require__(21);
 
 module.exports = function(object, index, value){
@@ -6662,13 +7118,13 @@ module.exports = function(object, index, value){
 };
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
 var getKeys = __webpack_require__(20)
   , gOPS    = __webpack_require__(35)
-  , pIE     = __webpack_require__(26);
+  , pIE     = __webpack_require__(23);
 module.exports = function(it){
   var result     = getKeys(it)
     , getSymbols = gOPS.f;
@@ -6682,15 +7138,15 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx         = __webpack_require__(15)
-  , call        = __webpack_require__(54)
-  , isArrayIter = __webpack_require__(53)
+  , call        = __webpack_require__(55)
+  , isArrayIter = __webpack_require__(54)
   , anObject    = __webpack_require__(9)
   , toLength    = __webpack_require__(39)
-  , getIterFn   = __webpack_require__(62)
+  , getIterFn   = __webpack_require__(63)
   , BREAK       = {}
   , RETURN      = {};
 var exports = module.exports = function(iterable, entries, fn, that, ITERATOR){
@@ -6712,7 +7168,7 @@ exports.BREAK  = BREAK;
 exports.RETURN = RETURN;
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -6733,7 +7189,7 @@ module.exports = function(fn, args, that){
 };
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -6743,18 +7199,18 @@ module.exports = Array.isArray || function isArray(arg){
 };
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create         = __webpack_require__(34)
   , descriptor     = __webpack_require__(21)
-  , setToStringTag = __webpack_require__(27)
+  , setToStringTag = __webpack_require__(24)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(13)(IteratorPrototype, __webpack_require__(1)('iterator'), function(){ return this; });
+__webpack_require__(13)(IteratorPrototype, __webpack_require__(2)('iterator'), function(){ return this; });
 
 module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -6762,7 +7218,7 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -6770,7 +7226,7 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getKeys   = __webpack_require__(20)
@@ -6785,13 +7241,13 @@ module.exports = function(object, el){
 };
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META     = __webpack_require__(28)('meta')
+var META     = __webpack_require__(25)('meta')
   , isObject = __webpack_require__(16)
   , has      = __webpack_require__(12)
-  , setDesc  = __webpack_require__(8).f
+  , setDesc  = __webpack_require__(6).f
   , id       = 0;
 var isExtensible = Object.isExtensible || function(){
   return true;
@@ -6843,11 +7299,11 @@ var meta = module.exports = {
 };
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global    = __webpack_require__(4)
-  , macrotask = __webpack_require__(61).set
+  , macrotask = __webpack_require__(62).set
   , Observer  = global.MutationObserver || global.WebKitMutationObserver
   , process   = global.process
   , Promise   = global.Promise
@@ -6916,7 +7372,7 @@ module.exports = function(){
 };
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6924,9 +7380,9 @@ module.exports = function(){
 // 19.1.2.1 Object.assign(target, source, ...)
 var getKeys  = __webpack_require__(20)
   , gOPS     = __webpack_require__(35)
-  , pIE      = __webpack_require__(26)
+  , pIE      = __webpack_require__(23)
   , toObject = __webpack_require__(40)
-  , IObject  = __webpack_require__(52)
+  , IObject  = __webpack_require__(53)
   , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
@@ -6955,10 +7411,10 @@ module.exports = !$assign || __webpack_require__(18)(function(){
 } : $assign;
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP       = __webpack_require__(8)
+var dP       = __webpack_require__(6)
   , anObject = __webpack_require__(9)
   , getKeys  = __webpack_require__(20);
 
@@ -6973,12 +7429,12 @@ module.exports = __webpack_require__(10) ? Object.defineProperties : function de
 };
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(14)
-  , gOPN      = __webpack_require__(58).f
+  , gOPN      = __webpack_require__(59).f
   , toString  = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -6998,7 +7454,7 @@ module.exports.f = function getOwnPropertyNames(it){
 
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -7016,7 +7472,7 @@ module.exports = Object.getPrototypeOf || function(O){
 };
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hide = __webpack_require__(13);
@@ -7028,7 +7484,7 @@ module.exports = function(target, src, safe){
 };
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -7043,7 +7499,7 @@ module.exports = {
   set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
     function(test, buggy, set){
       try {
-        set = __webpack_require__(15)(Function.call, __webpack_require__(57).f(Object.prototype, '__proto__').set, 2);
+        set = __webpack_require__(15)(Function.call, __webpack_require__(58).f(Object.prototype, '__proto__').set, 2);
         set(test, []);
         buggy = !(test instanceof Array);
       } catch(e){ buggy = true; }
@@ -7058,16 +7514,16 @@ module.exports = {
 };
 
 /***/ }),
-/* 127 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var global      = __webpack_require__(4)
   , core        = __webpack_require__(3)
-  , dP          = __webpack_require__(8)
+  , dP          = __webpack_require__(6)
   , DESCRIPTORS = __webpack_require__(10)
-  , SPECIES     = __webpack_require__(1)('species');
+  , SPECIES     = __webpack_require__(2)('species');
 
 module.exports = function(KEY){
   var C = typeof core[KEY] == 'function' ? core[KEY] : global[KEY];
@@ -7078,20 +7534,20 @@ module.exports = function(KEY){
 };
 
 /***/ }),
-/* 128 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
 var anObject  = __webpack_require__(9)
   , aFunction = __webpack_require__(30)
-  , SPECIES   = __webpack_require__(1)('species');
+  , SPECIES   = __webpack_require__(2)('species');
 module.exports = function(O, D){
   var C = anObject(O).constructor, S;
   return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
 };
 
 /***/ }),
-/* 129 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(38)
@@ -7113,7 +7569,7 @@ module.exports = function(TO_STRING){
 };
 
 /***/ }),
-/* 130 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(38)
@@ -7125,7 +7581,7 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 131 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7133,13 +7589,13 @@ module.exports = function(index, length){
 var ctx            = __webpack_require__(15)
   , $export        = __webpack_require__(11)
   , toObject       = __webpack_require__(40)
-  , call           = __webpack_require__(54)
-  , isArrayIter    = __webpack_require__(53)
+  , call           = __webpack_require__(55)
+  , isArrayIter    = __webpack_require__(54)
   , toLength       = __webpack_require__(39)
-  , createProperty = __webpack_require__(111)
-  , getIterFn      = __webpack_require__(62);
+  , createProperty = __webpack_require__(113)
+  , getIterFn      = __webpack_require__(63);
 
-$export($export.S + $export.F * !__webpack_require__(56)(function(iter){ Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(57)(function(iter){ Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
     var O       = toObject(arrayLike)
@@ -7169,13 +7625,13 @@ $export($export.S + $export.F * !__webpack_require__(56)(function(iter){ Array.f
 
 
 /***/ }),
-/* 132 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(108)
-  , step             = __webpack_require__(117)
+var addToUnscopables = __webpack_require__(110)
+  , step             = __webpack_require__(119)
   , Iterators        = __webpack_require__(19)
   , toIObject        = __webpack_require__(14);
 
@@ -7183,7 +7639,7 @@ var addToUnscopables = __webpack_require__(108)
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(55)(Array, 'Array', function(iterated, kind){
+module.exports = __webpack_require__(56)(Array, 'Array', function(iterated, kind){
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
@@ -7209,16 +7665,16 @@ addToUnscopables('values');
 addToUnscopables('entries');
 
 /***/ }),
-/* 133 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(11);
 
-$export($export.S + $export.F, 'Object', {assign: __webpack_require__(121)});
+$export($export.S + $export.F, 'Object', {assign: __webpack_require__(123)});
 
 /***/ }),
-/* 134 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(11)
@@ -7226,39 +7682,39 @@ var $export = __webpack_require__(11)
 $export($export.S, 'Object', {create: __webpack_require__(34)});
 
 /***/ }),
-/* 135 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(11);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(10), 'Object', {defineProperty: __webpack_require__(8).f});
+$export($export.S + $export.F * !__webpack_require__(10), 'Object', {defineProperty: __webpack_require__(6).f});
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
 var $export = __webpack_require__(11);
-$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(126).set});
+$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(128).set});
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var LIBRARY            = __webpack_require__(25)
+var LIBRARY            = __webpack_require__(22)
   , global             = __webpack_require__(4)
   , ctx                = __webpack_require__(15)
-  , classof            = __webpack_require__(49)
+  , classof            = __webpack_require__(50)
   , $export            = __webpack_require__(11)
   , isObject           = __webpack_require__(16)
   , aFunction          = __webpack_require__(30)
-  , anInstance         = __webpack_require__(109)
-  , forOf              = __webpack_require__(113)
-  , speciesConstructor = __webpack_require__(128)
-  , task               = __webpack_require__(61).set
-  , microtask          = __webpack_require__(120)()
+  , anInstance         = __webpack_require__(111)
+  , forOf              = __webpack_require__(115)
+  , speciesConstructor = __webpack_require__(130)
+  , task               = __webpack_require__(62).set
+  , microtask          = __webpack_require__(122)()
   , PROMISE            = 'Promise'
   , TypeError          = global.TypeError
   , process            = global.process
@@ -7272,7 +7728,7 @@ var USE_NATIVE = !!function(){
   try {
     // correct subclassing with @@species support
     var promise     = $Promise.resolve(1)
-      , FakePromise = (promise.constructor = {})[__webpack_require__(1)('species')] = function(exec){ exec(empty, empty); };
+      , FakePromise = (promise.constructor = {})[__webpack_require__(2)('species')] = function(exec){ exec(empty, empty); };
     // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
     return (isNode || typeof PromiseRejectionEvent == 'function') && promise.then(empty) instanceof FakePromise;
   } catch(e){ /* empty */ }
@@ -7450,7 +7906,7 @@ if(!USE_NATIVE){
     this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
     this._n = false;          // <- notify
   };
-  Internal.prototype = __webpack_require__(125)($Promise.prototype, {
+  Internal.prototype = __webpack_require__(127)($Promise.prototype, {
     // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
     then: function then(onFulfilled, onRejected){
       var reaction    = newPromiseCapability(speciesConstructor(this, $Promise));
@@ -7476,8 +7932,8 @@ if(!USE_NATIVE){
 }
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: $Promise});
-__webpack_require__(27)($Promise, PROMISE);
-__webpack_require__(127)(PROMISE);
+__webpack_require__(24)($Promise, PROMISE);
+__webpack_require__(129)(PROMISE);
 Wrapper = __webpack_require__(3)[PROMISE];
 
 // statics
@@ -7501,7 +7957,7 @@ $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     return capability.promise;
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(56)(function(iter){
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(57)(function(iter){
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -7547,7 +8003,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(56)(function
 });
 
 /***/ }),
-/* 138 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7557,26 +8013,26 @@ var global         = __webpack_require__(4)
   , has            = __webpack_require__(12)
   , DESCRIPTORS    = __webpack_require__(10)
   , $export        = __webpack_require__(11)
-  , redefine       = __webpack_require__(60)
-  , META           = __webpack_require__(119).KEY
+  , redefine       = __webpack_require__(61)
+  , META           = __webpack_require__(121).KEY
   , $fails         = __webpack_require__(18)
   , shared         = __webpack_require__(37)
-  , setToStringTag = __webpack_require__(27)
-  , uid            = __webpack_require__(28)
-  , wks            = __webpack_require__(1)
+  , setToStringTag = __webpack_require__(24)
+  , uid            = __webpack_require__(25)
+  , wks            = __webpack_require__(2)
   , wksExt         = __webpack_require__(43)
   , wksDefine      = __webpack_require__(42)
-  , keyOf          = __webpack_require__(118)
-  , enumKeys       = __webpack_require__(112)
-  , isArray        = __webpack_require__(115)
+  , keyOf          = __webpack_require__(120)
+  , enumKeys       = __webpack_require__(114)
+  , isArray        = __webpack_require__(117)
   , anObject       = __webpack_require__(9)
   , toIObject      = __webpack_require__(14)
   , toPrimitive    = __webpack_require__(41)
   , createDesc     = __webpack_require__(21)
   , _create        = __webpack_require__(34)
-  , gOPNExt        = __webpack_require__(123)
-  , $GOPD          = __webpack_require__(57)
-  , $DP            = __webpack_require__(8)
+  , gOPNExt        = __webpack_require__(125)
+  , $GOPD          = __webpack_require__(58)
+  , $DP            = __webpack_require__(6)
   , $keys          = __webpack_require__(20)
   , gOPD           = $GOPD.f
   , dP             = $DP.f
@@ -7700,11 +8156,11 @@ if(!USE_NATIVE){
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f   = $defineProperty;
-  __webpack_require__(58).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(26).f  = $propertyIsEnumerable;
+  __webpack_require__(59).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(23).f  = $propertyIsEnumerable;
   __webpack_require__(35).f = $getOwnPropertySymbols;
 
-  if(DESCRIPTORS && !__webpack_require__(25)){
+  if(DESCRIPTORS && !__webpack_require__(22)){
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -7788,205 +8244,19 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 139 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(42)('asyncIterator');
 
 /***/ }),
-/* 140 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(42)('observable');
 
 /***/ }),
-/* 141 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// This method of obtaining a reference to the global object needs to be
@@ -8007,7 +8277,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(143);
+module.exports = __webpack_require__(144);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8021,13 +8291,13 @@ if (hadRuntime) {
   }
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global, process) {/**
+/* WEBPACK VAR INJECTION */(function(global) {/**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
  *
@@ -8045,6 +8315,7 @@ if (hadRuntime) {
   var undefined; // More compressible than void 0.
   var $Symbol = typeof Symbol === "function" ? Symbol : {};
   var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
 
   var inModule = typeof module === "object";
@@ -8218,8 +8489,8 @@ if (hadRuntime) {
       }
     }
 
-    if (typeof process === "object" && process.domain) {
-      invoke = process.domain.bind(invoke);
+    if (typeof global.process === "object" && global.process.domain) {
+      invoke = global.process.domain.bind(invoke);
     }
 
     var previousPromise;
@@ -8258,6 +8529,9 @@ if (hadRuntime) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
   runtime.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -8440,6 +8714,15 @@ if (hadRuntime) {
   defineIteratorMethods(Gp);
 
   Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
 
   Gp.toString = function() {
     return "[object Generator]";
@@ -8751,14 +9034,14 @@ if (hadRuntime) {
   typeof self === "object" ? self : this
 );
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29), __webpack_require__(141)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(145);
-var v4 = __webpack_require__(146);
+var v1 = __webpack_require__(146);
+var v4 = __webpack_require__(147);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -8768,14 +9051,11 @@ module.exports = uuid;
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// Unique ID creation requires a high quality random # generator.  We feature
-// detect to determine the best RNG source, normalizing to a function that
-// returns 128-bits of randomness, since that's what's usually required
-var rng = __webpack_require__(66);
-var bytesToUuid = __webpack_require__(65);
+var rng = __webpack_require__(67);
+var bytesToUuid = __webpack_require__(66);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -8877,11 +9157,11 @@ module.exports = v1;
 
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(66);
-var bytesToUuid = __webpack_require__(65);
+var rng = __webpack_require__(67);
+var bytesToUuid = __webpack_require__(66);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -8912,7 +9192,7 @@ module.exports = v4;
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var WORKER_ENABLED = !!(global === global.window && global.URL && global.Blob && global.Worker);
@@ -8955,7 +9235,7 @@ InlineWorker.prototype.postMessage = function postMessage(data) {
 
 module.exports = InlineWorker;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
 
 /***/ })
 /******/ ]);

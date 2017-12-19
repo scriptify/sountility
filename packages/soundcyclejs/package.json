@@ -1,6 +1,6 @@
 {
   "name": "soundcyclejs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "soundcyclejs - a loopstation eniterly written in js, for browsers.",
   "main": "dist/soundcyclejs.js",
   "scripts": {
@@ -15,12 +15,10 @@
     "type": "git"
   },
   "dependencies": {
-    "audiobufferchnl": "0.0.1",
-    "audiochnl": "*",
-    "audiolooper": "0.0.9",
-    "recordy": "*",
-    "uuid": "*",
-    "webaudio-effect-units-collection": "file:///home/scriptify/DEV/sountility/packages/webaudio-effect-units-collection",
-    "wmstr": "*"
+    "audiobufferchnl": "0.0.2",
+    "audiolooper": "0.0.10",
+    "recordy": "0.0.5",
+    "uuid": "^3.1.0",
+    "wmstr": "0.0.5"
   }
 }

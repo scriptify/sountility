@@ -2,7 +2,6 @@ import Recordy from 'recordy';
 import AudioLooper from 'audiolooper';
 import Wmstr from 'wmstr';
 import AudioBufferChnl from 'audiobufferchnl';
-import AudioChnl from 'audiochnl';
 
 import { v4 } from 'uuid';
 
@@ -12,7 +11,7 @@ export default class SoundCycle {
   wmstr;
   audioCtx;
 
-  MODES = {
+  static MODES = {
     ADD_TO_LANE: `ADD_TO_LANE`,
     NEW_LANE: `NEW_LANE`,
     SINGLE_SEQUENCE: `SINGLE_SEQUENCE`,
@@ -25,8 +24,8 @@ export default class SoundCycle {
   currentMode;
   projectName;
 
-  masterChnlId = `MASTER_ID`;
-  recorderChnlId = `RECORDER_ID`;
+  static masterChnlId = `MASTER_ID`;
+  static recorderChnlId = `RECORDER_ID`;
 
   constructor(readyCb = () => {}) {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -36,10 +35,10 @@ export default class SoundCycle {
       .then(readyCb);
 
     this.wmstr = new Wmstr(audioCtx);
-    this.currentMode = this.MODES.NEW_LANE;
+    this.currentMode = SoundCycle.MODES.NEW_LANE;
 
-    this.tracks.set(this.masterChnlId, this.wmstr);
-    this.tracks.set(this.recorderChnlId, this.recorder);
+    this.tracks.set(SoundCycle.masterChnlId, this.wmstr);
+    this.tracks.set(SoundCycle.recorderChnlId, this.recorder);
 
     this.wmstr.connect(this.audioCtx.destination);
   }
@@ -57,9 +56,11 @@ export default class SoundCycle {
     return `${this.projectName}.wav`;
   }
 
+  /* eslint-disable */
   getModes() {
-    return this.MODES;
+    return SoundCycle.MODES;
   }
+  /* eslint-ensable */
 
   getCurrentMode() {
     return this.currentMode;
@@ -82,7 +83,7 @@ export default class SoundCycle {
 
     switch (this.currentMode) {
 
-      case this.MODES.NEW_LANE: {
+      case SoundCycle.MODES.NEW_LANE: {
         // Add new looper
         const looper = new AudioLooper(this.audioCtx);
         const audioBuffer = await this.recorder.stopRecording({ type: `buffer` });
@@ -104,13 +105,28 @@ export default class SoundCycle {
         };
       }
 
-      case this.MODES.SINGLE_SEQUENCE: {
-        const audioObj = await this.recorder.stopRecording({ type: `audio` });
-        const audioChnl = new AudioChnl(this.audioCtx, audioObj);
-        audioChnl.connect(this.wmstr);
+      case SoundCycle.MODES.SINGLE_SEQUENCE: {
+        const audioBuffer = await this.recorder.stopRecording({ type: `buffer` });
+
+        const bufferNode = this.audioCtx.createBufferSource();
+        bufferNode.buffer = audioBuffer;
+
+        // Create fade
+        for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
+          const channelData = audioBuffer.getChannelData(channel);
+          const FADE_LENGTH = 100;
+          for (let i = 0; i < FADE_LENGTH && i < channelData.length; i++) {
+            const fadeOutPos = channelData.length - i - 1;
+            channelData[i] = (channelData[i] * i) / FADE_LENGTH;
+            channelData[fadeOutPos] = (channelData[fadeOutPos] * i) / FADE_LENGTH;
+          }
+        }
+
+        const audioBufferChnl = new AudioBufferChnl(this.audioCtx, bufferNode);
+        audioBufferChnl.connect(this.wmstr);
 
         this.tracks.set(newTrackId, {
-          chnl: audioChnl
+          chnl: audioBufferChnl,
         });
 
         return {
@@ -118,7 +134,7 @@ export default class SoundCycle {
         };
       }
 
-      case this.MODES.ADD_TO_LANE: {
+      case SoundCycle.MODES.ADD_TO_LANE: {
         if (!this.loopers.has(this.currentLane))
           throw new Error(`You tried to access an inexistent lane!`);
 
@@ -138,7 +154,7 @@ export default class SoundCycle {
         };
       }
 
-      case this.MODES.FREE_LOOPING: {
+      case SoundCycle.MODES.FREE_LOOPING: {
         const audioBuffer = await this.recorder.stopRecording({ type: `buffer` });
 
         const bufferNode = this.audioCtx.createBufferSource();
@@ -195,7 +211,6 @@ export default class SoundCycle {
       throw new Error(`You tried to play an inexistent track!`);
 
     const track = this.tracks.get(id);
-
     if (!track.looperId)
       track.chnl.play();
     else {
@@ -214,7 +229,7 @@ export default class SoundCycle {
       looper.removeTrack({ id });
     }
     if (track.chnl.bufferSourceNode)
-      track.chnl.bufferSourceNode.stop();
+      track.chnl.stop();
 
     this.tracks.delete(id);
   }
@@ -254,13 +269,17 @@ export default class SoundCycle {
     SoundCycle.getEffectByName(chnlToEdit, effectName).setValue(valueType, value);
   }
 
+  /* eslint-disable */
   getMasterChnlId() {
-    return this.masterChnlId;
+    return SoundCycle.masterChnlId;
   }
+  /* eslint-enable */
 
+  /* eslint-disable */
   getRecorderChnlId() {
-    return this.recorderChnlId;
+    return SoundCycle.recorderChnlId;
   }
+  /* eslint-enable */
 
   startProjectRecording() {
     this.wmstr.startRecording();
@@ -277,9 +296,9 @@ export default class SoundCycle {
   /* INTERIOR FUNCTIONALITIES */
 
   getChnlById(id) {
-    if (id === this.masterChnlId)
+    if (id === SoundCycle.masterChnlId)
       return this.wmstr;
-    else if (id === this.recorderChnlId)
+    else if (id === SoundCycle.recorderChnlId)
       return this.recorder;
 
     if (!this.tracks.has(id))
