@@ -25,7 +25,7 @@ export default class Recordy extends Chnl {
   async getInput() {
     const stream = await getInput();
     const mediaStream = this.context.createMediaStreamSource(stream);
-    mediaStream.connect(this);
+    mediaStream.connect(this.input);
     return true;
   }
 

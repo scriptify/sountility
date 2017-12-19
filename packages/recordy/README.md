@@ -39,13 +39,16 @@ Recody will record until you call the .stopRecording(...) method.
 
 ### Stop recording
 ```javascript
-.stopRecording(asAudioObject)
+.stopRecording({ type })
 ```
 
 This methods stops a previously started recording.
-It accepts exactly one parameter: a __boolean__.
-If this boolean evaluates to true, this method will return a Promise which returns an Audio-object with the recorded track.
-Otherwise, it returns a Promise which returns the plain binary data(blob) of the recorded track.
+It accepts exactly one parameter: an object with the property _'type'_.
+This property can ba one of the following: _'blob'_, _'audio'_ or _'buffer'_
+
+This method, due to its asynchronous nature, returns a promise.
+
+The promise resolves based on the value of _'type'_.
 
 ### Outputting to the speakers
 ```javascript
@@ -71,7 +74,7 @@ r.getInput()
     r.startRecording();
 
     window.setTimeout(() => {
-      r.stopRecording(true)
+      r.stopRecording({ type: `audio` })
         .then(audio => {
           audio.play();
         });
