@@ -16,6 +16,7 @@ export default class Recordy extends Chnl {
     this.directOutGain.gain.value = 0;
     this.connect(this.directOutGain);
     this.directOutGain.connect(audioCtx.destination);
+    this.stream = null
   }
 
   toSpeaker(val) {
@@ -23,8 +24,8 @@ export default class Recordy extends Chnl {
   }
 
   async getInput() {
-    const stream = await getInput();
-    const mediaStream = this.context.createMediaStreamSource(stream);
+    this.stream = await getInput();
+    const mediaStream = this.context.createMediaStreamSource(this.stream);
     mediaStream.connect(this.input);
     return true;
   }
@@ -40,6 +41,8 @@ export default class Recordy extends Chnl {
 
       this.recorder.exportWAV((blob) => {
         this.recorder.clear();
+        // remove record icon from windows title bar
+        if (this.stream) this.stream.getAudioTracks().forEach((track) => track.stop());
 
         switch (type) {
 
