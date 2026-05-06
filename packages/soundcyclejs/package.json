@@ -18,7 +18,7 @@
     "audiobufferchnl": "0.0.2",
     "audiolooper": "0.0.10",
     "recordy": "0.0.5",
-    "uuid": "^3.1.0",
+    "uuid": "^14.0.0",
     "wmstr": "0.0.5"
   }
 }
